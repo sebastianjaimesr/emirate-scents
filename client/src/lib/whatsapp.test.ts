@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { buildWhatsAppUrl, whatsappMessages } from './whatsapp'
+import { demoProducts } from '../data/demo/products.demo'
+import { buildProductInquiryMessage, buildWhatsAppUrl, whatsappMessages } from './whatsapp'
 
 describe('buildWhatsAppUrl', () => {
   it('apunta al número oficial de Emirate Scents en formato internacional', () => {
@@ -28,5 +29,23 @@ describe('buildWhatsAppUrl', () => {
   it('genera mensajes de categoría y búsqueda legibles', () => {
     expect(whatsappMessages.category('Perfumes árabes')).toContain('perfumes árabes')
     expect(whatsappMessages.search('oud')).toContain('"oud"')
+  })
+})
+
+describe('buildProductInquiryMessage', () => {
+  it('incluye producto, marca, tamaño, referencia, cantidad y precio en líneas separadas', () => {
+    const product = demoProducts[0]
+    const message = buildProductInquiryMessage(product, 2).replace(/\s/g, ' ')
+    expect(message).toContain(`• Producto: ${product.name}`)
+    expect(message).toContain(`• Marca: ${product.brand.name}`)
+    expect(message).toContain(`• Tamaño: ${product.sizeMl} ml`)
+    expect(message).toContain(`• Referencia: ${product.sku}`)
+    expect(message).toContain('• Cantidad: 2')
+    expect(message).toContain('• Precio unitario: $ 285.000')
+  })
+
+  it('omite el tamaño cuando no se conoce', () => {
+    const product = { ...demoProducts[0], sizeMl: undefined }
+    expect(buildProductInquiryMessage(product, 1)).not.toContain('Tamaño')
   })
 })
