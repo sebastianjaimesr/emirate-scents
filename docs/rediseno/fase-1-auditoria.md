@@ -145,7 +145,7 @@ descarga después de mostrar la página).
 4. **GitHub Pages no puede ejecutar la API ni guardar datos.** El panel administrativo nunca
    funcionará solo en GitHub Pages. Además, el inicio de sesión seguro (con cookie protegida)
    no funciona bien si la tienda está en `github.io` y la API en otro dominio: los navegadores
-   bloquean esas cookies entre sitios distintos. Ver la decisión de la sección 3.6.
+   bloquean esas cookies entre sitios distintos. Por eso el panel se servirá desde Railway (sección 3.6).
 5. **El stock nunca se descuenta.** Hoy el pedido comprueba existencias pero no las reserva ni
    las descuenta. Si dos personas piden la última unidad, ambos pedidos quedan registrados.
    Se corrige en la Fase 7 (sección 3.5).
@@ -256,28 +256,33 @@ roba el control al usuario.
 - **Nuevo estado** "En preparación" entre Confirmado y Enviado, y registro de quién cambió cada
   estado y cuándo (sirve también para "actividad reciente" del dashboard).
 
-### 3.6 Publicación: la decisión que necesito de ti
+### 3.6 Publicación: elegiste tienda en GitHub Pages + API y panel en Railway
 
-El panel necesita la API y la base de datos encendidas en un servidor. Hay dos caminos:
+Lo elegiste el 12 de octubre de 2026 (opción B). Así queda:
 
-**Opción A (recomendada): todo en Railway, un solo dominio.**
-Tienda, API y panel en el mismo servicio (como ya prepara `docs/fase-8-produccion.md`).
+```
+Clientes → sebastianjaimesr.github.io/emirate-scents/   (tienda, GitHub Pages)
+                 │  catálogo y pedidos por HTTPS (CORS)
+                 ▼
+           servicio Node en Railway ── /api/...  la API
+                 │                  └─ /admin    el panel (mismo dominio que la API)
+                 ├── PostgreSQL (Railway)
+                 └── imágenes (almacenamiento compatible con S3)
+```
 
-- Ventajas: un solo lugar que publicar; las cookies de sesión funcionan sin trucos; sin CORS;
-  la tienda real puede registrar pedidos.
-- Desventajas: cuesta unos 5 USD/mes (Railway); la dirección deja de ser `github.io` (puedes
-  usar la que da Railway o comprar un dominio, unos 15 USD/año).
-- GitHub Pages puede quedar como vista previa DEMO o apagarse.
-
-**Opción B: tienda en GitHub Pages + API y panel en Railway.**
-
-- Ventajas: la dirección pública de la tienda sigue siendo `github.io`.
-- Desventajas: dos publicaciones distintas; el panel vive en otra dirección (la de Railway);
-  hay que configurar CORS; si más adelante compras un dominio, conviene migrar a la opción A.
-
-En ambos casos: PostgreSQL en Railway y las imágenes en un almacenamiento compatible con S3. Mientras
-decides, desarrollo todo para que funcione con cualquiera de las dos: la URL de la API ya es
-configurable (`VITE_API_URL`).
+- **La tienda sigue en `github.io`.** El workflow de Pages dejará de publicar la vista previa DEMO y
+  compilará la tienda real con `VITE_API_URL` apuntando a la API de Railway. La tienda solo hace
+  peticiones públicas (catálogo y pedidos), sin cookies, así que CORS basta.
+- **El panel se sirve desde Railway, en el mismo dominio que la API.** Así la cookie de sesión del
+  administrador es del propio dominio (`SameSite=Strict`) y los navegadores no la bloquean. La
+  dirección del panel será la de Railway (por ejemplo `emirate-scents.up.railway.app/admin`).
+  El código del panel no se incluye en la compilación de GitHub Pages.
+- **CORS:** la API solo acepta peticiones del navegador desde `https://sebastianjaimesr.github.io`
+  (y `localhost` en desarrollo); las rutas `/api/admin/*` no aceptan otros orígenes.
+- **Costos:** unos 5 USD/mes en Railway (API + PostgreSQL). GitHub Pages es gratis.
+- **Si algún día compras un dominio** (por ejemplo `emiratescents.com`), se puede pasar todo a un
+  solo dominio sin rehacer nada.
+- **Mientras no exista la API en Railway**, GitHub Pages sigue mostrando la vista previa DEMO actual.
 
 ---
 
@@ -322,6 +327,8 @@ pruebas unitarias, pruebas de la API y Playwright, y te explico cómo verla.
   `admin:crear`, middleware que exige sesión en `/api/admin/*`.
 - Endpoints de productos, categorías, marcas, inventario y subida de imágenes; servicio de
   almacenamiento (carpeta local o S3).
+- CORS para la tienda en GitHub Pages: solo peticiones públicas desde
+  `https://sebastianjaimesr.github.io`; `/api/admin/*` rechaza cualquier otro origen.
 - Pruebas de API: un visitante recibe 401 en todo `/api/admin`; límite de intentos de acceso;
   validaciones (precio negativo, SKU duplicado, publicación incompleta).
 
@@ -345,7 +352,8 @@ pruebas unitarias, pruebas de la API y Playwright, y te explico cómo verla.
 ### Fase 8 · Seguridad, pruebas y publicación
 
 - Revisión de seguridad completa, pruebas de errores del backend, revisión en móvil y escritorio.
-- Publicación según la opción elegida (A o B), almacenamiento de imágenes, variables de entorno,
+- Publicación: API, panel y PostgreSQL en Railway; tienda en GitHub Pages conectada a la API;
+  almacenamiento de imágenes, variables de entorno,
   guía actualizada de desarrollo local, producción y mantenimiento (cómo crear administradores,
   copias de seguridad).
 - Publicar en Railway lo haces tú con tu cuenta; yo preparo todo y te guío paso a paso.
@@ -356,7 +364,6 @@ pruebas unitarias, pruebas de la API y Playwright, y te explico cómo verla.
 
 | Necesito                                                                                                               | Para qué fase | ¿Bloquea?                                          |
 | ---------------------------------------------------------------------------------------------------------------------- | ------------- | -------------------------------------------------- |
-| Elegir publicación: opción A o B (sección 3.6)                                                                         | 5 y 8         | No por ahora; avanzo con A                         |
 | **Fotos de producto** propias o autorizadas, idealmente con fondo transparente o uniforme, al menos de 6 a 10 perfumes | 3 y 4         | No; uso la imagen de reserva y DEMO mientras tanto |
 | Capturas del diseño de Canva (no puedo abrir el enlace)                                                                | 2             | No; sigo la identidad actual                       |
 | Catálogo real (plantilla CSV que ya existe)                                                                            | 8             | Para publicar                                      |
