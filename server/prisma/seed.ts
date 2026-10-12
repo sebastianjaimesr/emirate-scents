@@ -1,6 +1,7 @@
 /**
  * Semilla de la base de datos: `npm run db:seed`.
  * Carga las categorías reales y los productos DEMO (marcados con isDemo: true).
+ * En producción (NODE_ENV=production) carga solo las categorías.
  * Se puede ejecutar varias veces: actualiza lo que ya existe en lugar de duplicarlo.
  */
 import { PrismaPg } from '@prisma/adapter-pg'
@@ -22,6 +23,15 @@ async function main() {
       create: { ...category, position },
       update: { name: category.name, position },
     })
+  }
+
+  // En producción, la tienda real no debe mostrar productos de demostración.
+  // (SEED_DEMO=true los carga igual, por ejemplo en un sitio de pruebas.)
+  if (process.env.NODE_ENV === 'production' && process.env.SEED_DEMO !== 'true') {
+    console.log(
+      `Semilla lista: ${categories.length} categorías. Productos DEMO omitidos (producción).`,
+    )
+    return
   }
 
   for (const product of demoProducts) {
