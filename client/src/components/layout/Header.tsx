@@ -1,7 +1,10 @@
 import { Heart, Menu, Search, ShoppingBag } from 'lucide-react'
-import { AnimatePresence } from 'motion/react'
+import { AnimatePresence, motion } from 'motion/react'
 import { useCallback, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router'
+import { countItems } from '../../features/cart/cartItems'
+import { useCartStore } from '../../features/cart/cartStore'
+import { useFavoritesStore } from '../../features/favorites/favoritesStore'
 import { buildWhatsAppUrl, whatsappMessages } from '../../lib/whatsapp'
 import { WhatsAppIcon } from '../brand/BrandIcons'
 import { Wordmark } from '../brand/Wordmark'
@@ -9,6 +12,23 @@ import { Container } from '../ui/Container'
 import { MobileMenu } from './MobileMenu'
 import { SearchPanel } from './SearchPanel'
 import { mainNavigation } from './navigation'
+
+/** Contador sobre un icono; hace un pequeño "pulso" cada vez que cambia. */
+function CountBadge({ count }: { count: number }) {
+  if (count === 0) return null
+  return (
+    <motion.span
+      key={count}
+      aria-hidden="true"
+      initial={{ scale: 0.5 }}
+      animate={{ scale: 1 }}
+      transition={{ type: 'spring', stiffness: 600, damping: 15 }}
+      className="absolute top-1 right-0.5 grid h-4.5 min-w-4.5 place-items-center rounded-full bg-gold-500 px-1 text-[0.6rem] font-bold text-ink-950 tabular-nums"
+    >
+      {count > 99 ? '99+' : count}
+    </motion.span>
+  )
+}
 
 const iconButton =
   'relative grid size-11 place-items-center text-ivory-50/85 transition-colors duration-300 hover:text-gold-300'
@@ -21,6 +41,10 @@ export function Header() {
   const [searchOpenedAt, setSearchOpenedAt] = useState<string | null>(null)
   const isMenuOpen = menuOpenedAt === pathname
   const isSearchOpen = searchOpenedAt === pathname
+
+  const cartCount = useCartStore((state) => countItems(state.items))
+  const openCart = useCartStore((state) => state.openDrawer)
+  const favoritesCount = useFavoritesStore((state) => state.productIds.length)
 
   const closeMenu = useCallback(() => setMenuOpenedAt(null), [])
   const closeSearch = useCallback(() => setSearchOpenedAt(null), [])
@@ -88,12 +112,23 @@ export function Header() {
           >
             <WhatsAppIcon className="size-5" />
           </a>
-          <Link to="/favoritos" aria-label="Favoritos" className={`${iconButton} hidden sm:grid`}>
+          <Link
+            to="/favoritos"
+            aria-label={favoritesCount > 0 ? `Favoritos (${favoritesCount})` : 'Favoritos'}
+            className={`${iconButton} hidden sm:grid`}
+          >
             <Heart className="size-5" strokeWidth={1.5} />
+            <CountBadge count={favoritesCount} />
           </Link>
-          <Link to="/carrito" aria-label="Carrito de compras" className={iconButton}>
+          <button
+            type="button"
+            onClick={openCart}
+            aria-label={cartCount > 0 ? `Abrir carrito (${cartCount} productos)` : 'Abrir carrito'}
+            className={iconButton}
+          >
             <ShoppingBag className="size-5" strokeWidth={1.5} />
-          </Link>
+            <CountBadge count={cartCount} />
+          </button>
         </div>
       </Container>
 

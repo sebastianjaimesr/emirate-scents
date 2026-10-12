@@ -45,6 +45,15 @@ export function getRelatedProducts(product: Product, limit = 4): Promise<Product
   return simulateNetwork(related.slice(0, limit))
 }
 
+/** Varios productos por id, en el mismo orden (para carrito y favoritos). */
+export function getProductsByIds(ids: string[]): Promise<Product[]> {
+  const byId = new Map(catalog.map((product) => [product.id, product]))
+  return simulateNetwork(
+    ids.map((id) => byId.get(id)).filter((product): product is Product => Boolean(product)),
+    80,
+  )
+}
+
 export type HighlightKind = 'recomendados' | 'novedades' | 'mas-vendidos'
 
 /** Selecciones para la página de inicio. Cada una depende de un dato real del producto. */
