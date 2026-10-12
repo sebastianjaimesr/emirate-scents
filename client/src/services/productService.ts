@@ -8,7 +8,7 @@
  * Vite elimina ese código de la versión normal, así que no pesa en la tienda real.
  */
 import type { CatalogFacets, CatalogPage, CatalogQuery } from '../features/catalog/catalogQuery'
-import { PAGE_SIZE, toSearchParams } from '../features/catalog/catalogQuery'
+import { PAGE_SIZE, parseCatalogQuery, toSearchParams } from '../features/catalog/catalogQuery'
 import type { Product } from '../types/product'
 import { ApiError, apiGet } from './apiClient'
 
@@ -71,4 +71,13 @@ export async function getHighlightedProducts(kind: HighlightKind, limit = 4): Pr
     limite: limit,
   })
   return items
+}
+
+/**
+ * Perfumes de la vitrina del inicio: los primeros del catálogo en su orden por defecto
+ * (primero los recomendados por la casa, luego los más recientes).
+ */
+export async function getShowcaseProducts(limit = 8): Promise<Product[]> {
+  const { items } = await getProducts(parseCatalogQuery(new URLSearchParams()))
+  return items.slice(0, limit)
 }

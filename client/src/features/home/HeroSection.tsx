@@ -105,7 +105,7 @@ export function HeroSection() {
                 strokeWidth={1.5}
               />
             </ButtonLink>
-            <ButtonLink to="#colecciones" variant="outline-dark">
+            <ButtonLink to="#coleccion" variant="outline-dark">
               {heroContent.secondaryCta}
               <ArrowDown
                 aria-hidden="true"
