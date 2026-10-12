@@ -16,8 +16,8 @@ Tienda online de perfumería premium: perfumes árabes, de diseñador, de nicho 
 | 4    | Favoritos, carrito e interacciones                                            | ✅             |
 | 5    | Backend (Express + PostgreSQL + Prisma) ([documento](docs/fase-5-backend.md)) | ✅             |
 | 6    | Pedidos y WhatsApp ([documento](docs/fase-6-pedidos.md))                      | ✅             |
-| 7    | Pruebas, seguridad y optimización ([documento](docs/fase-7-calidad.md))       | 🔍 En revisión |
-| 8    | Preparación para producción                                                   | ⏳             |
+| 7    | Pruebas, seguridad y optimización ([documento](docs/fase-7-calidad.md))       | ✅             |
+| 8    | Preparación para producción ([documento](docs/fase-8-produccion.md))          | 🔍 En revisión |
 
 ## Requisitos (Windows + VS Code)
 
@@ -73,19 +73,22 @@ npm run dev
 Arranca a la vez la API (<http://localhost:4000/api>) y la tienda (<http://localhost:5173>).
 Ábrela en el navegador. `Ctrl + C` detiene ambas.
 
-| Comando              | Qué hace                                                           |
-| -------------------- | ------------------------------------------------------------------ |
-| `npm run dev`        | Arranca API y tienda en modo desarrollo (se recargan al guardar)   |
-| `npm run build`      | Comprueba los tipos y genera las versiones optimizadas (`dist/`)   |
-| `npm run preview`    | Sirve la tienda optimizada (necesita la API en marcha)             |
-| `npm test`           | Ejecuta las pruebas automáticas de la tienda y de la API           |
-| `npm run test:e2e`   | Recorre la tienda en un navegador real (ver más abajo)             |
-| `npm run lint`       | Revisa errores comunes en el código                                |
-| `npm run typecheck`  | Revisa los tipos de TypeScript                                     |
-| `npm run format`     | Da formato a todo el código con Prettier                           |
-| `npm run db:migrate` | Aplica cambios del modelo de datos (`server/prisma/schema.prisma`) |
-| `npm run db:seed`    | Vuelve a cargar categorías y productos DEMO (no duplica)           |
-| `npm run db:studio`  | Abre Prisma Studio, un visor de la base de datos en el navegador   |
+| Comando                                    | Qué hace                                                                                                            |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
+| `npm run dev`                              | Arranca API y tienda en modo desarrollo (se recargan al guardar)                                                    |
+| `npm run build`                            | Comprueba los tipos y genera las versiones optimizadas (`dist/`)                                                    |
+| `npm run preview`                          | Sirve la tienda optimizada (necesita la API en marcha)                                                              |
+| `npm test`                                 | Ejecuta las pruebas automáticas de la tienda y de la API                                                            |
+| `npm run test:e2e`                         | Recorre la tienda en un navegador real (ver más abajo)                                                              |
+| `npm run lint`                             | Revisa errores comunes en el código                                                                                 |
+| `npm run typecheck`                        | Revisa los tipos de TypeScript                                                                                      |
+| `npm run format`                           | Da formato a todo el código con Prettier                                                                            |
+| `npm run db:migrate`                       | Aplica cambios del modelo de datos (`server/prisma/schema.prisma`)                                                  |
+| `npm run db:seed`                          | Vuelve a cargar categorías y productos DEMO (no duplica)                                                            |
+| `npm run db:studio`                        | Abre Prisma Studio, un visor de la base de datos en el navegador                                                    |
+| `npm run catalogo:importar -- archivo.csv` | Revisa (y con `--aplicar`, guarda) el catálogo real ([cómo](docs/catalogo-real.md#cargar-el-catálogo-en-la-tienda)) |
+| `npm start`                                | Arranca la versión de producción (ver [Fase 8](docs/fase-8-produccion.md))                                          |
+| `npm run db:deploy`                        | Aplica migraciones sin borrar nada (lo usa el hosting)                                                              |
 
 ### Pruebas en el navegador (e2e)
 
@@ -152,8 +155,11 @@ emirate-scents/
 │   │   ├── services/            Consultas, pedidos y reglas de negocio
 │   │   ├── middlewares/         Manejo de errores
 │   │   ├── lib/                 Conexión a la base de datos, registro, búsqueda
+│   │   ├── web/                 Tienda compilada, robots.txt y sitemap.xml (producción)
+│   │   ├── catalogImport/       Lectura y validación de la plantilla del catálogo
 │   │   ├── app.ts               Configuración de Express (seguridad, CORS, límites)
 │   │   └── server.ts            Arranque
+│   ├── scripts/                 Importador del catálogo (npm run catalogo:importar)
 │   └── tests/                   Pruebas de la API contra la base de datos de pruebas
 ├── e2e/                         Pruebas en el navegador (Playwright)
 ├── docs/                        Documentación de cada fase
@@ -163,8 +169,8 @@ emirate-scents/
 ## Catálogo real
 
 Mientras no tengamos el catálogo real, la tienda muestra productos **DEMO** marcados en rojo, con
-pedidos desactivados. Para enviar los productos reales usa la
-[plantilla del catálogo](docs/catalogo-real.md).
+pedidos desactivados. Llena la [plantilla del catálogo](docs/catalogo-real.md) y cárgala con
+`npm run catalogo:importar` (en producción, la semilla ya no carga los DEMO).
 
 ## Reglas del proyecto
 

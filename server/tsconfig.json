@@ -17,5 +17,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": true
   },
-  "include": ["src", "prisma", "tests", "prisma.config.ts", "vitest.config.ts"]
+  "include": ["src", "prisma", "scripts", "tests", "prisma.config.ts", "vitest.config.ts"]
 }

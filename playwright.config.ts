@@ -8,8 +8,7 @@ import { defineConfig, devices } from '@playwright/test'
 process.loadEnvFile?.('server/.env')
 
 const testDatabaseUrl = process.env.TEST_DATABASE_URL ?? ''
-const API_PORT = 4100
-const STORE_PORT = 4174
+const PORT = 4100
 
 export default defineConfig({
   testDir: 'e2e',
@@ -22,7 +21,7 @@ export default defineConfig({
   reporter: [['list'], ['html', { open: 'never', outputFolder: 'e2e/informe' }]],
   outputDir: 'e2e/resultados',
   use: {
-    baseURL: `http://localhost:${STORE_PORT}`,
+    baseURL: `http://localhost:${PORT}`,
     locale: 'es-CO',
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
@@ -35,23 +34,17 @@ export default defineConfig({
     { name: 'escritorio', use: { ...devices['Desktop Chrome'] } },
     { name: 'celular', use: { ...devices['Pixel 7'] } },
   ],
-  webServer: [
-    {
-      command: 'npm run start --workspace server',
-      url: `http://localhost:${API_PORT}/api/health`,
-      env: {
-        DATABASE_URL: testDatabaseUrl,
-        PORT: String(API_PORT),
-        NODE_ENV: 'test',
-        CORS_ORIGIN: `http://localhost:${STORE_PORT}`,
-      },
-      reuseExistingServer: false,
+  // Igual que en producción: la API sirve también la tienda compilada (SERVE_CLIENT)
+  webServer: {
+    command: 'npm run start --workspace server',
+    url: `http://localhost:${PORT}/api/health`,
+    env: {
+      DATABASE_URL: testDatabaseUrl,
+      PORT: String(PORT),
+      NODE_ENV: 'test',
+      SERVE_CLIENT: 'true',
+      PUBLIC_URL: `http://localhost:${PORT}`,
     },
-    {
-      command: `npm run preview --workspace client -- --port ${STORE_PORT} --strictPort`,
-      url: `http://localhost:${STORE_PORT}`,
-      env: { API_PROXY_TARGET: `http://localhost:${API_PORT}` },
-      reuseExistingServer: false,
-    },
-  ],
+    reuseExistingServer: false,
+  },
 })

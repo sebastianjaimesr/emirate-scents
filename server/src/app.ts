@@ -1,3 +1,4 @@
+import compression from 'compression'
 import cors from 'cors'
 import express from 'express'
 import { rateLimit } from 'express-rate-limit'
@@ -8,6 +9,8 @@ import { env } from './config/env.js'
 import { logger } from './lib/logger.js'
 import { errorHandler, notFoundHandler } from './middlewares/errorHandler.js'
 import { apiRouter } from './routes/index.js'
+import { seo } from './web/seo.js'
+import { storefront } from './web/storefront.js'
 
 // Mensajes de validación en español
 z.config(z.locales.es())
@@ -24,13 +27,16 @@ export function createApp() {
 
   // Cabeceras HTTP de seguridad (y oculta "X-Powered-By: Express")
   app.use(helmet())
+  // Comprime las respuestas (el JavaScript de la tienda pesa unas 3 veces menos)
+  app.use(compression())
   // Solo la tienda puede llamar a la API desde el navegador
   app.use(cors({ origin: env.CORS_ORIGIN, methods: ['GET', 'POST'] }))
   app.use(express.json({ limit: '100kb' }))
   app.use(
     pinoHttp({
       logger,
-      autoLogging: env.NODE_ENV !== 'test',
+      // Solo las peticiones a la API: los archivos de la tienda llenarían el registro
+      autoLogging: env.NODE_ENV !== 'test' && { ignore: (req) => !req.url?.startsWith('/api') },
       // Solo lo necesario para diagnosticar: sin cabeceras (cookies, IP completa...)
       serializers: {
         req: (req: { method: string; url: string }) => ({ method: req.method, url: req.url }),
@@ -55,6 +61,8 @@ export function createApp() {
   })
 
   app.use('/api', limiter, apiRouter)
+  if (env.PUBLIC_URL) app.use(seo(env.PUBLIC_URL))
+  if (env.SERVE_CLIENT) app.use(storefront())
   app.use(notFoundHandler)
   app.use(errorHandler)
 
