@@ -1,0 +1,25 @@
+{
+  "name": "emirate-scents",
+  "private": true,
+  "description": "Tienda online de perfumer\u00eda premium Emirate Scents",
+  "workspaces": [
+    "client"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace client",
+    "build": "npm run build --workspace client",
+    "preview": "npm run preview --workspace client",
+    "lint": "npm run lint --workspace client",
+    "test": "npm run test --workspace client",
+    "typecheck": "npm run typecheck --workspace client",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "engines": {
+    "node": ">=22.22.0"
+  },
+  "devDependencies": {
+    "prettier": "^3.9.10",
+    "prettier-plugin-tailwindcss": "^0.8.1"
+  }
+}
