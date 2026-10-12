@@ -9,7 +9,7 @@ import { cx } from '../../lib/cx'
 export function Logo({ className, priority = false }: { className?: string; priority?: boolean }) {
   return (
     <img
-      src="/images/brand/logo-emirate-scents.webp"
+      src={`${import.meta.env.BASE_URL}images/brand/logo-emirate-scents.webp`}
       alt={`${brand.name} · ${brand.tagline}`}
       width={640}
       height={641}

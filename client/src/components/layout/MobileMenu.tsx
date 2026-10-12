@@ -72,7 +72,7 @@ export function MobileMenu({ onClose }: { onClose: () => void }) {
           </li>
           <li>
             <a
-              href="/#como-pedir"
+              href={`${import.meta.env.BASE_URL}#como-pedir`}
               onClick={onClose}
               className="flex min-h-11 items-center hover:text-gold-300"
             >
@@ -81,7 +81,7 @@ export function MobileMenu({ onClose }: { onClose: () => void }) {
           </li>
           <li>
             <a
-              href="/#preguntas-frecuentes"
+              href={`${import.meta.env.BASE_URL}#preguntas-frecuentes`}
               onClick={onClose}
               className="flex min-h-11 items-center hover:text-gold-300"
             >
