@@ -1,0 +1,4 @@
+# Mantiene finales de línea LF en el repositorio aunque trabajes en Windows
+* text=auto eol=lf
+*.webp binary
+*.png binary
