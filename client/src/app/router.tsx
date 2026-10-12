@@ -7,7 +7,7 @@ import { RootLayout } from './RootLayout'
 
 /**
  * Mapa de URLs de la tienda. Todas las rutas comparten RootLayout (header y footer).
- * El catálogo y el detalle de producto se cargan bajo demanda (`lazy`): su código
+ * El catálogo, el detalle de producto y el pedido se cargan bajo demanda (`lazy`): su código
  * solo se descarga cuando el visitante entra en ellos, y la página de inicio carga más rápido.
  */
 export const router = createBrowserRouter([
@@ -26,6 +26,22 @@ export const router = createBrowserRouter([
       },
       { path: 'favoritos', Component: FavoritesPage },
       { path: 'carrito', Component: CartPage },
+      {
+        path: 'pedido',
+        lazy: async () => ({ Component: (await import('../pages/CheckoutPage')).CheckoutPage }),
+      },
+      {
+        path: 'pedido/confirmacion',
+        lazy: async () => ({
+          Component: (await import('../pages/OrderConfirmationPage')).OrderConfirmationPage,
+        }),
+      },
+      {
+        path: 'politica-de-datos',
+        lazy: async () => ({
+          Component: (await import('../pages/PrivacyPolicyPage')).PrivacyPolicyPage,
+        }),
+      },
       { path: '*', Component: NotFoundPage },
     ],
   },

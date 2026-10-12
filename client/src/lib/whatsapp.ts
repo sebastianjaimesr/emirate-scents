@@ -1,5 +1,7 @@
 import { brand } from '../config/brand'
 import type { CartLine } from '../features/cart/cartItems'
+import type { OrderConfirmation } from '../types/order'
+import { paymentMethodLabels } from '../types/order'
 import type { Product } from '../types/product'
 import { formatCOP } from './formatCOP'
 
@@ -69,4 +71,38 @@ export function buildCartInquiryMessage(lines: CartLine[], subtotal: number) {
     '',
     '¿Me pueden confirmar la disponibilidad y las condiciones de entrega?',
   ].join('\n')
+}
+
+/**
+ * Mensaje para confirmar un pedido ya registrado. Usa los importes que calculó el
+ * servidor y añade la dirección que el cliente escribió (no viaja de vuelta desde la API).
+ */
+export function buildOrderMessage(
+  order: OrderConfirmation,
+  delivery: { address: string; notes?: string },
+) {
+  const items = order.items.flatMap((item) => [
+    `• ${item.name} (${item.brandName}${item.sizeMl ? `, ${item.sizeMl} ml` : ''})`,
+    `  Ref. ${item.sku} · Cantidad: ${item.quantity} · ${formatCOP(item.lineTotal)}`,
+  ])
+  return [
+    `Hola, ${brand.name}. Acabo de registrar el pedido ${order.orderNumber}:`,
+    '',
+    ...items,
+    '',
+    `Subtotal: ${formatCOP(order.subtotal)}`,
+    order.shippingCost === null
+      ? 'Envío: pendiente de cotización'
+      : `Envío: ${formatCOP(order.shippingCost)}`,
+    `Total estimado: ${formatCOP(order.total)}`,
+    `Forma de pago: ${paymentMethodLabels[order.paymentMethod]}`,
+    '',
+    `Nombre: ${order.customer.name}`,
+    `Entrega: ${delivery.address}, ${order.customer.city} (${order.customer.department})`,
+    delivery.notes ? `Observaciones: ${delivery.notes}` : null,
+    '',
+    '¿Me confirman la disponibilidad, el costo de envío y el pago?',
+  ]
+    .filter((line) => line !== null)
+    .join('\n')
 }

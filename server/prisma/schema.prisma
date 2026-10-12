@@ -95,6 +95,7 @@ model Product {
   searchText           String         @default("")
   publishedAt          DateTime?
   images               ProductImage[]
+  orderItems           OrderItem[]
   createdAt            DateTime       @default(now())
   updatedAt            DateTime       @updatedAt
 
@@ -115,4 +116,68 @@ model ProductImage {
   position  Int     @default(0)
 
   @@index([productId, position])
+}
+
+/// El pedido queda pendiente hasta que el negocio lo confirma por WhatsApp.
+enum OrderStatus {
+  PENDIENTE_CONFIRMACION
+  CONFIRMADO
+  ENVIADO
+  ENTREGADO
+  CANCELADO
+}
+
+enum PaymentMethod {
+  /// Sujeto a la cobertura y condiciones de la ciudad, que se confirman por WhatsApp.
+  CONTRA_ENTREGA
+  ACORDAR_POR_WHATSAPP
+}
+
+model Order {
+  id                   String        @id @default(cuid())
+  /// Consecutivo que forma el número visible del pedido: ES-2026-000123.
+  number               Int           @unique @default(autoincrement())
+  status               OrderStatus   @default(PENDIENTE_CONFIRMACION)
+  customerName         String
+  /// Celular colombiano normalizado a 10 dígitos (3001234567).
+  customerPhone        String
+  department           String
+  city                 String
+  address              String
+  notes                String?
+  paymentMethod        PaymentMethod
+  /// Calculado por el servidor con los precios de la base de datos, nunca los del navegador.
+  subtotal             Decimal       @db.Decimal(12, 2)
+  /// Vacío = "pendiente de cotización".
+  shippingCost         Decimal?      @db.Decimal(12, 2)
+  total                Decimal       @db.Decimal(12, 2)
+  /// Fecha en que el cliente autorizó el tratamiento de sus datos (Ley 1581 de 2012).
+  dataConsentAt        DateTime
+  /// Versión de la política de datos que aceptó.
+  privacyPolicyVersion String
+  items                OrderItem[]
+  createdAt            DateTime      @default(now())
+  updatedAt            DateTime      @updatedAt
+
+  @@index([status, createdAt])
+}
+
+/// Copia de cada producto tal como se pidió: si mañana cambia el nombre o el precio,
+/// el pedido histórico sigue diciendo qué se vendió y a cuánto.
+model OrderItem {
+  id                  String   @id @default(cuid())
+  orderId             String
+  order               Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId           String?
+  product             Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+  productNameSnapshot String
+  brandNameSnapshot   String
+  skuSnapshot         String
+  sizeMlSnapshot      Int?
+  unitPrice           Decimal  @db.Decimal(12, 2)
+  quantity            Int
+  lineTotal           Decimal  @db.Decimal(12, 2)
+
+  @@index([orderId])
+  @@index([productId])
 }

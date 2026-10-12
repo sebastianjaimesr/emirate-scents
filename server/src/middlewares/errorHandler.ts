@@ -2,6 +2,7 @@ import type { ErrorRequestHandler, RequestHandler } from 'express'
 import { ZodError } from 'zod'
 import { HttpError } from '../lib/httpError.js'
 import { logger } from '../lib/logger.js'
+import { OrderItemsUnavailableError } from '../services/orderService.js'
 
 /** Rutas que no existen: siempre JSON, nunca la página HTML por defecto de Express. */
 export const notFoundHandler: RequestHandler = (_req, res) => {
@@ -25,6 +26,13 @@ export const errorHandler: ErrorRequestHandler = (error, req, res, _next) => {
         })),
       },
     })
+    return
+  }
+
+  if (error instanceof OrderItemsUnavailableError) {
+    res
+      .status(error.status)
+      .json({ error: { code: error.code, message: error.message, items: error.items } })
     return
   }
 

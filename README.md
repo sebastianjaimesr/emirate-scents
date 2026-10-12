@@ -14,8 +14,8 @@ Tienda online de perfumería premium: perfumes árabes, de diseñador, de nicho 
 | 2    | Identidad visual y página de inicio                                           | ✅             |
 | 3    | Catálogo y productos                                                          | ✅             |
 | 4    | Favoritos, carrito e interacciones                                            | ✅             |
-| 5    | Backend (Express + PostgreSQL + Prisma) ([documento](docs/fase-5-backend.md)) | 🔍 En revisión |
-| 6    | Pedidos y WhatsApp                                                            | ⏳             |
+| 5    | Backend (Express + PostgreSQL + Prisma) ([documento](docs/fase-5-backend.md)) | ✅             |
+| 6    | Pedidos y WhatsApp ([documento](docs/fase-6-pedidos.md))                      | 🔍 En revisión |
 | 7    | Pruebas, seguridad y optimización                                             | ⏳             |
 | 8    | Preparación para producción                                                   | ⏳             |
 
@@ -112,6 +112,7 @@ emirate-scents/
 │       ├── data/categories.ts   Textos de las cuatro categorías
 │       ├── features/cart/       Carrito: estado guardado, panel lateral y resumen (lógica con pruebas)
 │       ├── features/catalog/    Búsqueda, filtros, orden y paginación (lógica con pruebas)
+│       ├── features/checkout/   Formulario de pedido y su validación
 │       ├── features/favorites/  Favoritos guardados en este navegador
 │       ├── features/home/       Secciones de la página de inicio
 │       ├── features/product/    Galería, notas olfativas y pedido de la ficha de producto
@@ -132,7 +133,7 @@ emirate-scents/
 │   │   ├── routes/              URL → controlador
 │   │   ├── controllers/         Petición HTTP → servicio → JSON
 │   │   ├── validators/          Reglas de los parámetros (Zod)
-│   │   ├── services/            Consultas y reglas de negocio
+│   │   ├── services/            Consultas, pedidos y reglas de negocio
 │   │   ├── middlewares/         Manejo de errores
 │   │   ├── lib/                 Conexión a la base de datos, registro, búsqueda
 │   │   ├── app.ts               Configuración de Express (seguridad, CORS, límites)

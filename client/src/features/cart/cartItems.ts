@@ -102,3 +102,12 @@ export function buildCartLines(items: CartItem[], products: Product[]) {
   const hasSoldOut = lines.some((line) => line.status === 'sold-out')
   return { lines, subtotal, hasDemoProducts, hasSoldOut }
 }
+
+/** Por qué no se puede continuar con el pedido, o null si se puede. */
+export function getCartBlockingReason(hasDemoProducts: boolean, hasSoldOut: boolean) {
+  return hasDemoProducts
+    ? 'Tu carrito tiene productos DEMO, que no están a la venta. Retíralos para enviar un pedido real.'
+    : hasSoldOut
+      ? 'Retira los productos agotados para continuar.'
+      : null
+}
