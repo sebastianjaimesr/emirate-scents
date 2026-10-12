@@ -11,9 +11,9 @@ Tienda online de perfumería premium: perfumes árabes, de diseñador, de nicho 
 | Fase | Contenido                                                                     | Estado         |
 | ---- | ----------------------------------------------------------------------------- | -------------- |
 | 1    | Análisis y arquitectura ([documento](docs/fase-1-analisis-y-arquitectura.md)) | ✅             |
-| 2    | Identidad visual y página de inicio                                           | 🔍 En revisión |
-| 3    | Catálogo y productos                                                          | ⏳             |
-| 4    | Favoritos, carrito e interacciones                                            | ⏳             |
+| 2    | Identidad visual y página de inicio                                           | ✅             |
+| 3    | Catálogo y productos                                                          | ✅             |
+| 4    | Favoritos, carrito e interacciones                                            | 🔍 En revisión |
 | 5    | Backend (Express + PostgreSQL + Prisma)                                       | ⏳             |
 | 6    | Pedidos y WhatsApp                                                            | ⏳             |
 | 7    | Pruebas, seguridad y optimización                                             | ⏳             |
@@ -56,8 +56,8 @@ Abre <http://localhost:5173> en el navegador.
 
 ## Tecnologías
 
-React 19 · Vite · TypeScript (estricto) · Tailwind CSS v4 · Motion · React Router · Lucide ·
-Vitest · Oxlint · Prettier. Las razones de cada elección están en el
+React 19 · Vite · TypeScript (estricto) · Tailwind CSS v4 · Motion · React Router · Zustand ·
+Lucide · Vitest · Oxlint · Prettier. Las razones de cada elección están en el
 [documento de la Fase 1](docs/fase-1-analisis-y-arquitectura.md#5-tecnologías-y-por-qué).
 
 ## Estructura
@@ -77,7 +77,9 @@ emirate-scents/
 │       ├── content/home.ts      Textos editables de la página de inicio
 │       ├── data/categories.ts   Las cuatro categorías
 │       ├── data/demo/           Productos DEMO (ficticios, no están a la venta)
+│       ├── features/cart/       Carrito: estado guardado, panel lateral y resumen (lógica con pruebas)
 │       ├── features/catalog/    Búsqueda, filtros, orden y paginación (lógica con pruebas)
+│       ├── features/favorites/  Favoritos guardados en este navegador
 │       ├── features/home/       Secciones de la página de inicio
 │       ├── features/product/    Galería, notas olfativas y pedido de la ficha de producto
 │       ├── hooks/               Lógica reutilizable (paneles accesibles, carga de datos)

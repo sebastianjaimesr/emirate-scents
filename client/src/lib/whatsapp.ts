@@ -1,4 +1,5 @@
 import { brand } from '../config/brand'
+import type { CartLine } from '../features/cart/cartItems'
 import type { Product } from '../types/product'
 import { formatCOP } from './formatCOP'
 
@@ -45,4 +46,27 @@ export function buildProductInquiryMessage(product: Product, quantity: number) {
     '¿Me pueden confirmar la disponibilidad y las condiciones de entrega?',
   ]
   return lines.filter((line) => line !== null).join('\n')
+}
+
+/**
+ * Consulta con el contenido del carrito. El total es ESTIMADO: el envío se cotiza
+ * y el negocio confirma precios y disponibilidad antes de despachar.
+ */
+export function buildCartInquiryMessage(lines: CartLine[], subtotal: number) {
+  const items = lines
+    .filter((line) => line.quantity > 0)
+    .flatMap((line) => [
+      `• ${line.product.name} (${line.product.brand.name}${line.product.sizeMl ? `, ${line.product.sizeMl} ml` : ''})`,
+      `  Cantidad: ${line.quantity} · Precio unitario: ${formatCOP(line.product.price)}`,
+    ])
+  return [
+    `Hola, ${brand.name}. Quiero consultar el siguiente pedido:`,
+    '',
+    ...items,
+    '',
+    `Subtotal estimado: ${formatCOP(subtotal)}`,
+    'Envío: pendiente de cotización',
+    '',
+    '¿Me pueden confirmar la disponibilidad y las condiciones de entrega?',
+  ].join('\n')
 }

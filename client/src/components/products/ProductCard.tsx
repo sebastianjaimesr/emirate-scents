@@ -1,4 +1,5 @@
 import { Link } from 'react-router'
+import { FavoriteButton } from '../../features/favorites/FavoriteButton'
 import { concentrationLabels, type Product } from '../../types/product'
 import { Price } from './Price'
 import { ProductBadges } from './ProductBadges'
@@ -31,6 +32,12 @@ export function ProductCard({
           />
         </div>
         <ProductBadges product={product} className="absolute top-3 left-3" />
+        {/* z-10: por encima del enlace que cubre toda la tarjeta */}
+        <FavoriteButton
+          productId={product.id}
+          productName={product.name}
+          className="absolute top-2 right-2 z-10"
+        />
       </div>
 
       <div className="flex flex-1 flex-col pt-4">

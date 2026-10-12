@@ -2,14 +2,18 @@ import { Info } from 'lucide-react'
 import { useState } from 'react'
 import { WhatsAppIcon } from '../../components/brand/BrandIcons'
 import { formatCOP } from '../../lib/formatCOP'
+import { AddToCartButton } from '../cart/AddToCartButton'
+import { MAX_QUANTITY_PER_ITEM } from '../cart/cartItems'
+import { FavoriteButton } from '../favorites/FavoriteButton'
 import { buildProductInquiryMessage, buildWhatsAppUrl } from '../../lib/whatsapp'
 import type { Product } from '../../types/product'
-import { QuantitySelector } from './QuantitySelector'
+import { QuantitySelector } from '../../components/ui/QuantitySelector'
 
 /**
- * Cantidad y pedido por WhatsApp.
- * - Productos DEMO: el botón queda desactivado (no están a la venta).
- * - Productos agotados: no se puede pedir; se ofrece consultar por WhatsApp.
+ * Cantidad, carrito, favoritos y pedido directo por WhatsApp.
+ * - Productos DEMO: se pueden agregar al carrito para probarlo, pero el pedido
+ *   por WhatsApp queda desactivado (no están a la venta).
+ * - Productos agotados: no se pueden agregar ni pedir.
  */
 export function ProductPurchasePanel({ product }: { product: Product }) {
   const [quantity, setQuantity] = useState(1)
@@ -23,9 +27,8 @@ export function ProductPurchasePanel({ product }: { product: Product }) {
         <div className="flex flex-wrap items-center gap-4">
           <QuantitySelector
             value={quantity}
-            max={product.stock}
+            max={Math.min(product.stock, MAX_QUANTITY_PER_ITEM)}
             onChange={setQuantity}
-            disabled={!canOrder}
           />
           {quantity > 1 && (
             <p className="text-sm text-smoke-500 tabular-nums">
@@ -38,15 +41,22 @@ export function ProductPurchasePanel({ product }: { product: Product }) {
         </div>
       )}
 
+      <div className="flex gap-3">
+        <div className="flex-1">
+          <AddToCartButton product={product} quantity={quantity} />
+        </div>
+        <FavoriteButton productId={product.id} productName={product.name} variant="outline" />
+      </div>
+
       {canOrder ? (
         <a
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex min-h-14 w-full items-center justify-center gap-3 bg-ink-950 px-7 text-sm font-semibold tracking-[0.08em] text-gold-300 uppercase transition-colors hover:bg-ink-800"
+          className="inline-flex min-h-14 w-full items-center justify-center gap-3 border border-ink-950 px-7 text-sm font-semibold tracking-[0.08em] text-ink-950 uppercase transition-colors hover:bg-ink-950 hover:text-gold-300"
         >
           <WhatsAppIcon className="size-5" />
-          Pedir por WhatsApp
+          Pedir ahora por WhatsApp
         </a>
       ) : (
         <button
@@ -62,7 +72,7 @@ export function ProductPurchasePanel({ product }: { product: Product }) {
       <p className="flex gap-2 text-xs leading-relaxed text-smoke-500">
         <Info aria-hidden="true" className="mt-0.5 size-3.5 shrink-0" strokeWidth={1.75} />
         {product.isDemo
-          ? 'Este producto es una demostración y no se puede pedir.'
+          ? 'Producto de demostración: puedes agregarlo al carrito para probar la tienda, pero no se puede pedir.'
           : 'Se abrirá WhatsApp con tu pedido escrito; tú decides cuándo enviarlo. El pedido queda pendiente hasta que confirmemos disponibilidad y condiciones de entrega.'}
       </p>
     </div>

@@ -1,6 +1,12 @@
 import { describe, expect, it } from 'vitest'
 import { demoProducts } from '../data/demo/products.demo'
-import { buildProductInquiryMessage, buildWhatsAppUrl, whatsappMessages } from './whatsapp'
+import { buildCartLines } from '../features/cart/cartItems'
+import {
+  buildCartInquiryMessage,
+  buildProductInquiryMessage,
+  buildWhatsAppUrl,
+  whatsappMessages,
+} from './whatsapp'
 
 describe('buildWhatsAppUrl', () => {
   it('apunta al número oficial de Emirate Scents en formato internacional', () => {
@@ -47,5 +53,23 @@ describe('buildProductInquiryMessage', () => {
   it('omite el tamaño cuando no se conoce', () => {
     const product = { ...demoProducts[0], sizeMl: undefined }
     expect(buildProductInquiryMessage(product, 1)).not.toContain('Tamaño')
+  })
+})
+
+describe('buildCartInquiryMessage', () => {
+  it('lista cada producto con cantidad y precio, y el subtotal estimado', () => {
+    const [a, b] = demoProducts
+    const { lines, subtotal } = buildCartLines(
+      [
+        { productId: a.id, quantity: 2 },
+        { productId: b.id, quantity: 1 },
+      ],
+      demoProducts,
+    )
+    const message = buildCartInquiryMessage(lines, subtotal).replace(/\s/g, ' ')
+    expect(message).toContain(`• ${a.name} (${a.brand.name}, ${a.sizeMl} ml)`)
+    expect(message).toContain('Cantidad: 2 · Precio unitario: $ 285.000')
+    expect(message).toContain('Subtotal estimado: $ 810.000')
+    expect(message).toContain('Envío: pendiente de cotización')
   })
 })

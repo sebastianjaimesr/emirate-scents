@@ -5,6 +5,7 @@ import { AnnouncementBar } from '../components/layout/AnnouncementBar'
 import { Footer } from '../components/layout/Footer'
 import { Header } from '../components/layout/Header'
 import { WhatsAppFloatingButton } from '../components/layout/WhatsAppFloatingButton'
+import { CartDrawer } from '../features/cart/CartDrawer'
 
 /**
  * Estructura común a todas las páginas.
@@ -28,6 +29,7 @@ export function RootLayout() {
       </main>
       <Footer />
       <WhatsAppFloatingButton />
+      <CartDrawer />
       <ScrollRestoration />
     </MotionConfig>
   )

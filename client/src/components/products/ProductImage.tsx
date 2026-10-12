@@ -11,6 +11,8 @@ interface ProductImageProps {
   /** true en la imagen principal visible al cargar (mejora la velocidad percibida). */
   priority?: boolean
   sizes?: string
+  /** Miniatura pequeña (carrito): el estado de reserva muestra solo el monograma. */
+  compact?: boolean
 }
 
 /**
@@ -23,6 +25,7 @@ export function ProductImage({
   className,
   priority = false,
   sizes,
+  compact = false,
 }: ProductImageProps) {
   const [hasError, setHasError] = useState(false)
 
@@ -32,15 +35,25 @@ export function ProductImage({
         role="img"
         aria-label={`${fallbackLabel}: imagen próximamente`}
         className={cx(
-          'relative flex size-full flex-col items-center justify-end overflow-hidden bg-sand-300/35',
+          'relative flex size-full flex-col items-center overflow-hidden bg-sand-300/35',
+          compact ? 'justify-center' : 'justify-end',
           className,
         )}
       >
         <ArchPattern className="absolute inset-0 text-sand-300" />
-        <span className="relative mb-[12%] font-display text-4xl text-gold-700/70">ES</span>
-        <span className="relative mb-[8%] bg-ivory-50/80 px-2 py-0.5 text-[0.6rem] font-semibold tracking-[0.22em] text-smoke-500 uppercase">
-          Imagen próximamente
+        <span
+          className={cx(
+            'relative font-display text-gold-700/70',
+            compact ? 'text-2xl' : 'mb-[12%] text-4xl',
+          )}
+        >
+          ES
         </span>
+        {!compact && (
+          <span className="relative mb-[8%] bg-ivory-50/80 px-2 py-0.5 text-[0.6rem] font-semibold tracking-[0.22em] text-smoke-500 uppercase">
+            Imagen próximamente
+          </span>
+        )}
       </div>
     )
   }
