@@ -1,4 +1,6 @@
 import { brand } from '../config/brand'
+import type { Product } from '../types/product'
+import { formatCOP } from './formatCOP'
 
 /**
  * Construye un enlace de WhatsApp (wa.me) hacia el número del negocio.
@@ -26,4 +28,21 @@ export const whatsappMessages = {
     `Hola, ${brand.name}. Quiero conocer los ${categoryName.toLowerCase()} disponibles y sus precios.`,
   search: (query: string) =>
     `Hola, ${brand.name}. Estoy buscando "${query}". ¿Lo tienen disponible?`,
+}
+
+/** Mensaje para consultar o pedir un producto concreto desde su página de detalle. */
+export function buildProductInquiryMessage(product: Product, quantity: number) {
+  const lines = [
+    `Hola, ${brand.name}. Quiero consultar este perfume:`,
+    '',
+    `• Producto: ${product.name}`,
+    `• Marca: ${product.brand.name}`,
+    product.sizeMl ? `• Tamaño: ${product.sizeMl} ml` : null,
+    `• Referencia: ${product.sku}`,
+    `• Cantidad: ${quantity}`,
+    `• Precio unitario: ${formatCOP(product.price)}`,
+    '',
+    '¿Me pueden confirmar la disponibilidad y las condiciones de entrega?',
+  ]
+  return lines.filter((line) => line !== null).join('\n')
 }

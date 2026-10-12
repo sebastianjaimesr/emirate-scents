@@ -71,18 +71,30 @@ emirate-scents/
 │       ├── components/
 │       │   ├── brand/           Logo, wordmark, arcos e iconos de marca
 │       │   ├── layout/          Header, menú móvil, buscador, footer
+│       │   ├── products/        Tarjeta, imagen con reserva, precio, etiquetas
 │       │   └── ui/              Botones, títulos, estados vacíos...
 │       ├── config/brand.ts      Datos oficiales: nombre, WhatsApp, Instagram, anuncios
 │       ├── content/home.ts      Textos editables de la página de inicio
 │       ├── data/categories.ts   Las cuatro categorías
+│       ├── data/demo/           Productos DEMO (ficticios, no están a la venta)
+│       ├── features/catalog/    Búsqueda, filtros, orden y paginación (lógica con pruebas)
 │       ├── features/home/       Secciones de la página de inicio
-│       ├── hooks/               Lógica reutilizable (paneles accesibles)
-│       ├── lib/                 Utilidades con pruebas (enlaces de WhatsApp)
+│       ├── features/product/    Galería, notas olfativas y pedido de la ficha de producto
+│       ├── hooks/               Lógica reutilizable (paneles accesibles, carga de datos)
+│       ├── lib/                 Utilidades con pruebas (WhatsApp, precios COP, disponibilidad)
 │       ├── pages/               Una página por ruta
+│       ├── services/            Única puerta a los datos (hoy DEMO, en la Fase 5 la API)
+│       ├── types/               Modelo de producto
 │       └── index.css            Paleta, tipografías y estilos base
 ├── docs/                        Documentación de cada fase
 └── package.json                 Scripts del proyecto (npm workspaces)
 ```
+
+## Catálogo real
+
+Mientras no tengamos el catálogo real, la tienda muestra productos **DEMO** marcados en rojo, con
+pedidos desactivados. Para enviar los productos reales usa la
+[plantilla del catálogo](docs/catalogo-real.md).
 
 ## Reglas del proyecto
 

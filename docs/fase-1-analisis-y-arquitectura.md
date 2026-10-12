@@ -17,12 +17,12 @@ Vamos a construir **Emirate Scents**, una tienda online premium de perfumes con 
 
 Datos de marca que no se cambian sin consultarte:
 
-| Dato | Valor |
-|---|---|
-| Nombre comercial | Emirate Scents |
-| Instagram | https://www.instagram.com/emirate_scents/ (@emirate_scents) |
-| WhatsApp | 317 409 6898 → `https://wa.me/573174096898` |
-| Lema (del logo) | "Exclusivity in every scent" |
+| Dato             | Valor                                                       |
+| ---------------- | ----------------------------------------------------------- |
+| Nombre comercial | Emirate Scents                                              |
+| Instagram        | https://www.instagram.com/emirate_scents/ (@emirate_scents) |
+| WhatsApp         | 317 409 6898 → `https://wa.me/573174096898`                 |
+| Lema (del logo)  | "Exclusivity in every scent"                                |
 
 Verifiqué el formato del enlace de WhatsApp: `wa.me` exige el número internacional sin `+`, espacios ni guiones. `57` (Colombia) + `3174096898` (móvil de 10 dígitos) = `573174096898`. Es correcto. El mensaje prellenado se añadirá con `?text=` codificado con `encodeURIComponent` (Fase 6).
 
@@ -30,11 +30,11 @@ Verifiqué el formato del enlace de WhatsApp: `wa.me` exige el número internaci
 
 ## 2. Revisión de las referencias
 
-| Referencia | Resultado |
-|---|---|
-| Logo (imagen que adjuntaste) | ✅ Revisado. Análisis abajo. |
-| Instagram @emirate_scents | ❌ No pude acceder: Instagram bloquea el acceso automatizado y exige iniciar sesión. |
-| Canva (canva.link/hu9s5mt4ozs2fap) | ❌ No pude acceder: el enlace también bloquea el acceso automatizado. |
+| Referencia                         | Resultado                                                                            |
+| ---------------------------------- | ------------------------------------------------------------------------------------ |
+| Logo (imagen que adjuntaste)       | ✅ Revisado. Análisis abajo.                                                         |
+| Instagram @emirate_scents          | ❌ No pude acceder: Instagram bloquea el acceso automatizado y exige iniciar sesión. |
+| Canva (canva.link/hu9s5mt4ozs2fap) | ❌ No pude acceder: el enlace también bloquea el acceso automatizado.                |
 
 **No he inventado el contenido de Instagram ni de Canva.** Para completarlo necesito capturas de pantalla (ver sección 3).
 
@@ -60,29 +60,29 @@ Verifiqué el formato del enlace de WhatsApp: `wa.me` exige el número internaci
 
 ### Imprescindibles antes o durante la Fase 2
 
-| # | Dato | Para qué |
-|---|---|---|
-| 1 | **Capturas de Instagram** (perfil, 6–9 publicaciones representativas) **y del diseño de Canva** | Confirmar estilo fotográfico, colores reales y tono de comunicación |
-| 2 | **Logo con fondo transparente** (vector si es posible) y, si existe, versión compacta | Header, favicon y secciones claras |
-| 3 | **Fotografías propias o autorizadas** para el hero y las categorías | El hero cinematográfico depende de una buena foto. Sin ella usaré una composición provisional con el logo, texturas y luz, claramente provisional |
-| 4 | **¿Hay un anuncio real** para la barra superior? (ej. "Envíos a toda Colombia") | Si no hay ninguno confirmado, la barra no se muestra |
+| #   | Dato                                                                                            | Para qué                                                                                                                                          |
+| --- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | **Capturas de Instagram** (perfil, 6–9 publicaciones representativas) **y del diseño de Canva** | Confirmar estilo fotográfico, colores reales y tono de comunicación                                                                               |
+| 2   | **Logo con fondo transparente** (vector si es posible) y, si existe, versión compacta           | Header, favicon y secciones claras                                                                                                                |
+| 3   | **Fotografías propias o autorizadas** para el hero y las categorías                             | El hero cinematográfico depende de una buena foto. Sin ella usaré una composición provisional con el logo, texturas y luz, claramente provisional |
+| 4   | **¿Hay un anuncio real** para la barra superior? (ej. "Envíos a toda Colombia")                 | Si no hay ninguno confirmado, la barra no se muestra                                                                                              |
 
 ### Imprescindibles antes de la Fase 3 (catálogo)
 
-| # | Dato | Para qué |
-|---|---|---|
-| 5 | **Catálogo real**: te prepararé una plantilla (hoja de cálculo) con todas las columnas del modelo para que la llenes | Publicar productos reales |
-| 6 | **Fotos de cada producto** con permiso de uso | Galería y tarjetas |
-| 7 | **Cómo presentar las equivalencias** (ver sección 9, riesgo legal) | Clasificación y textos |
+| #   | Dato                                                                                                                 | Para qué                  |
+| --- | -------------------------------------------------------------------------------------------------------------------- | ------------------------- |
+| 5   | **Catálogo real**: te prepararé una plantilla (hoja de cálculo) con todas las columnas del modelo para que la llenes | Publicar productos reales |
+| 6   | **Fotos de cada producto** con permiso de uso                                                                        | Galería y tarjetas        |
+| 7   | **Cómo presentar las equivalencias** (ver sección 9, riesgo legal)                                                   | Clasificación y textos    |
 
 ### Imprescindibles antes de la Fase 6 (pedidos)
 
-| # | Dato | Para qué |
-|---|---|---|
-| 8 | **Ciudades o zonas con contra entrega** y condiciones (monto mínimo, recargo) | Mostrar u ocultar esa opción según la ciudad |
-| 9 | **Costo de envío** (fijo, por ciudad o "por cotizar") | Calcular el total o indicar "pendiente de cotización" |
-| 10 | **¿Se reserva inventario al crear el pedido?** (ver sección 7) | Lógica del servidor |
-| 11 | **Política de tratamiento de datos personales** | En Colombia, la Ley 1581 de 2012 (habeas data) exige informar y pedir autorización al recoger nombre, teléfono y dirección |
+| #   | Dato                                                                          | Para qué                                                                                                                   |
+| --- | ----------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| 8   | **Ciudades o zonas con contra entrega** y condiciones (monto mínimo, recargo) | Mostrar u ocultar esa opción según la ciudad                                                                               |
+| 9   | **Costo de envío** (fijo, por ciudad o "por cotizar")                         | Calcular el total o indicar "pendiente de cotización"                                                                      |
+| 10  | **¿Se reserva inventario al crear el pedido?** (ver sección 7)                | Lógica del servidor                                                                                                        |
+| 11  | **Política de tratamiento de datos personales**                               | En Colombia, la Ley 1581 de 2012 (habeas data) exige informar y pedir autorización al recoger nombre, teléfono y dirección |
 
 ### Pueden resolverse después (Fase 8)
 
@@ -98,33 +98,34 @@ Dominio, hosting, correo de contacto, horario de atención, políticas de cambio
 
 Los valores salen del logo, ajustados para cumplir contraste de accesibilidad (WCAG AA = 4.5:1 para texto normal). Calculé cada contraste.
 
-| Token | Hex | Uso |
-|---|---|---|
-| `ink-950` Negro cálido | `#0E0C0A` | Fondos oscuros. No uso `#000` puro: un negro ligeramente cálido se ve más lujoso en pantalla |
-| `ink-900` Carbón | `#1A1612` | Tarjetas y paneles sobre fondo oscuro; texto principal sobre claro |
-| `gold-300` Oro brillo | `#E3C77D` | Hover y reflejos sobre negro (contraste 11.8:1) |
-| `gold-500` Oro metálico | `#C9A54E` | Detalles, iconos, líneas y textos sobre negro (8.3:1) |
+| Token                   | Hex       | Uso                                                                                           |
+| ----------------------- | --------- | --------------------------------------------------------------------------------------------- |
+| `ink-950` Negro cálido  | `#0E0C0A` | Fondos oscuros. No uso `#000` puro: un negro ligeramente cálido se ve más lujoso en pantalla  |
+| `ink-900` Carbón        | `#1A1612` | Tarjetas y paneles sobre fondo oscuro; texto principal sobre claro                            |
+| `gold-300` Oro brillo   | `#E3C77D` | Hover y reflejos sobre negro (contraste 11.8:1)                                               |
+| `gold-500` Oro metálico | `#C9A54E` | Detalles, iconos, líneas y textos sobre negro (8.3:1)                                         |
 | `gold-700` Oro profundo | `#6F5420` | **Texto dorado sobre crema** (6.3:1). El oro claro sobre crema solo da 2.1:1 y sería ilegible |
-| `ivory-50` Marfil | `#F7F1E6` | Fondo claro principal y texto sobre negro (17.4:1) |
-| `cream-100` Crema | `#EFE4D0` | Secciones claras alternas |
-| `sand-300` Arena | `#D9C4A0` | Bordes y separadores en secciones claras |
-| `amber-600` Ámbar | `#B8762E` | Acentos cálidos en fotografía y gráficos |
-| `oud-800` Madera de oud | `#4A3020` | Fondos de bloques editoriales cálidos |
-| `smoke-500` Humo | `#5E554A` | Texto secundario sobre claro (6.5:1) |
-| `ruby-600` Rubí | `#8C1C2B` | Acento puntual: favorito activo y alertas |
+| `ivory-50` Marfil       | `#F7F1E6` | Fondo claro principal y texto sobre negro (17.4:1)                                            |
+| `cream-100` Crema       | `#EFE4D0` | Secciones claras alternas                                                                     |
+| `sand-300` Arena        | `#D9C4A0` | Bordes y separadores en secciones claras                                                      |
+| `amber-600` Ámbar       | `#B8762E` | Acentos cálidos en fotografía y gráficos                                                      |
+| `oud-800` Madera de oud | `#4A3020` | Fondos de bloques editoriales cálidos                                                         |
+| `smoke-500` Humo        | `#5E554A` | Texto secundario sobre claro (6.5:1)                                                          |
+| `ruby-600` Rubí         | `#8C1C2B` | Acento puntual: favorito activo y alertas                                                     |
 
 Reglas:
+
 - Ningún degradado decorativo. Solo uno: un barrido de luz muy sutil sobre el oro, en elementos de marca puntuales.
 - **Botón principal**: fondo `gold-500` con texto `ink-950` (8.3:1). **Botón secundario**: borde dorado de 1 px y texto dorado.
 - En secciones claras, el dorado aparece en líneas y ornamentos, no en texto pequeño.
 
 ### 4.2 Tipografía
 
-| Rol | Fuente | Por qué |
-|---|---|---|
-| Titulares | **Cormorant Garamond** (500–600) | Serif de alto contraste, emparentada con la del logo, elegante en tamaños grandes |
-| Textos, precios, botones, navegación | **Manrope** (400–700) | Sans serif moderna con números claros. Los precios en COP (`$ 285.000`) se leen muy bien |
-| Etiquetas pequeñas ("NUEVO", "ÁRABES") | Manrope en mayúsculas con espaciado amplio (0.18em) | Hace eco del "S C E N T S" del logo sin añadir una tercera fuente |
+| Rol                                    | Fuente                                              | Por qué                                                                                  |
+| -------------------------------------- | --------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| Titulares                              | **Cormorant Garamond** (500–600)                    | Serif de alto contraste, emparentada con la del logo, elegante en tamaños grandes        |
+| Textos, precios, botones, navegación   | **Manrope** (400–700)                               | Sans serif moderna con números claros. Los precios en COP (`$ 285.000`) se leen muy bien |
+| Etiquetas pequeñas ("NUEVO", "ÁRABES") | Manrope en mayúsculas con espaciado amplio (0.18em) | Hace eco del "S C E N T S" del logo sin añadir una tercera fuente                        |
 
 Las fuentes se **alojan en el propio proyecto** (paquetes `@fontsource`) en lugar de cargarse desde Google: carga más rápida, sin dependencia externa y sin enviar datos de visitantes a terceros. Ambas son de licencia libre (SIL OFL).
 
@@ -146,14 +147,14 @@ Las fuentes se **alojan en el propio proyecto** (paquetes `@fontsource`) en luga
 
 ### 4.5 Animaciones (Motion for React)
 
-| Dónde | Animación | Duración |
-|---|---|---|
-| Al hacer scroll | Títulos que suben 16 px y aparecen; imágenes que se revelan con una máscara | 0.6–0.9 s, una sola vez |
-| Hero | Entrada escalonada: logo → titular → botón; parallax leve de la foto (máx. 8–10 %) | 1.2 s total |
-| Tarjetas | Zoom de la foto al 1.04 y aparición de "Agregar" y favorito | 0.4 s |
-| Favoritos | El corazón se rellena de rubí con un pequeño rebote | 0.3 s |
-| Carrito | El contador hace un pulso; el panel lateral entra deslizando | 0.35 s |
-| Detalle de producto | La foto de la tarjeta "viaja" hasta la página de detalle (shared layout) | 0.5 s |
+| Dónde               | Animación                                                                          | Duración                |
+| ------------------- | ---------------------------------------------------------------------------------- | ----------------------- |
+| Al hacer scroll     | Títulos que suben 16 px y aparecen; imágenes que se revelan con una máscara        | 0.6–0.9 s, una sola vez |
+| Hero                | Entrada escalonada: logo → titular → botón; parallax leve de la foto (máx. 8–10 %) | 1.2 s total             |
+| Tarjetas            | Zoom de la foto al 1.04 y aparición de "Agregar" y favorito                        | 0.4 s                   |
+| Favoritos           | El corazón se rellena de rubí con un pequeño rebote                                | 0.3 s                   |
+| Carrito             | El contador hace un pulso; el panel lateral entra deslizando                       | 0.35 s                  |
+| Detalle de producto | La foto de la tarjeta "viaja" hasta la página de detalle (shared layout)           | 0.5 s                   |
 
 Con `prefers-reduced-motion` activo: sin parallax, sin desplazamientos ni rebotes; solo fundidos rápidos.
 
@@ -171,32 +172,32 @@ Versiones: al empezar cada fase consultaré la documentación oficial vigente de
 
 ### Frontend (`client/`)
 
-| Librería | Problema que resuelve |
-|---|---|
-| React + TypeScript (estricto) | Interfaz por componentes; TypeScript detecta errores antes de ejecutar |
-| Vite | Servidor de desarrollo instantáneo y build optimizado |
-| Tailwind CSS v4 | Estilos con clases utilitarias; los tokens de la paleta se definen una sola vez en CSS (`@theme`) |
-| Motion (`motion/react`) | Animaciones declarativas, de scroll y de layout con soporte de `prefers-reduced-motion` |
-| React Router | URLs legibles (`/producto/oud-wood-100ml`) y navegación sin recargar |
-| **Zustand** | Estado global de carrito y favoritos. **Recomendado frente a Context de React**: menos código, guarda en `localStorage` con una línea (`persist`) y evita re-renderizados innecesarios. Pesa ~1 KB |
-| React Hook Form + Zod | Formulario de pedido con validación clara y mensajes en español |
-| Lucide React | Iconos finos y coherentes; solo se incluyen los que se usan |
-| @fontsource | Fuentes alojadas en el proyecto |
+| Librería                      | Problema que resuelve                                                                                                                                                                              |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| React + TypeScript (estricto) | Interfaz por componentes; TypeScript detecta errores antes de ejecutar                                                                                                                             |
+| Vite                          | Servidor de desarrollo instantáneo y build optimizado                                                                                                                                              |
+| Tailwind CSS v4               | Estilos con clases utilitarias; los tokens de la paleta se definen una sola vez en CSS (`@theme`)                                                                                                  |
+| Motion (`motion/react`)       | Animaciones declarativas, de scroll y de layout con soporte de `prefers-reduced-motion`                                                                                                            |
+| React Router                  | URLs legibles (`/producto/oud-wood-100ml`) y navegación sin recargar                                                                                                                               |
+| **Zustand**                   | Estado global de carrito y favoritos. **Recomendado frente a Context de React**: menos código, guarda en `localStorage` con una línea (`persist`) y evita re-renderizados innecesarios. Pesa ~1 KB |
+| React Hook Form + Zod         | Formulario de pedido con validación clara y mensajes en español                                                                                                                                    |
+| Lucide React                  | Iconos finos y coherentes; solo se incluyen los que se usan                                                                                                                                        |
+| @fontsource                   | Fuentes alojadas en el proyecto                                                                                                                                                                    |
 
 No incluyo en la v1: librerías de componentes (Material UI, etc.), porque impondrían un aspecto genérico; Three.js (ver 4.6); TanStack Query, que evaluaré en la Fase 5 cuando conectemos la API real.
 
 ### Backend (`server/`)
 
-| Librería | Problema que resuelve |
-|---|---|
-| Node.js (LTS) + Express + TypeScript | API REST sencilla y muy documentada |
-| Prisma + PostgreSQL | Base de datos relacional con migraciones versionadas y consultas tipadas |
-| Zod | Valida cada petición (query, parámetros, cuerpo) antes de tocar la base de datos |
-| helmet | Cabeceras HTTP de seguridad |
-| cors | Solo permite peticiones desde el dominio de la tienda |
-| express-rate-limit | Limita intentos de crear pedidos (anti-abuso) |
-| pino | Registro de eventos rápido, ocultando datos sensibles (teléfono, dirección) |
-| dotenv | Variables de entorno en desarrollo |
+| Librería                             | Problema que resuelve                                                            |
+| ------------------------------------ | -------------------------------------------------------------------------------- |
+| Node.js (LTS) + Express + TypeScript | API REST sencilla y muy documentada                                              |
+| Prisma + PostgreSQL                  | Base de datos relacional con migraciones versionadas y consultas tipadas         |
+| Zod                                  | Valida cada petición (query, parámetros, cuerpo) antes de tocar la base de datos |
+| helmet                               | Cabeceras HTTP de seguridad                                                      |
+| cors                                 | Solo permite peticiones desde el dominio de la tienda                            |
+| express-rate-limit                   | Limita intentos de crear pedidos (anti-abuso)                                    |
+| pino                                 | Registro de eventos rápido, ocultando datos sensibles (teléfono, dirección)      |
+| dotenv                               | Variables de entorno en desarrollo                                               |
 
 ### Calidad y pruebas
 
@@ -233,29 +234,29 @@ Decisiones clave:
 
 ### Rutas del sitio (en español, legibles)
 
-| URL | Página |
-|---|---|
-| `/` | Inicio |
-| `/catalogo` | Todos los productos (filtros en la URL: `?marca=...&orden=precio-asc`) |
-| `/catalogo/perfumes-arabes`, `/catalogo/disenador`, `/catalogo/nicho`, `/catalogo/equivalencias` | Categorías |
-| `/producto/:slug` | Detalle |
-| `/favoritos` | Favoritos |
-| `/pedido` | Datos y resumen del pedido |
-| `/pedido/confirmacion` | Pedido registrado, pendiente de confirmación |
+| URL                                                                                              | Página                                                                 |
+| ------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------- |
+| `/`                                                                                              | Inicio                                                                 |
+| `/catalogo`                                                                                      | Todos los productos (filtros en la URL: `?marca=...&orden=precio-asc`) |
+| `/catalogo/perfumes-arabes`, `/catalogo/disenador`, `/catalogo/nicho`, `/catalogo/equivalencias` | Categorías                                                             |
+| `/producto/:slug`                                                                                | Detalle                                                                |
+| `/favoritos`                                                                                     | Favoritos                                                              |
+| `/pedido`                                                                                        | Datos y resumen del pedido                                             |
+| `/pedido/confirmacion`                                                                           | Pedido registrado, pendiente de confirmación                           |
 
 Los filtros se guardan en la URL para que un enlace compartido muestre los mismos resultados y el botón "atrás" funcione.
 
 ### API REST (Fase 5)
 
-| Método | Ruta | Notas |
-|---|---|---|
-| GET | `/api/health` | Estado del servicio y de la base de datos |
-| GET | `/api/products` | `?q, categoria, marca, precioMin, precioMax, tamano, familia, orden, pagina, porPagina` (máx. 48 por página). Solo productos publicados |
-| GET | `/api/products/:slug` | Detalle; 404 si no existe o no está publicado |
-| GET | `/api/categories` | |
-| GET | `/api/brands` | |
-| POST | `/api/orders` | Valida, recalcula y registra; devuelve número de pedido y resumen |
-| GET | `/api/orders/:number` | **No se implementa** hasta tener un mecanismo seguro (por ejemplo, un token secreto por pedido) |
+| Método | Ruta                  | Notas                                                                                                                                   |
+| ------ | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| GET    | `/api/health`         | Estado del servicio y de la base de datos                                                                                               |
+| GET    | `/api/products`       | `?q, categoria, marca, precioMin, precioMax, tamano, familia, orden, pagina, porPagina` (máx. 48 por página). Solo productos publicados |
+| GET    | `/api/products/:slug` | Detalle; 404 si no existe o no está publicado                                                                                           |
+| GET    | `/api/categories`     |                                                                                                                                         |
+| GET    | `/api/brands`         |                                                                                                                                         |
+| POST   | `/api/orders`         | Valida, recalcula y registra; devuelve número de pedido y resumen                                                                       |
+| GET    | `/api/orders/:number` | **No se implementa** hasta tener un mecanismo seguro (por ejemplo, un token secreto por pedido)                                         |
 
 ---
 
@@ -342,7 +343,7 @@ emirate-scents/
 
 ## 9. Riesgos y avisos
 
-1. **Equivalencias y marcas registradas.** Nombrar perfumes de otras marcas para vender equivalencias puede generar problemas de propiedad intelectual en Colombia. Propuesta: categoría propia "Equivalencias", sin logos ni fotos de las marcas originales, con un texto del tipo *"Perfil olfativo inspirado en…; no es un producto de esa marca ni está asociado a ella"*. **Te recomiendo validar la redacción con un asesor legal** antes de publicarlas.
+1. **Equivalencias y marcas registradas.** Nombrar perfumes de otras marcas para vender equivalencias puede generar problemas de propiedad intelectual en Colombia. Propuesta: categoría propia "Equivalencias", sin logos ni fotos de las marcas originales, con un texto del tipo _"Perfil olfativo inspirado en…; no es un producto de esa marca ni está asociado a ella"_. **Te recomiendo validar la redacción con un asesor legal** antes de publicarlas.
 2. **Datos personales.** El formulario pedirá solo nombre, teléfono, ciudad, dirección y observaciones, con una casilla de autorización y enlace a la política de datos (Ley 1581 de 2012).
 3. **Imágenes de terceros.** No usaré fotos oficiales de marcas descargadas de internet sin permiso. Hasta tener fotos propias o autorizadas se verá el marcador provisional.
 
