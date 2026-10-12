@@ -1,4 +1,4 @@
-import { motion, useMotionValueEvent, useScroll } from 'motion/react'
+import { m, useMotionValueEvent, useScroll } from 'motion/react'
 import { useState } from 'react'
 import { buildWhatsAppUrl, whatsappMessages } from '../../lib/whatsapp'
 import { WhatsAppIcon } from '../brand/BrandIcons'
@@ -13,7 +13,7 @@ export function WhatsAppFloatingButton() {
   useMotionValueEvent(scrollY, 'change', (y) => setIsVisible(y > 480))
 
   return (
-    <motion.a
+    <m.a
       href={buildWhatsAppUrl(whatsappMessages.general)}
       target="_blank"
       rel="noopener noreferrer"
@@ -27,6 +27,6 @@ export function WhatsAppFloatingButton() {
       className="fixed right-[max(1rem,env(safe-area-inset-right))] bottom-[max(1rem,env(safe-area-inset-bottom))] z-30 grid size-14 place-items-center rounded-full border border-gold-500/60 bg-ink-950 text-gold-300 shadow-lg shadow-black/30 transition-colors hover:bg-ink-900"
     >
       <WhatsAppIcon className="size-6" />
-    </motion.a>
+    </m.a>
   )
 }

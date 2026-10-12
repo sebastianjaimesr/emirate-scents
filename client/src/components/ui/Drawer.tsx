@@ -1,5 +1,5 @@
 import { X } from 'lucide-react'
-import { motion } from 'motion/react'
+import { m } from 'motion/react'
 import { useRef, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { useDialogBehavior } from '../../hooks/useDialogBehavior'
@@ -39,7 +39,7 @@ export function Drawer({
 
   return createPortal(
     <div className={cx('fixed inset-0 z-50', className)}>
-      <motion.div
+      <m.div
         aria-hidden="true"
         onClick={onClose}
         className="absolute inset-0 bg-ink-950/70 backdrop-blur-sm"
@@ -47,7 +47,7 @@ export function Drawer({
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       />
-      <motion.div
+      <m.div
         ref={panelRef}
         role="dialog"
         aria-modal="true"
@@ -92,7 +92,7 @@ export function Drawer({
             {footer}
           </div>
         )}
-      </motion.div>
+      </m.div>
     </div>,
     document.body,
   )

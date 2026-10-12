@@ -1,4 +1,4 @@
-import { motion } from 'motion/react'
+import { m } from 'motion/react'
 import { NavLink } from 'react-router'
 import { brand } from '../../config/brand'
 import { buildWhatsAppUrl, whatsappMessages } from '../../lib/whatsapp'
@@ -41,7 +41,7 @@ export function MobileMenu({ onClose }: { onClose: () => void }) {
       <nav aria-label="Principal" className="px-5 py-6">
         <ul className="space-y-1">
           {mainNavigation.map((item, index) => (
-            <motion.li
+            <m.li
               key={item.to}
               initial={{ opacity: 0, x: -16 }}
               animate={{ opacity: 1, x: 0 }}
@@ -57,7 +57,7 @@ export function MobileMenu({ onClose }: { onClose: () => void }) {
               >
                 {item.label}
               </NavLink>
-            </motion.li>
+            </m.li>
           ))}
         </ul>
         <ul className="mt-8 space-y-1 text-sm text-smoke-300">

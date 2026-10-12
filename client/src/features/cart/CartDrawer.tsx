@@ -1,5 +1,5 @@
 import { ShoppingBag } from 'lucide-react'
-import { AnimatePresence, motion } from 'motion/react'
+import { AnimatePresence, m } from 'motion/react'
 import { Link } from 'react-router'
 import { ButtonLink } from '../../components/ui/ButtonLink'
 import { Drawer } from '../../components/ui/Drawer'
@@ -71,7 +71,7 @@ function CartDrawerContent() {
         <ul className="divide-y divide-sand-300 px-5">
           <AnimatePresence initial={false}>
             {lines.map((line) => (
-              <motion.li
+              <m.li
                 key={line.product.id}
                 layout
                 initial={{ opacity: 0, x: 24 }}
@@ -81,7 +81,7 @@ function CartDrawerContent() {
                 className="overflow-hidden py-5"
               >
                 <CartLineItem line={line} onNavigate={closeDrawer} />
-              </motion.li>
+              </m.li>
             ))}
           </AnimatePresence>
         </ul>

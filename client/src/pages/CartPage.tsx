@@ -1,5 +1,5 @@
 import { ShoppingBag } from 'lucide-react'
-import { AnimatePresence, motion } from 'motion/react'
+import { AnimatePresence, m } from 'motion/react'
 import { ButtonLink } from '../components/ui/ButtonLink'
 import { Container } from '../components/ui/Container'
 import { EmptyState } from '../components/ui/EmptyState'
@@ -58,7 +58,7 @@ export function CartPage() {
               <ul className="divide-y divide-sand-300">
                 <AnimatePresence initial={false}>
                   {lines.map((line) => (
-                    <motion.li
+                    <m.li
                       key={line.product.id}
                       layout
                       exit={{ opacity: 0, height: 0, paddingBlock: 0 }}
@@ -66,7 +66,7 @@ export function CartPage() {
                       className="overflow-hidden py-6"
                     >
                       <CartLineItem line={line} />
-                    </motion.li>
+                    </m.li>
                   ))}
                 </AnimatePresence>
               </ul>

@@ -15,8 +15,8 @@ Tienda online de perfumería premium: perfumes árabes, de diseñador, de nicho 
 | 3    | Catálogo y productos                                                          | ✅             |
 | 4    | Favoritos, carrito e interacciones                                            | ✅             |
 | 5    | Backend (Express + PostgreSQL + Prisma) ([documento](docs/fase-5-backend.md)) | ✅             |
-| 6    | Pedidos y WhatsApp ([documento](docs/fase-6-pedidos.md))                      | 🔍 En revisión |
-| 7    | Pruebas, seguridad y optimización                                             | ⏳             |
+| 6    | Pedidos y WhatsApp ([documento](docs/fase-6-pedidos.md))                      | ✅             |
+| 7    | Pruebas, seguridad y optimización ([documento](docs/fase-7-calidad.md))       | 🔍 En revisión |
 | 8    | Preparación para producción                                                   | ⏳             |
 
 ## Requisitos (Windows + VS Code)
@@ -79,6 +79,7 @@ Arranca a la vez la API (<http://localhost:4000/api>) y la tienda (<http://local
 | `npm run build`      | Comprueba los tipos y genera las versiones optimizadas (`dist/`)   |
 | `npm run preview`    | Sirve la tienda optimizada (necesita la API en marcha)             |
 | `npm test`           | Ejecuta las pruebas automáticas de la tienda y de la API           |
+| `npm run test:e2e`   | Recorre la tienda en un navegador real (ver más abajo)             |
 | `npm run lint`       | Revisa errores comunes en el código                                |
 | `npm run typecheck`  | Revisa los tipos de TypeScript                                     |
 | `npm run format`     | Da formato a todo el código con Prettier                           |
@@ -86,12 +87,27 @@ Arranca a la vez la API (<http://localhost:4000/api>) y la tienda (<http://local
 | `npm run db:seed`    | Vuelve a cargar categorías y productos DEMO (no duplica)           |
 | `npm run db:studio`  | Abre Prisma Studio, un visor de la base de datos en el navegador   |
 
+### Pruebas en el navegador (e2e)
+
+Un navegador automático recorre la tienda como un cliente: busca, guarda favoritos, hace un pedido
+y revisa la accesibilidad de cada página, en tamaño escritorio y celular. Usa la base de datos de
+pruebas (`TEST_DATABASE_URL`), nunca la tuya.
+
+```powershell
+npx playwright install chromium   # solo la primera vez: descarga el navegador
+npm run build                     # las pruebas usan la versión optimizada
+npm run test:e2e
+npm run test:e2e:informe          # abre el informe con capturas si algo falló
+```
+
+No ejecutes `npm test` y `npm run test:e2e` a la vez: comparten la base de datos de pruebas.
+
 ## Tecnologías
 
 **Tienda:** React 19 · Vite · TypeScript (estricto) · Tailwind CSS v4 · Motion · React Router ·
 Zustand · Lucide.
 **API:** Node.js · Express 5 · Prisma 7 · PostgreSQL · Zod · helmet · pino.
-**Calidad:** Vitest · Supertest · Oxlint · Prettier. Las razones de cada elección están en el
+**Calidad:** Vitest · Supertest · Playwright · axe · Oxlint · Prettier. Las razones de cada elección están en el
 [documento de la Fase 1](docs/fase-1-analisis-y-arquitectura.md#5-tecnologías-y-por-qué).
 
 ## Estructura
@@ -139,6 +155,7 @@ emirate-scents/
 │   │   ├── app.ts               Configuración de Express (seguridad, CORS, límites)
 │   │   └── server.ts            Arranque
 │   └── tests/                   Pruebas de la API contra la base de datos de pruebas
+├── e2e/                         Pruebas en el navegador (Playwright)
 ├── docs/                        Documentación de cada fase
 └── package.json                 Scripts del proyecto (npm workspaces)
 ```

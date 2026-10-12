@@ -1,5 +1,5 @@
 import { Heart } from 'lucide-react'
-import { motion } from 'motion/react'
+import { m } from 'motion/react'
 import { cx } from '../../lib/cx'
 import { useFavoritesStore, useIsFavorite } from './favoritesStore'
 
@@ -36,7 +36,7 @@ export function FavoriteButton({
         className,
       )}
     >
-      <motion.span
+      <m.span
         key={String(isFavorite)}
         initial={isFavorite ? { scale: 0.6 } : false}
         animate={{ scale: 1 }}
@@ -48,7 +48,7 @@ export function FavoriteButton({
           className={cx('size-5', isFavorite ? 'fill-ruby-600 text-ruby-600' : '')}
           strokeWidth={1.5}
         />
-      </motion.span>
+      </m.span>
     </button>
   )
 }

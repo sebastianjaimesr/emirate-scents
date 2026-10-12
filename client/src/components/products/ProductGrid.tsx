@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from 'motion/react'
+import { AnimatePresence, m } from 'motion/react'
 import { cx } from '../../lib/cx'
 import type { Product } from '../../types/product'
 import { ProductCard, ProductCardSkeleton } from './ProductCard'
@@ -18,7 +18,7 @@ export function ProductGrid({ products, className, priorityCount = 0 }: ProductG
     <ul className={cx(gridClass, className)}>
       <AnimatePresence mode="popLayout" initial={false}>
         {products.map((product, index) => (
-          <motion.li
+          <m.li
             key={product.id}
             layout
             initial={{ opacity: 0, y: 16 }}
@@ -27,7 +27,7 @@ export function ProductGrid({ products, className, priorityCount = 0 }: ProductG
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           >
             <ProductCard product={product} priority={index < priorityCount} />
-          </motion.li>
+          </m.li>
         ))}
       </AnimatePresence>
     </ul>

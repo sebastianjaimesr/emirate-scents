@@ -11,6 +11,7 @@ export function NotFoundPage() {
       <Container>
         <EmptyState
           icon={<Compass className="size-8" strokeWidth={1.25} />}
+          headingLevel={1}
           title="Esta página no existe"
           description="Es posible que el enlace haya cambiado. Te invitamos a volver al inicio o explorar el catálogo."
           actions={

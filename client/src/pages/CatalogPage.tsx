@@ -86,6 +86,8 @@ export function CatalogPage() {
             />
 
             <div className="mt-8" aria-busy={results.isLoading}>
+              {/* Título para lectores de pantalla: ordena la jerarquía h1 → h2 → h3 (tarjetas) */}
+              <h2 className="sr-only">Productos</h2>
               {results.error ? (
                 <LoadError title="No pudimos cargar el catálogo" onRetry={results.retry} />
               ) : !page ? (

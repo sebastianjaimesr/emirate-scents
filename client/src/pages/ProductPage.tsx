@@ -102,7 +102,11 @@ export function ProductPage() {
   if (productRequest.error) {
     return (
       <Container>
-        <LoadError title="No pudimos cargar este producto" onRetry={productRequest.retry} />
+        <LoadError
+          title="No pudimos cargar este producto"
+          onRetry={productRequest.retry}
+          headingLevel={1}
+        />
       </Container>
     )
   }
