@@ -1,0 +1,70 @@
+@import 'tailwindcss';
+
+/*
+  Sistema visual de Emirate Scents.
+  Los colores salen del logo y están ajustados para cumplir contraste WCAG AA.
+  Tailwind v4 convierte cada variable de @theme en clases: --color-gold-500 → bg-gold-500, text-gold-500...
+*/
+@theme {
+  --color-ink-950: #0e0c0a; /* negro cálido: fondos oscuros */
+  --color-ink-900: #1a1612; /* carbón: paneles oscuros y texto sobre claro */
+  --color-ink-800: #2a241e;
+  --color-gold-300: #e3c77d; /* oro brillo: hover sobre negro */
+  --color-gold-500: #c9a54e; /* oro metálico: detalles y texto sobre negro */
+  --color-gold-700: #6f5420; /* oro profundo: texto dorado sobre crema */
+  --color-ivory-50: #f7f1e6; /* fondo claro principal */
+  --color-cream-100: #efe4d0; /* secciones claras alternas */
+  --color-sand-300: #d9c4a0; /* bordes en secciones claras */
+  --color-amber-600: #b8762e;
+  --color-oud-800: #4a3020; /* madera de oud: bloques editoriales */
+  --color-smoke-500: #5e554a; /* texto secundario sobre claro */
+  --color-smoke-300: #b8b0a2; /* texto secundario sobre oscuro */
+  --color-ruby-600: #8c1c2b; /* acento puntual (el rubí de la corona) */
+
+  --font-display: 'Cormorant Garamond', 'Times New Roman', serif;
+  --font-sans: 'Manrope Variable', 'Segoe UI', system-ui, sans-serif;
+
+  --tracking-label: 0.2em;
+  --ease-luxe: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-ivory-50 font-sans text-ink-900 antialiased;
+    /* Evita el desplazamiento horizontal accidental en móviles */
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-display font-medium text-balance;
+  }
+
+  ::selection {
+    @apply bg-gold-500 text-ink-950;
+  }
+
+  /* Foco visible y elegante para quien navega con teclado */
+  :focus-visible {
+    @apply rounded-sm outline-2 outline-offset-4 outline-gold-500;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+@layer components {
+  /* Etiqueta pequeña en mayúsculas espaciadas, eco del "S C E N T S" del logo */
+  .eyebrow {
+    @apply text-xs font-semibold tracking-label uppercase;
+  }
+}
