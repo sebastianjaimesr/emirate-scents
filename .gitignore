@@ -21,3 +21,4 @@ npm-debug.log*
 Thumbs.db
 e2e/informe/
 e2e/resultados/
+!.env.preview

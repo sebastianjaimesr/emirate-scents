@@ -3,4 +3,6 @@
 interface ImportMetaEnv {
   /** URL base de la API. Por defecto "/api" (Vite la redirige al servidor en desarrollo). */
   readonly VITE_API_URL?: string
+  /** "true" = vista previa sin servidor (GitHub Pages): productos DEMO incluidos y pedidos desactivados. */
+  readonly VITE_PREVIEW?: string
 }

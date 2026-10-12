@@ -41,12 +41,12 @@ export function Footer() {
             <h2 className="eyebrow font-sans text-gold-500">Ayuda</h2>
             <ul className="mt-5 space-y-1 text-sm">
               <li>
-                <a href="/#como-pedir" className={linkClass}>
+                <a href={`${import.meta.env.BASE_URL}#como-pedir`} className={linkClass}>
                   Cómo pedir
                 </a>
               </li>
               <li>
-                <a href="/#preguntas-frecuentes" className={linkClass}>
+                <a href={`${import.meta.env.BASE_URL}#preguntas-frecuentes`} className={linkClass}>
                   Preguntas frecuentes
                 </a>
               </li>

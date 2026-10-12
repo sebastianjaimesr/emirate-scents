@@ -105,6 +105,31 @@ npm run test:e2e:informe          # abre el informe con capturas si algo falló
 
 No ejecutes `npm test` y `npm run test:e2e` a la vez: comparten la base de datos de pruebas.
 
+## Vista previa en GitHub Pages
+
+Para mostrar la tienda sin servidor existe una **vista previa** en
+`https://sebastianjaimesr.github.io/emirate-scents/`:
+
+- muestra los productos DEMO, con los mismos filtros, búsqueda y orden que la API;
+- los pedidos están desactivados;
+- pide a Google no indexarla.
+
+Se publica sola con cada cambio en `main` (`.github/workflows/vista-previa-pages.yml`).
+
+Requisitos, una sola vez:
+
+1. que el repositorio sea público, o tener GitHub Pro;
+2. en **Settings → Pages → Source**, elegir **GitHub Actions**.
+
+Para probarla en tu computador:
+
+```powershell
+npm run build:preview --workspace client
+```
+
+La tienda completa, con pedidos reales, se publica como explica la
+[guía de producción](docs/fase-8-produccion.md).
+
 ## Tecnologías
 
 **Tienda:** React 19 · Vite · TypeScript (estricto) · Tailwind CSS v4 · Motion · React Router ·
