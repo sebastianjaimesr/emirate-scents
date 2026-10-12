@@ -1,3 +1,8 @@
 {
-  "recommendations": ["esbenp.prettier-vscode", "bradlc.vscode-tailwindcss", "oxc.oxc-vscode"]
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "bradlc.vscode-tailwindcss",
+    "oxc.oxc-vscode",
+    "Prisma.prisma"
+  ]
 }

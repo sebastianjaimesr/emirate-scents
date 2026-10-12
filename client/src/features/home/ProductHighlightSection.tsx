@@ -5,11 +5,7 @@ import { Container } from '../../components/ui/Container'
 import { SectionHeading } from '../../components/ui/SectionHeading'
 import { useAsyncData } from '../../hooks/useAsyncData'
 import { cx } from '../../lib/cx'
-import {
-  getHighlightedProducts,
-  hasDemoProducts,
-  type HighlightKind,
-} from '../../services/productService'
+import { getHighlightedProducts, type HighlightKind } from '../../services/productService'
 
 interface ProductHighlightSectionProps {
   kind: HighlightKind
@@ -56,7 +52,7 @@ export function ProductHighlightSection({
             />
           </ButtonLink>
         </div>
-        {hasDemoProducts && (
+        {products.some((product) => product.isDemo) && (
           <p className="mt-6 text-xs font-semibold tracking-[0.14em] text-ruby-600 uppercase">
             Productos de demostración: no están a la venta
           </p>

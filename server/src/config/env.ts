@@ -1,0 +1,38 @@
+import { z } from 'zod'
+
+/**
+ * Variables de entorno validadas al arrancar. Si falta alguna o tiene un formato
+ * incorrecto, el servidor no arranca y explica qué corregir, en lugar de fallar
+ * más tarde con un error difícil de entender.
+ */
+const envSchema = z.object({
+  NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
+  PORT: z.coerce.number().int().min(1).max(65535).default(4000),
+  DATABASE_URL: z
+    .string({ error: 'Falta DATABASE_URL (copia server/.env.example como server/.env)' })
+    .startsWith('postgresql://', 'DATABASE_URL debe empezar por postgresql://'),
+  CORS_ORIGIN: z
+    .string()
+    .default('http://localhost:5173')
+    .transform((value) =>
+      value
+        .split(',')
+        .map((origin) => origin.trim())
+        .filter(Boolean),
+    ),
+})
+
+export type Env = z.infer<typeof envSchema>
+
+function loadEnv(): Env {
+  const result = envSchema.safeParse(process.env)
+  if (!result.success) {
+    const problems = result.error.issues
+      .map((issue) => `  - ${issue.path.join('.')}: ${issue.message}`)
+      .join('\n')
+    throw new Error(`Configuración inválida en las variables de entorno:\n${problems}`)
+  }
+  return result.data
+}
+
+export const env = loadEnv()

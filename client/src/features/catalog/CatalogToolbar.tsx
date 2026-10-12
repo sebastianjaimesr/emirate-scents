@@ -4,7 +4,8 @@ import { sortOptions, type CatalogQuery, type SortOption } from './catalogQuery'
 
 interface CatalogToolbarProps {
   query: CatalogQuery
-  total: number | undefined
+  /** undefined = cargando; null = no se pudo cargar (no se muestra nada). */
+  total: number | null | undefined
   activeFilterCount: number
   onChange: (changes: Partial<CatalogQuery>) => void
   onOpenFilters: () => void
@@ -55,7 +56,11 @@ export function CatalogToolbar({
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p aria-live="polite" className="text-sm text-smoke-500">
-          {total === undefined ? 'Cargando…' : `${total} ${total === 1 ? 'producto' : 'productos'}`}
+          {total === undefined
+            ? 'Cargando…'
+            : total === null
+              ? ''
+              : `${total} ${total === 1 ? 'producto' : 'productos'}`}
         </p>
         <div className="flex items-center gap-2">
           <button

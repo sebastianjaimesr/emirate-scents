@@ -13,6 +13,7 @@ import { OlfactoryNotes } from '../features/product/OlfactoryNotes'
 import { ProductGallery } from '../features/product/ProductGallery'
 import { ProductPurchasePanel } from '../features/product/ProductPurchasePanel'
 import { useAsyncData } from '../hooks/useAsyncData'
+import { LoadError } from '../components/ui/LoadError'
 import { getProductBySlug, getRelatedProducts } from '../services/productService'
 import { audienceLabels, concentrationLabels, type Product } from '../types/product'
 import { NotFoundPage } from './NotFoundPage'
@@ -93,11 +94,18 @@ export function ProductPage() {
   const { slug = '' } = useParams()
   const productRequest = useAsyncData(`product:${slug}`, () => getProductBySlug(slug))
   const product = productRequest.data
-  const related = useAsyncData(`related:${product?.id ?? ''}`, () =>
+  const related = useAsyncData(`related:${product?.slug ?? ''}`, () =>
     product ? getRelatedProducts(product) : Promise.resolve([]),
   )
 
   if (productRequest.isLoading) return <ProductPageSkeleton />
+  if (productRequest.error) {
+    return (
+      <Container>
+        <LoadError title="No pudimos cargar este producto" onRetry={productRequest.retry} />
+      </Container>
+    )
+  }
   if (!product) return <NotFoundPage />
 
   const isEquivalence = product.categorySlug === 'equivalencias'

@@ -3,6 +3,7 @@ import { ProductGrid, ProductGridSkeleton } from '../components/products/Product
 import { ButtonLink } from '../components/ui/ButtonLink'
 import { Container } from '../components/ui/Container'
 import { EmptyState } from '../components/ui/EmptyState'
+import { LoadError } from '../components/ui/LoadError'
 import { PageHeader } from '../components/ui/PageHeader'
 import { PageMeta } from '../components/ui/PageMeta'
 import { useFavoritesStore } from '../features/favorites/favoritesStore'
@@ -36,6 +37,8 @@ export function FavoritesPage() {
             description="Toca el corazón de cualquier fragancia para guardarla aquí y encontrarla fácilmente después."
             actions={<ButtonLink to="/catalogo">Explorar catálogo</ButtonLink>}
           />
+        ) : products.error ? (
+          <LoadError title="No pudimos cargar tus favoritos" onRetry={products.retry} />
         ) : !products.data && !products.previousData ? (
           <ProductGridSkeleton count={Math.min(productIds.length, 8)} />
         ) : (

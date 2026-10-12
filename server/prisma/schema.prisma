@@ -1,0 +1,118 @@
+// Modelo de datos de Emirate Scents.
+// Cada cambio aquí se convierte en una migración versionada (prisma/migrations)
+// con `npm run db:migrate`. Ver docs/fase-5-backend.md.
+
+generator client {
+  provider            = "prisma-client"
+  output              = "../src/generated/prisma"
+  moduleFormat        = "esm"
+  importFileExtension = "js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Concentration {
+  EXTRAIT
+  PARFUM
+  EDP
+  EDT
+  EDC
+  ACEITE
+  OTRA
+}
+
+enum Audience {
+  FEMENINO
+  MASCULINO
+  UNISEX
+}
+
+/// Solo los productos PUBLICADO aparecen en la tienda.
+enum ProductStatus {
+  BORRADOR
+  PUBLICADO
+  ARCHIVADO
+}
+
+model Category {
+  id        String    @id @default(cuid())
+  slug      String    @unique
+  name      String
+  /// Orden en menús y listados.
+  position  Int       @default(0)
+  products  Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Brand {
+  id        String    @id @default(cuid())
+  slug      String    @unique
+  name      String
+  products  Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Product {
+  id                   String         @id @default(cuid())
+  /// Código de inventario. Prefijos: AR- árabes, DS- diseñador, NI- nicho, EQ- equivalencias.
+  sku                  String         @unique
+  /// Identificador legible para la URL: /producto/<slug>
+  slug                 String         @unique
+  name                 String
+  brandId              String
+  brand                Brand          @relation(fields: [brandId], references: [id], onDelete: Restrict)
+  categoryId           String
+  category             Category       @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  shortDescription     String
+  description          String
+  /// Pesos colombianos. Decimal, nunca Float, para no perder exactitud con el dinero.
+  price                Decimal        @db.Decimal(12, 2)
+  /// Precio anterior. Solo si el descuento es real.
+  compareAtPrice       Decimal?       @db.Decimal(12, 2)
+  sizeMl               Int?
+  concentration        Concentration?
+  olfactoryFamily      String?
+  notesTop             String[]       @default([])
+  notesHeart           String[]       @default([])
+  notesBase            String[]       @default([])
+  audience             Audience?
+  /// Solo equivalencias: perfil olfativo de referencia, nunca presentado como el original.
+  inspirationReference String?
+  stock                Int            @default(0)
+  status               ProductStatus  @default(BORRADOR)
+  isNew                Boolean        @default(false)
+  isFeatured           Boolean        @default(false)
+  /// Solo con datos de ventas reales.
+  isBestSeller         Boolean        @default(false)
+  /// true = producto ficticio de demostración que NO está a la venta.
+  isDemo               Boolean        @default(false)
+  /// Texto de búsqueda sin tildes ni mayúsculas (nombre, marca, familia y notas).
+  /// Lo calcula el servidor con buildSearchText() cada vez que guarda un producto.
+  searchText           String         @default("")
+  publishedAt          DateTime?
+  images               ProductImage[]
+  createdAt            DateTime       @default(now())
+  updatedAt            DateTime       @updatedAt
+
+  @@index([categoryId])
+  @@index([brandId])
+  @@index([status])
+  @@index([price])
+}
+
+model ProductImage {
+  id        String  @id @default(cuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  /// Ruta dentro de client/public, por ejemplo /images/products/AR-0001/1.webp
+  url       String
+  /// Texto alternativo descriptivo para lectores de pantalla.
+  alt       String
+  position  Int     @default(0)
+
+  @@index([productId, position])
+}

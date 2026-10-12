@@ -13,8 +13,8 @@ Tienda online de perfumería premium: perfumes árabes, de diseñador, de nicho 
 | 1    | Análisis y arquitectura ([documento](docs/fase-1-analisis-y-arquitectura.md)) | ✅             |
 | 2    | Identidad visual y página de inicio                                           | ✅             |
 | 3    | Catálogo y productos                                                          | ✅             |
-| 4    | Favoritos, carrito e interacciones                                            | 🔍 En revisión |
-| 5    | Backend (Express + PostgreSQL + Prisma)                                       | ⏳             |
+| 4    | Favoritos, carrito e interacciones                                            | ✅             |
+| 5    | Backend (Express + PostgreSQL + Prisma) ([documento](docs/fase-5-backend.md)) | 🔍 En revisión |
 | 6    | Pedidos y WhatsApp                                                            | ⏳             |
 | 7    | Pruebas, seguridad y optimización                                             | ⏳             |
 | 8    | Preparación para producción                                                   | ⏳             |
@@ -30,34 +30,68 @@ Tienda online de perfumería premium: perfumes árabes, de diseñador, de nicho 
 
    Cierra y vuelve a abrir PowerShell y comprueba con `node -v` y `git --version`.
 
-2. Al abrir la carpeta en VS Code, acepta instalar las **extensiones recomendadas**
-   (Prettier, Tailwind CSS IntelliSense y Oxc).
+2. **PostgreSQL 16 o superior** (la base de datos). Descarga el instalador oficial en
+   <https://www.postgresql.org/download/windows/>, acepta las opciones por defecto (puerto 5432) y
+   **apunta la contraseña** que elijas para el usuario `postgres`.
 
-## Instalación y ejecución
+3. Al abrir la carpeta en VS Code, acepta instalar las **extensiones recomendadas**
+   (Prettier, Tailwind CSS IntelliSense, Oxc y Prisma).
+
+## Instalación (solo la primera vez)
+
+1. Crea el usuario y las bases de datos. Abre **SQL Shell (psql)** desde el menú Inicio, pulsa
+   Enter en cada pregunta, escribe la contraseña de `postgres` y pega:
+
+   ```sql
+   CREATE USER emirate WITH PASSWORD 'emirate_dev' CREATEDB;
+   CREATE DATABASE emirate_scents OWNER emirate;
+   CREATE DATABASE emirate_scents_test OWNER emirate;
+   ```
+
+   `emirate_scents` es la de la tienda y `emirate_scents_test` la usan solo las pruebas.
+   Esta contraseña es solo para tu equipo; en producción (Fase 8) se usará otra.
+
+2. Descarga el proyecto y prepáralo, en la terminal de VS Code (PowerShell):
+
+   ```powershell
+   git clone https://github.com/sebastianjaimesr/emirate-scents.git
+   cd emirate-scents
+   Copy-Item server\.env.example server\.env
+   npm install
+   npm run db:migrate
+   npm run db:seed
+   ```
+
+   `db:migrate` crea las tablas y `db:seed` carga las categorías y los productos DEMO.
+
+## Uso diario
 
 ```powershell
-git clone https://github.com/sebastianjaimesr/emirate-scents.git
-cd emirate-scents
-npm install
 npm run dev
 ```
 
-Abre <http://localhost:5173> en el navegador.
+Arranca a la vez la API (<http://localhost:4000/api>) y la tienda (<http://localhost:5173>).
+Ábrela en el navegador. `Ctrl + C` detiene ambas.
 
-| Comando             | Qué hace                                                            |
-| ------------------- | ------------------------------------------------------------------- |
-| `npm run dev`       | Arranca la tienda en modo desarrollo (se recarga al guardar)        |
-| `npm run build`     | Comprueba los tipos y genera la versión optimizada en `client/dist` |
-| `npm run preview`   | Sirve la versión optimizada para probarla                           |
-| `npm test`          | Ejecuta las pruebas automáticas                                     |
-| `npm run lint`      | Revisa errores comunes en el código                                 |
-| `npm run typecheck` | Revisa los tipos de TypeScript                                      |
-| `npm run format`    | Da formato a todo el código con Prettier                            |
+| Comando              | Qué hace                                                           |
+| -------------------- | ------------------------------------------------------------------ |
+| `npm run dev`        | Arranca API y tienda en modo desarrollo (se recargan al guardar)   |
+| `npm run build`      | Comprueba los tipos y genera las versiones optimizadas (`dist/`)   |
+| `npm run preview`    | Sirve la tienda optimizada (necesita la API en marcha)             |
+| `npm test`           | Ejecuta las pruebas automáticas de la tienda y de la API           |
+| `npm run lint`       | Revisa errores comunes en el código                                |
+| `npm run typecheck`  | Revisa los tipos de TypeScript                                     |
+| `npm run format`     | Da formato a todo el código con Prettier                           |
+| `npm run db:migrate` | Aplica cambios del modelo de datos (`server/prisma/schema.prisma`) |
+| `npm run db:seed`    | Vuelve a cargar categorías y productos DEMO (no duplica)           |
+| `npm run db:studio`  | Abre Prisma Studio, un visor de la base de datos en el navegador   |
 
 ## Tecnologías
 
-React 19 · Vite · TypeScript (estricto) · Tailwind CSS v4 · Motion · React Router · Zustand ·
-Lucide · Vitest · Oxlint · Prettier. Las razones de cada elección están en el
+**Tienda:** React 19 · Vite · TypeScript (estricto) · Tailwind CSS v4 · Motion · React Router ·
+Zustand · Lucide.
+**API:** Node.js · Express 5 · Prisma 7 · PostgreSQL · Zod · helmet · pino.
+**Calidad:** Vitest · Supertest · Oxlint · Prettier. Las razones de cada elección están en el
 [documento de la Fase 1](docs/fase-1-analisis-y-arquitectura.md#5-tecnologías-y-por-qué).
 
 ## Estructura
@@ -75,8 +109,7 @@ emirate-scents/
 │       │   └── ui/              Botones, títulos, estados vacíos...
 │       ├── config/brand.ts      Datos oficiales: nombre, WhatsApp, Instagram, anuncios
 │       ├── content/home.ts      Textos editables de la página de inicio
-│       ├── data/categories.ts   Las cuatro categorías
-│       ├── data/demo/           Productos DEMO (ficticios, no están a la venta)
+│       ├── data/categories.ts   Textos de las cuatro categorías
 │       ├── features/cart/       Carrito: estado guardado, panel lateral y resumen (lógica con pruebas)
 │       ├── features/catalog/    Búsqueda, filtros, orden y paginación (lógica con pruebas)
 │       ├── features/favorites/  Favoritos guardados en este navegador
@@ -85,9 +118,26 @@ emirate-scents/
 │       ├── hooks/               Lógica reutilizable (paneles accesibles, carga de datos)
 │       ├── lib/                 Utilidades con pruebas (WhatsApp, precios COP, disponibilidad)
 │       ├── pages/               Una página por ruta
-│       ├── services/            Única puerta a los datos (hoy DEMO, en la Fase 5 la API)
+│       ├── services/            Única puerta a los datos: llama a la API
 │       ├── types/               Modelo de producto
 │       └── index.css            Paleta, tipografías y estilos base
+├── server/                      API (Express + Prisma)
+│   ├── prisma/
+│   │   ├── schema.prisma        Modelo de datos
+│   │   ├── migrations/          Historial de cambios de la base de datos
+│   │   ├── data/                Categorías reales y productos DEMO
+│   │   └── seed.ts              Carga esos datos en la base de datos
+│   ├── src/
+│   │   ├── config/env.ts        Variables de entorno validadas
+│   │   ├── routes/              URL → controlador
+│   │   ├── controllers/         Petición HTTP → servicio → JSON
+│   │   ├── validators/          Reglas de los parámetros (Zod)
+│   │   ├── services/            Consultas y reglas de negocio
+│   │   ├── middlewares/         Manejo de errores
+│   │   ├── lib/                 Conexión a la base de datos, registro, búsqueda
+│   │   ├── app.ts               Configuración de Express (seguridad, CORS, límites)
+│   │   └── server.ts            Arranque
+│   └── tests/                   Pruebas de la API contra la base de datos de pruebas
 ├── docs/                        Documentación de cada fase
 └── package.json                 Scripts del proyecto (npm workspaces)
 ```
@@ -103,4 +153,4 @@ pedidos desactivados. Para enviar los productos reales usa la
 - No se publican productos, precios, fotos, testimonios ni cifras inventadas. Los datos de ejemplo
   se marcan siempre como **DEMO**.
 - Las equivalencias se identifican como tales y nunca se presentan como perfumes originales.
-- El servidor (Fase 5) recalcula siempre precios y existencias; nunca confía en el navegador.
+- El servidor es la fuente de verdad de precios y existencias; nunca confía en el navegador.
