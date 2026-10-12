@@ -34,6 +34,8 @@ export function useCartDetails() {
     ...details,
     isLoading: !loadedProducts && !products.error && items.length > 0,
     loadError: !loadedProducts && products.error ? products.retry : undefined,
+    /** Vuelve a pedir precios y existencias (por ejemplo, si el servidor rechazó el pedido). */
+    refresh: products.retry,
     isEmpty: items.length === 0,
   }
 }

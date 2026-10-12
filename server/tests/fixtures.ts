@@ -79,6 +79,7 @@ export const fixtureProducts: FixtureProduct[] = [
 const brandNames = { 'marca-a': 'Marca A', 'marca-b': 'Marca B' }
 
 export async function resetCatalog() {
+  await prisma.order.deleteMany()
   await prisma.productImage.deleteMany()
   await prisma.product.deleteMany()
   await prisma.brand.deleteMany()

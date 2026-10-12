@@ -8,23 +8,49 @@ const API_URL = (import.meta.env.VITE_API_URL ?? '/api').replace(/\/$/, '')
 /** Tiempo máximo de espera de una petición antes de mostrar el error. */
 const TIMEOUT_MS = 10_000
 
+interface ErrorBody {
+  error?: { code?: string; message?: string; items?: unknown }
+}
+
 export class ApiError extends Error {
   /** Código HTTP de la respuesta; 0 si no hubo conexión. */
   readonly status: number
+  /** Código de error de la API (VALIDATION_ERROR, ITEMS_UNAVAILABLE...). */
+  readonly code?: string
+  /** Detalle adicional que envía la API (por ejemplo, qué productos no están disponibles). */
+  readonly items?: unknown
 
-  constructor(status: number, message: string) {
+  constructor(status: number, message: string, body?: ErrorBody | null) {
     super(message)
     this.name = 'ApiError'
     this.status = status
+    this.code = body?.error?.code
+    this.items = body?.error?.items
   }
 }
 
 type QueryValue = string | number | undefined
 
-export async function apiGet<T>(
-  path: string,
-  query?: Record<string, QueryValue> | URLSearchParams,
-) {
+async function request<T>(path: string, init: RequestInit) {
+  let response: Response
+  try {
+    response = await fetch(`${API_URL}${path}`, {
+      ...init,
+      headers: { Accept: 'application/json', ...init.headers },
+      signal: AbortSignal.timeout(TIMEOUT_MS),
+    })
+  } catch {
+    throw new ApiError(0, 'No hay conexión con el servidor')
+  }
+
+  if (!response.ok) {
+    const body = (await response.json().catch(() => null)) as ErrorBody | null
+    throw new ApiError(response.status, body?.error?.message ?? `Error ${response.status}`, body)
+  }
+  return (await response.json()) as T
+}
+
+export function apiGet<T>(path: string, query?: Record<string, QueryValue> | URLSearchParams) {
   const params =
     query instanceof URLSearchParams
       ? query
@@ -34,22 +60,13 @@ export async function apiGet<T>(
           ),
         )
   const search = params.size > 0 ? `?${params}` : ''
+  return request<T>(`${path}${search}`, { method: 'GET' })
+}
 
-  let response: Response
-  try {
-    response = await fetch(`${API_URL}${path}${search}`, {
-      headers: { Accept: 'application/json' },
-      signal: AbortSignal.timeout(TIMEOUT_MS),
-    })
-  } catch {
-    throw new ApiError(0, 'No hay conexión con el servidor')
-  }
-
-  if (!response.ok) {
-    const body = (await response.json().catch(() => null)) as {
-      error?: { message?: string }
-    } | null
-    throw new ApiError(response.status, body?.error?.message ?? `Error ${response.status}`)
-  }
-  return (await response.json()) as T
+export function apiPost<T>(path: string, body: unknown) {
+  return request<T>(path, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  })
 }

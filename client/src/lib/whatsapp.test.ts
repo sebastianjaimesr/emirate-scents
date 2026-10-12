@@ -1,8 +1,10 @@
 import { describe, expect, it } from 'vitest'
 import type { Product } from '../types/product'
 import { buildCartLines } from '../features/cart/cartItems'
+import type { OrderConfirmation } from '../types/order'
 import {
   buildCartInquiryMessage,
+  buildOrderMessage,
   buildProductInquiryMessage,
   buildWhatsAppUrl,
   whatsappMessages,
@@ -93,5 +95,50 @@ describe('buildCartInquiryMessage', () => {
     expect(message).toContain('Cantidad: 2 · Precio unitario: $ 285.000')
     expect(message).toContain('Subtotal estimado: $ 810.000')
     expect(message).toContain('Envío: pendiente de cotización')
+  })
+})
+
+describe('buildOrderMessage', () => {
+  const order: OrderConfirmation = {
+    orderNumber: 'ES-2026-000042',
+    status: 'PENDIENTE_CONFIRMACION',
+    createdAt: '2026-10-12T15:00:00.000Z',
+    paymentMethod: 'CONTRA_ENTREGA',
+    customer: { name: 'Ana Gómez', department: 'Antioquia', city: 'Medellín' },
+    items: [
+      {
+        productId: 'ar-0001',
+        name: 'Oud Nocturno',
+        brandName: 'Casa Prueba',
+        sku: 'AR-0001',
+        sizeMl: 100,
+        quantity: 2,
+        unitPrice: 285000,
+        lineTotal: 570000,
+      },
+    ],
+    subtotal: 570000,
+    shippingCost: null,
+    total: 570000,
+  }
+
+  it('incluye número de pedido, productos, totales del servidor, pago y entrega', () => {
+    const message = buildOrderMessage(order, {
+      address: 'Calle 10 # 20-30',
+      notes: 'Portería',
+    }).replace(/\s/g, ' ')
+    expect(message).toContain('pedido ES-2026-000042')
+    expect(message).toContain('• Oud Nocturno (Casa Prueba, 100 ml)')
+    expect(message).toContain('Ref. AR-0001 · Cantidad: 2 · $ 570.000')
+    expect(message).toContain('Envío: pendiente de cotización')
+    expect(message).toContain('Forma de pago: Pago contra entrega')
+    expect(message).toContain('Entrega: Calle 10 # 20-30, Medellín (Antioquia)')
+    expect(message).toContain('Observaciones: Portería')
+  })
+
+  it('se codifica bien en el enlace (el # de la dirección no corta el mensaje)', () => {
+    const url = buildWhatsAppUrl(buildOrderMessage(order, { address: 'Calle 10 # 20-30' }))
+    expect(new URL(url).searchParams.get('text')).toContain('Calle 10 # 20-30')
+    expect(url).not.toContain('Observaciones')
   })
 })

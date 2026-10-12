@@ -55,6 +55,11 @@ export function Footer() {
                   Favoritos
                 </Link>
               </li>
+              <li>
+                <Link to="/politica-de-datos" className={linkClass}>
+                  Tratamiento de datos
+                </Link>
+              </li>
             </ul>
           </nav>
 

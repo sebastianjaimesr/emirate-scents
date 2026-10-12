@@ -1,40 +1,52 @@
-import { Info } from 'lucide-react'
+import { ArrowRight, Info } from 'lucide-react'
+import { Link } from 'react-router'
 import { WhatsAppIcon } from '../../components/brand/BrandIcons'
 import { formatCOP } from '../../lib/formatCOP'
 import { buildCartInquiryMessage, buildWhatsAppUrl } from '../../lib/whatsapp'
-import type { CartLine } from './cartItems'
+import { getCartBlockingReason, type CartLine } from './cartItems'
+
+/** Subtotal, envío y total estimado. */
+export function CartTotals({ subtotal }: { subtotal: number }) {
+  return (
+    <dl className="space-y-2 text-sm">
+      <div className="flex justify-between">
+        <dt className="text-smoke-500">Subtotal</dt>
+        <dd className="font-semibold text-ink-950 tabular-nums">{formatCOP(subtotal)}</dd>
+      </div>
+      <div className="flex justify-between">
+        <dt className="text-smoke-500">Envío</dt>
+        <dd className="text-ink-900">Pendiente de cotización</dd>
+      </div>
+      <div className="flex justify-between border-t border-sand-300 pt-3 text-base">
+        <dt className="font-semibold text-ink-950">Total estimado</dt>
+        <dd className="font-semibold text-ink-950 tabular-nums">{formatCOP(subtotal)}</dd>
+      </div>
+    </dl>
+  )
+}
 
 interface CartSummaryProps {
   lines: CartLine[]
   subtotal: number
   hasDemoProducts: boolean
   hasSoldOut: boolean
+  /** Se llama al ir al formulario de pedido (por ejemplo, para cerrar el panel lateral). */
+  onCheckout?: () => void
 }
 
-/** Resumen del carrito y envío de la consulta por WhatsApp. */
-export function CartSummary({ lines, subtotal, hasDemoProducts, hasSoldOut }: CartSummaryProps) {
-  const blockingReason = hasDemoProducts
-    ? 'Tu carrito tiene productos DEMO, que no están a la venta. Retíralos para enviar un pedido real.'
-    : hasSoldOut
-      ? 'Retira los productos agotados para continuar.'
-      : null
+/** Resumen del carrito: botón para continuar con el pedido y consulta por WhatsApp. */
+export function CartSummary({
+  lines,
+  subtotal,
+  hasDemoProducts,
+  hasSoldOut,
+  onCheckout,
+}: CartSummaryProps) {
+  const blockingReason = getCartBlockingReason(hasDemoProducts, hasSoldOut)
 
   return (
     <div className="space-y-4">
-      <dl className="space-y-2 text-sm">
-        <div className="flex justify-between">
-          <dt className="text-smoke-500">Subtotal</dt>
-          <dd className="font-semibold text-ink-950 tabular-nums">{formatCOP(subtotal)}</dd>
-        </div>
-        <div className="flex justify-between">
-          <dt className="text-smoke-500">Envío</dt>
-          <dd className="text-ink-900">Pendiente de cotización</dd>
-        </div>
-        <div className="flex justify-between border-t border-sand-300 pt-3 text-base">
-          <dt className="font-semibold text-ink-950">Total estimado</dt>
-          <dd className="font-semibold text-ink-950 tabular-nums">{formatCOP(subtotal)}</dd>
-        </div>
-      </dl>
+      <CartTotals subtotal={subtotal} />
 
       {blockingReason ? (
         <>
@@ -49,19 +61,34 @@ export function CartSummary({ lines, subtotal, hasDemoProducts, hasSoldOut }: Ca
             disabled
             className="inline-flex min-h-14 w-full cursor-not-allowed items-center justify-center gap-3 bg-ink-900/10 text-sm font-semibold tracking-[0.08em] text-smoke-500 uppercase"
           >
-            <WhatsAppIcon className="size-5" />
-            Consultar por WhatsApp
+            Continuar con el pedido
           </button>
         </>
       ) : (
+        <Link
+          to="/pedido"
+          onClick={onCheckout}
+          className="group inline-flex min-h-14 w-full items-center justify-center gap-3 bg-ink-950 text-sm font-semibold tracking-[0.08em] text-gold-300 uppercase transition-colors hover:bg-ink-800"
+        >
+          Continuar con el pedido
+          <ArrowRight
+            aria-hidden="true"
+            className="size-4 transition-transform group-hover:translate-x-1"
+            strokeWidth={1.75}
+          />
+        </Link>
+      )}
+
+      {/* Los productos DEMO no existen: no tiene sentido consultarlos */}
+      {!hasDemoProducts && (
         <a
           href={buildWhatsAppUrl(buildCartInquiryMessage(lines, subtotal))}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex min-h-14 w-full items-center justify-center gap-3 bg-ink-950 text-sm font-semibold tracking-[0.08em] text-gold-300 uppercase transition-colors hover:bg-ink-800"
+          className="flex min-h-11 items-center justify-center gap-2 text-xs font-semibold tracking-[0.12em] text-gold-700 uppercase underline-offset-4 hover:underline"
         >
-          <WhatsAppIcon className="size-5" />
-          Consultar por WhatsApp
+          <WhatsAppIcon className="size-4" />
+          ¿Dudas? Consultar por WhatsApp
         </a>
       )}
 

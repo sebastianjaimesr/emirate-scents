@@ -28,6 +28,7 @@ function CartDrawerContent() {
               subtotal={subtotal}
               hasDemoProducts={hasDemoProducts}
               hasSoldOut={hasSoldOut}
+              onCheckout={closeDrawer}
             />
             <Link
               to="/carrito"
