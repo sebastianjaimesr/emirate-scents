@@ -10,7 +10,12 @@ import { cx } from '../../lib/cx'
 /** Accesos visuales a las cuatro categorías, enmarcados en arcos. */
 export function CategoriesSection() {
   return (
-    <section aria-labelledby="categorias-title" className="bg-ivory-50 py-24 sm:py-32">
+    <section
+      id="colecciones"
+      aria-labelledby="categorias-title"
+      // scroll-mt: al llegar desde el botón del hero, el título no queda debajo del header
+      className="scroll-mt-20 bg-ivory-50 py-24 sm:py-32"
+    >
       <Container>
         <SectionHeading
           id="categorias-title"

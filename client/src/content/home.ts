@@ -9,6 +9,9 @@ export const heroContent = {
   eyebrow: 'Perfumería árabe · Diseñador · Nicho',
   title: 'Fragancias que dejan huella',
   lead: 'Perfumes seleccionados para quienes entienden el aroma como una firma personal. Descubre la colección y pide con asesoría directa por WhatsApp.',
+  primaryCta: 'Explorar la colección',
+  secondaryCta: 'Descubrir perfumes',
+  advice: '¿Necesitas ayuda para elegir? Te asesoramos por WhatsApp',
 }
 
 export const manifestoContent = {
