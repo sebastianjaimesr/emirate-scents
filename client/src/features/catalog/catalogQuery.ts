@@ -1,9 +1,9 @@
 import type { Product } from '../../types/product'
 
 /*
-  Lógica pura del catálogo: leer filtros de la URL, aplicarlos y ordenar.
-  "Pura" significa que no depende de React ni del navegador, así que se puede
-  probar fácilmente y reutilizar en el servidor (Fase 5).
+  Lógica pura de los filtros del catálogo: leerlos de la URL y escribirlos de vuelta.
+  Filtrar, ordenar y paginar lo hace el servidor (server/src/services/catalogService.ts),
+  que recibe estos mismos parámetros.
 */
 
 export const sortOptions = [
@@ -45,24 +45,29 @@ export interface CatalogFacets {
   priceRange: { min: number; max: number } | null
 }
 
-/** Quita tildes y mayúsculas para que "ambar" encuentre "Ámbar". */
-export function normalizeText(text: string) {
-  return text.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim()
-}
+/** Límites que también aplica la API: así un enlace manipulado no provoca un error. */
+const MAX_LIST_ITEMS = 20
+const MAX_SEARCH_LENGTH = 100
+const MAX_PAGE = 10_000
+const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
 
 function parseList(value: string | null) {
   return value
-    ? value
-        .split(',')
-        .map((item) => item.trim())
-        .filter(Boolean)
+    ? [
+        ...new Set(
+          value
+            .split(',')
+            .map((item) => item.trim())
+            .filter(Boolean),
+        ),
+      ].slice(0, MAX_LIST_ITEMS)
     : []
 }
 
 function parsePositiveInt(value: string | null) {
   if (!value) return undefined
   const number = Number(value)
-  return Number.isInteger(number) && number >= 0 ? number : undefined
+  return Number.isInteger(number) && number >= 0 && number <= 1_000_000_000 ? number : undefined
 }
 
 function isSortOption(value: string | null): value is SortOption {
@@ -72,18 +77,24 @@ function isSortOption(value: string | null): value is SortOption {
 /** Convierte la URL (?marca=a,b&orden=precio-asc...) en un objeto de filtros validado. */
 export function parseCatalogQuery(params: URLSearchParams, category?: string): CatalogQuery {
   const sort = params.get('orden')
+  let minPrice = parsePositiveInt(params.get('precioMin'))
+  let maxPrice = parsePositiveInt(params.get('precioMax'))
+  // Un rango invertido (mínimo mayor que máximo) se corrige en lugar de dar error
+  if (minPrice !== undefined && maxPrice !== undefined && minPrice > maxPrice) {
+    ;[minPrice, maxPrice] = [maxPrice, minPrice]
+  }
   return {
-    search: params.get('q')?.trim() ?? '',
+    search: (params.get('q') ?? '').trim().slice(0, MAX_SEARCH_LENGTH),
     category,
-    brands: parseList(params.get('marca')),
+    brands: parseList(params.get('marca')).filter((brand) => slugPattern.test(brand)),
     sizes: parseList(params.get('tamano'))
       .map(Number)
-      .filter((size) => Number.isInteger(size) && size > 0),
-    families: parseList(params.get('familia')),
-    minPrice: parsePositiveInt(params.get('precioMin')),
-    maxPrice: parsePositiveInt(params.get('precioMax')),
+      .filter((size) => Number.isInteger(size) && size > 0 && size <= 10_000),
+    families: parseList(params.get('familia')).filter((family) => family.length <= 60),
+    minPrice,
+    maxPrice,
     sort: isSortOption(sort) ? sort : 'destacados',
-    page: Math.max(1, parsePositiveInt(params.get('pagina')) ?? 1),
+    page: Math.min(MAX_PAGE, Math.max(1, parsePositiveInt(params.get('pagina')) ?? 1)),
   }
 }
 
@@ -110,94 +121,4 @@ export function countActiveFilters(query: CatalogQuery) {
     (query.maxPrice !== undefined ? 1 : 0) +
     (query.search ? 1 : 0)
   )
-}
-
-function matchesSearch(product: Product, search: string) {
-  const term = normalizeText(search)
-  if (!term) return true
-  const haystack = normalizeText(
-    [
-      product.name,
-      product.brand.name,
-      product.olfactoryFamily ?? '',
-      ...(product.notes
-        ? [...product.notes.top, ...product.notes.heart, ...product.notes.base]
-        : []),
-    ].join(' '),
-  )
-  // Todas las palabras buscadas deben aparecer: "oud rosa" encuentra productos con ambas
-  return term.split(/\s+/).every((word) => haystack.includes(word))
-}
-
-const sorters: Record<SortOption, (a: Product, b: Product) => number> = {
-  destacados: (a, b) =>
-    Number(b.isFeatured ?? false) - Number(a.isFeatured ?? false) ||
-    b.publishedAt.localeCompare(a.publishedAt),
-  novedades: (a, b) => b.publishedAt.localeCompare(a.publishedAt),
-  'precio-asc': (a, b) => a.price - b.price,
-  'precio-desc': (a, b) => b.price - a.price,
-  nombre: (a, b) => a.name.localeCompare(b.name, 'es'),
-}
-
-/** Filtra, ordena y pagina una lista de productos según la consulta. */
-export function applyCatalogQuery(
-  products: Product[],
-  query: CatalogQuery,
-  pageSize = PAGE_SIZE,
-): CatalogPage {
-  const filtered = products
-    .filter((product) => !query.category || product.categorySlug === query.category)
-    .filter((product) => query.brands.length === 0 || query.brands.includes(product.brand.slug))
-    .filter(
-      (product) =>
-        query.sizes.length === 0 ||
-        (product.sizeMl !== undefined && query.sizes.includes(product.sizeMl)),
-    )
-    .filter(
-      (product) =>
-        query.families.length === 0 ||
-        (product.olfactoryFamily !== undefined && query.families.includes(product.olfactoryFamily)),
-    )
-    .filter((product) => query.minPrice === undefined || product.price >= query.minPrice)
-    .filter((product) => query.maxPrice === undefined || product.price <= query.maxPrice)
-    .filter((product) => matchesSearch(product, query.search))
-    .sort(sorters[query.sort])
-
-  const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize))
-  const page = Math.min(query.page, totalPages)
-  return {
-    items: filtered.slice((page - 1) * pageSize, page * pageSize),
-    total: filtered.length,
-    page,
-    totalPages,
-  }
-}
-
-/** Opciones disponibles para los filtros, calculadas a partir de los productos reales. */
-export function getCatalogFacets(products: Product[], category?: string): CatalogFacets {
-  const scope = products.filter((product) => !category || product.categorySlug === category)
-
-  const brands = new Map<string, { slug: string; name: string; count: number }>()
-  const sizes = new Map<number, number>()
-  const families = new Map<string, number>()
-
-  for (const product of scope) {
-    const brand = brands.get(product.brand.slug) ?? { ...product.brand, count: 0 }
-    brand.count += 1
-    brands.set(product.brand.slug, brand)
-    if (product.sizeMl !== undefined)
-      sizes.set(product.sizeMl, (sizes.get(product.sizeMl) ?? 0) + 1)
-    if (product.olfactoryFamily)
-      families.set(product.olfactoryFamily, (families.get(product.olfactoryFamily) ?? 0) + 1)
-  }
-
-  const prices = scope.map((product) => product.price)
-  return {
-    brands: [...brands.values()].sort((a, b) => a.name.localeCompare(b.name, 'es')),
-    sizes: [...sizes].map(([value, count]) => ({ value, count })).sort((a, b) => a.value - b.value),
-    families: [...families]
-      .map(([value, count]) => ({ value, count }))
-      .sort((a, b) => a.value.localeCompare(b.value, 'es')),
-    priceRange: prices.length ? { min: Math.min(...prices), max: Math.max(...prices) } : null,
-  }
 }

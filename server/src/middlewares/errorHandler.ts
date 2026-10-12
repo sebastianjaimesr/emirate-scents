@@ -1,0 +1,46 @@
+import type { ErrorRequestHandler, RequestHandler } from 'express'
+import { ZodError } from 'zod'
+import { HttpError } from '../lib/httpError.js'
+import { logger } from '../lib/logger.js'
+
+/** Rutas que no existen: siempre JSON, nunca la página HTML por defecto de Express. */
+export const notFoundHandler: RequestHandler = (_req, res) => {
+  res.status(404).json({ error: { code: 'NOT_FOUND', message: 'Ruta no encontrada' } })
+}
+
+/**
+ * Último paso de cualquier petición que falla. Los errores esperados (validación,
+ * no encontrado) se explican al cliente; los inesperados se registran completos
+ * en el servidor y al cliente solo le llega un mensaje genérico, sin detalles internos.
+ */
+export const errorHandler: ErrorRequestHandler = (error, req, res, _next) => {
+  if (error instanceof ZodError) {
+    res.status(400).json({
+      error: {
+        code: 'VALIDATION_ERROR',
+        message: 'Parámetros inválidos',
+        details: error.issues.map((issue) => ({
+          field: issue.path.join('.'),
+          message: issue.message,
+        })),
+      },
+    })
+    return
+  }
+
+  if (error instanceof HttpError) {
+    res.status(error.status).json({ error: { code: error.code, message: error.message } })
+    return
+  }
+
+  // JSON mal formado o cuerpo demasiado grande (lo detecta express.json)
+  if (error?.type === 'entity.parse.failed' || error?.type === 'entity.too.large') {
+    res.status(error.status ?? 400).json({
+      error: { code: 'BAD_REQUEST', message: 'Cuerpo de la petición inválido' },
+    })
+    return
+  }
+
+  logger.error({ err: error, url: req.originalUrl }, 'Error inesperado')
+  res.status(500).json({ error: { code: 'INTERNAL_ERROR', message: 'Error interno del servidor' } })
+}

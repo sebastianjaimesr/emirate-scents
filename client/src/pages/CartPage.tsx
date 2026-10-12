@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'motion/react'
 import { ButtonLink } from '../components/ui/ButtonLink'
 import { Container } from '../components/ui/Container'
 import { EmptyState } from '../components/ui/EmptyState'
+import { LoadError } from '../components/ui/LoadError'
 import { PageHeader } from '../components/ui/PageHeader'
 import { PageMeta } from '../components/ui/PageMeta'
 import { CartLineItem } from '../features/cart/CartLineItem'
@@ -12,7 +13,8 @@ import { useCartDetails } from '../features/cart/useCartDetails'
 
 export function CartPage() {
   const clear = useCartStore((state) => state.clear)
-  const { lines, subtotal, hasDemoProducts, hasSoldOut, isLoading, isEmpty } = useCartDetails()
+  const { lines, subtotal, hasDemoProducts, hasSoldOut, isLoading, loadError, isEmpty } =
+    useCartDetails()
 
   return (
     <>
@@ -25,6 +27,12 @@ export function CartPage() {
             title="Tu carrito está vacío"
             description="Cuando agregues fragancias, aquí verás el resumen de tu pedido antes de consultarlo por WhatsApp."
             actions={<ButtonLink to="/catalogo">Explorar catálogo</ButtonLink>}
+          />
+        ) : loadError ? (
+          <LoadError
+            title="No pudimos cargar tu carrito"
+            description="Tus productos siguen guardados en este navegador. Revisa tu conexión e intenta de nuevo."
+            onRetry={loadError}
           />
         ) : isLoading ? (
           <p role="status" className="py-20 text-center text-smoke-500">

@@ -1,5 +1,5 @@
 /**
- * Modelo de producto del frontend. Coincide con lo que devolverá la API en la Fase 5
+ * Modelo de producto del frontend. Coincide con lo que devuelve la API
  * (GET /api/products). Los campos opcionales solo se rellenan con información real:
  * si no se conoce un dato, se omite en lugar de inventarlo.
  */

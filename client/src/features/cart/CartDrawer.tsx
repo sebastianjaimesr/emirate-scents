@@ -10,7 +10,8 @@ import { useCartDetails } from './useCartDetails'
 
 function CartDrawerContent() {
   const closeDrawer = useCartStore((state) => state.closeDrawer)
-  const { lines, subtotal, hasDemoProducts, hasSoldOut, isLoading, isEmpty } = useCartDetails()
+  const { lines, subtotal, hasDemoProducts, hasSoldOut, isLoading, loadError, isEmpty } =
+    useCartDetails()
 
   return (
     <Drawer
@@ -19,7 +20,8 @@ function CartDrawerContent() {
       onClose={closeDrawer}
       footer={
         !isEmpty &&
-        !isLoading && (
+        !isLoading &&
+        !loadError && (
           <div className="space-y-3">
             <CartSummary
               lines={lines}
@@ -48,6 +50,17 @@ function CartDrawerContent() {
           <ButtonLink to="/catalogo" className="mt-8">
             Explorar catálogo
           </ButtonLink>
+        </div>
+      ) : loadError ? (
+        <div className="p-5 text-sm text-smoke-500" role="alert">
+          <p>No pudimos cargar tu carrito. Tus productos siguen guardados en este navegador.</p>
+          <button
+            type="button"
+            onClick={loadError}
+            className="mt-4 min-h-10 text-xs font-semibold tracking-[0.14em] text-gold-700 uppercase underline-offset-4 hover:underline"
+          >
+            Intentar de nuevo
+          </button>
         </div>
       ) : isLoading ? (
         <p className="p-5 text-sm text-smoke-500" role="status">

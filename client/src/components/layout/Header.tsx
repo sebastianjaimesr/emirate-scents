@@ -123,7 +123,11 @@ export function Header() {
           <button
             type="button"
             onClick={openCart}
-            aria-label={cartCount > 0 ? `Abrir carrito (${cartCount} productos)` : 'Abrir carrito'}
+            aria-label={
+              cartCount > 0
+                ? `Abrir carrito (${cartCount} ${cartCount === 1 ? 'producto' : 'productos'})`
+                : 'Abrir carrito'
+            }
             className={iconButton}
           >
             <ShoppingBag className="size-5" strokeWidth={1.5} />

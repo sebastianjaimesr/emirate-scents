@@ -1,14 +1,42 @@
 /**
  * ⚠️  DATOS DE DEMOSTRACIÓN — NO SON PRODUCTOS REALES NI ESTÁN A LA VENTA ⚠️
  *
- * Sirven solo para construir y probar el catálogo mientras llega la información real.
+ * Sirven solo para construir y probar la tienda mientras llega la información real.
  * Las marcas ("Casa DEMO ...") y los productos son ficticios, los precios son de ejemplo
  * y no hay fotografías. Todos llevan isDemo: true, y la tienda lo muestra con una
  * etiqueta "DEMO" y desactiva los pedidos.
  *
- * Cuando tengamos el catálogo real, este archivo se elimina (o se reemplaza por la API).
+ * La semilla (prisma/seed.ts) los carga en la base de datos. Cuando tengamos el catálogo
+ * real, se cargará con su propio script y estos productos se eliminarán.
  */
-import type { Brand, Product } from '../../types/product'
+
+export interface DemoBrand {
+  slug: string
+  name: string
+}
+
+export interface DemoProduct {
+  id: string
+  sku: string
+  slug: string
+  name: string
+  brand: DemoBrand
+  categorySlug: string
+  shortDescription: string
+  description: string
+  price: number
+  sizeMl?: number
+  concentration?: 'EXTRAIT' | 'PARFUM' | 'EDP' | 'EDT' | 'EDC' | 'ACEITE' | 'OTRA'
+  olfactoryFamily?: string
+  notes?: { top: string[]; heart: string[]; base: string[] }
+  audience?: 'FEMENINO' | 'MASCULINO' | 'UNISEX'
+  inspirationReference?: string
+  stock: number
+  isNew?: boolean
+  isFeatured?: boolean
+  isBestSeller?: boolean
+  publishedAt: string
+}
 
 const brands = {
   noor: { slug: 'casa-demo-noor', name: 'Casa DEMO Noor' },
@@ -17,25 +45,22 @@ const brands = {
   maison: { slug: 'maison-demo', name: 'Maison DEMO' },
   studio: { slug: 'studio-demo-niche', name: 'Studio DEMO Niche' },
   equivalencias: { slug: 'linea-demo-equivalencias', name: 'Línea DEMO Equivalencias' },
-} satisfies Record<string, Brand>
+} satisfies Record<string, DemoBrand>
 
-type DemoInput = Omit<Product, 'id' | 'isDemo' | 'images' | 'description'> & {
-  description?: string
-}
+type DemoInput = Omit<DemoProduct, 'id' | 'description'> & { description?: string }
 
-function demo(input: DemoInput): Product {
+function demo(input: DemoInput): DemoProduct {
   return {
     ...input,
+    // Mismo id que en las fases 3 y 4, para que los carritos guardados en el navegador sigan valiendo
     id: `demo-${input.sku.toLowerCase()}`,
     description:
       input.description ??
       `${input.shortDescription} Este es un producto de demostración creado para probar la tienda: no está a la venta y su información es ficticia.`,
-    images: [],
-    isDemo: true,
   }
 }
 
-export const demoProducts: Product[] = [
+export const demoProducts: DemoProduct[] = [
   // ── Perfumes árabes ─────────────────────────────────────────
   demo({
     sku: 'AR-0001',

@@ -9,6 +9,7 @@ import { ButtonLink } from '../components/ui/ButtonLink'
 import { Container } from '../components/ui/Container'
 import { Drawer } from '../components/ui/Drawer'
 import { EmptyState } from '../components/ui/EmptyState'
+import { LoadError } from '../components/ui/LoadError'
 import { PageHeader } from '../components/ui/PageHeader'
 import { PageMeta } from '../components/ui/PageMeta'
 import { findCategory } from '../data/categories'
@@ -20,7 +21,7 @@ import { Pagination } from '../features/catalog/Pagination'
 import { useCatalogQuery } from '../features/catalog/useCatalogQuery'
 import { useAsyncData } from '../hooks/useAsyncData'
 import { buildWhatsAppUrl, whatsappMessages } from '../lib/whatsapp'
-import { getCatalogFilters, getProducts, hasDemoProducts } from '../services/productService'
+import { getCatalogFilters, getProducts } from '../services/productService'
 import { NotFoundPage } from './NotFoundPage'
 
 export function CatalogPage() {
@@ -40,6 +41,7 @@ export function CatalogPage() {
   const page = results.data ?? results.previousData
   const activeFilterCount = countActiveFilters(query)
   const title = category?.name ?? 'Catálogo'
+  const hasDemoProducts = page?.items.some((product) => product.isDemo) ?? false
 
   function goToPage(pageNumber: number) {
     updateQuery({ page: pageNumber })
@@ -71,7 +73,7 @@ export function CatalogPage() {
             <CatalogToolbar
               key={query.search}
               query={query}
-              total={page?.total}
+              total={results.error ? null : page?.total}
               activeFilterCount={activeFilterCount}
               onChange={updateQuery}
               onOpenFilters={() => setIsFiltersOpen(true)}
@@ -85,16 +87,7 @@ export function CatalogPage() {
 
             <div className="mt-8" aria-busy={results.isLoading}>
               {results.error ? (
-                <EmptyState
-                  icon={<SearchX className="size-8" strokeWidth={1.25} />}
-                  title="No pudimos cargar el catálogo"
-                  description="Revisa tu conexión e intenta de nuevo. Si el problema continúa, escríbenos por WhatsApp."
-                  actions={
-                    <ButtonLink to={buildWhatsAppUrl(whatsappMessages.general)}>
-                      Escribir por WhatsApp
-                    </ButtonLink>
-                  }
-                />
+                <LoadError title="No pudimos cargar el catálogo" onRetry={results.retry} />
               ) : !page ? (
                 <ProductGridSkeleton />
               ) : page.total === 0 ? (

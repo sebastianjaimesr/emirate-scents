@@ -1,7 +1,8 @@
 /**
- * Las cuatro categorías principales de la tienda.
- * Por ahora viven aquí; en la Fase 5 vendrán de la API (GET /api/categories)
- * y este archivo dejará de ser necesario.
+ * Las cuatro categorías principales de la tienda y sus textos de presentación.
+ * Los productos de cada categoría vienen de la API; los textos y colores de esta lista
+ * son contenido editorial de la tienda. El slug debe coincidir con la tabla Category
+ * de la base de datos (server/prisma/data/categories.ts).
  */
 export interface Category {
   slug: string
