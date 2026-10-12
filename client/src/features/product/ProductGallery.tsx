@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from 'motion/react'
+import { AnimatePresence, m } from 'motion/react'
 import { useState } from 'react'
 import { ProductImage } from '../../components/products/ProductImage'
 import { cx } from '../../lib/cx'
@@ -13,7 +13,7 @@ export function ProductGallery({ product }: { product: Product }) {
     <div className="space-y-3">
       <div className="relative aspect-[4/5] overflow-hidden bg-cream-100">
         <AnimatePresence mode="wait" initial={false}>
-          <motion.div
+          <m.div
             key={activeIndex}
             className="size-full"
             initial={{ opacity: 0 }}
@@ -27,7 +27,7 @@ export function ProductGallery({ product }: { product: Product }) {
               priority
               sizes="(min-width: 1024px) 50vw, 100vw"
             />
-          </motion.div>
+          </m.div>
         </AnimatePresence>
       </div>
 

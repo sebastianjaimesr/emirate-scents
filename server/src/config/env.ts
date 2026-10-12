@@ -11,6 +11,9 @@ const envSchema = z.object({
   DATABASE_URL: z
     .string({ error: 'Falta DATABASE_URL (copia server/.env.example como server/.env)' })
     .startsWith('postgresql://', 'DATABASE_URL debe empezar por postgresql://'),
+  // Cuántos proxies hay delante de la API en producción (el hosting suele poner 1).
+  // Con 0, la API ignora la cabecera X-Forwarded-For, que cualquiera podría falsificar.
+  TRUST_PROXY: z.coerce.number().int().min(0).max(5).default(0),
   CORS_ORIGIN: z
     .string()
     .default('http://localhost:5173')

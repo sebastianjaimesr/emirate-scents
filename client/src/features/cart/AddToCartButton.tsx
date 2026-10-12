@@ -1,5 +1,5 @@
 import { Check, ShoppingBag } from 'lucide-react'
-import { AnimatePresence, motion } from 'motion/react'
+import { AnimatePresence, m } from 'motion/react'
 import { useState } from 'react'
 import type { Product } from '../../types/product'
 import { useCartStore } from './cartStore'
@@ -26,7 +26,7 @@ export function AddToCartButton({ product, quantity }: { product: Product; quant
       className="inline-flex min-h-14 w-full items-center justify-center gap-3 bg-gold-500 px-7 text-sm font-semibold tracking-[0.08em] text-ink-950 uppercase transition-colors hover:bg-gold-300 disabled:cursor-not-allowed disabled:bg-ink-900/10 disabled:text-smoke-500"
     >
       <AnimatePresence mode="wait" initial={false}>
-        <motion.span
+        <m.span
           key={justAdded ? 'added' : 'idle'}
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
@@ -44,7 +44,7 @@ export function AddToCartButton({ product, quantity }: { product: Product; quant
               {isSoldOut ? 'Agotado' : 'Agregar al carrito'}
             </>
           )}
-        </motion.span>
+        </m.span>
       </AnimatePresence>
     </button>
   )

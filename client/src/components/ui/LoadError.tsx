@@ -8,6 +8,8 @@ interface LoadErrorProps {
   title: string
   description?: string
   onRetry: () => void
+  /** 1 cuando el error ocupa toda la página (ver EmptyState). */
+  headingLevel?: 1 | 2
 }
 
 /** Error al cargar datos del servidor: explica qué pasó y ofrece reintentar o escribir por WhatsApp. */
@@ -15,11 +17,13 @@ export function LoadError({
   title,
   description = 'Revisa tu conexión e intenta de nuevo. Si el problema continúa, escríbenos por WhatsApp.',
   onRetry,
+  headingLevel,
 }: LoadErrorProps) {
   return (
     <EmptyState
       icon={<CloudOff className="size-8" strokeWidth={1.25} />}
       title={title}
+      headingLevel={headingLevel}
       description={description}
       actions={
         <>

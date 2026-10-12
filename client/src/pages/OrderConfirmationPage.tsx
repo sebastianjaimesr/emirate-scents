@@ -22,6 +22,7 @@ export function OrderConfirmationPage() {
         <PageMeta title="Pedido" description="Confirmación de pedido en Emirate Scents." />
         <EmptyState
           icon={<Receipt className="size-8" strokeWidth={1.25} />}
+          headingLevel={1}
           title="No hay un pedido reciente"
           description="No encontramos un pedido registrado en esta pestaña. Si ya enviaste uno, escríbenos por WhatsApp con tu número de pedido."
           actions={<ButtonLink to="/catalogo">Explorar catálogo</ButtonLink>}

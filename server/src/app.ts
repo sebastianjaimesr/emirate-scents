@@ -18,6 +18,9 @@ z.config(z.locales.es())
  */
 export function createApp() {
   const app = express()
+  // Detrás del proxy del hosting, la IP real del cliente llega en X-Forwarded-For.
+  // Sin esto, el límite anti-abuso trataría a todos los clientes como uno solo.
+  app.set('trust proxy', env.TRUST_PROXY)
 
   // Cabeceras HTTP de seguridad (y oculta "X-Powered-By: Express")
   app.use(helmet())

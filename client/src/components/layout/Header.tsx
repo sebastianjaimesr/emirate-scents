@@ -1,5 +1,5 @@
 import { Heart, Menu, Search, ShoppingBag } from 'lucide-react'
-import { AnimatePresence, motion } from 'motion/react'
+import { AnimatePresence, m } from 'motion/react'
 import { useCallback, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router'
 import { countItems } from '../../features/cart/cartItems'
@@ -17,7 +17,7 @@ import { mainNavigation } from './navigation'
 function CountBadge({ count }: { count: number }) {
   if (count === 0) return null
   return (
-    <motion.span
+    <m.span
       key={count}
       aria-hidden="true"
       initial={{ scale: 0.5 }}
@@ -26,7 +26,7 @@ function CountBadge({ count }: { count: number }) {
       className="absolute top-1 right-0.5 grid h-4.5 min-w-4.5 place-items-center rounded-full bg-gold-500 px-1 text-[0.6rem] font-bold text-ink-950 tabular-nums"
     >
       {count > 99 ? '99+' : count}
-    </motion.span>
+    </m.span>
   )
 }
 

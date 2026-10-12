@@ -1,5 +1,5 @@
 import { Search, X } from 'lucide-react'
-import { motion } from 'motion/react'
+import { m } from 'motion/react'
 import { useRef, useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router'
 import { useDialogBehavior } from '../../hooks/useDialogBehavior'
@@ -20,7 +20,7 @@ export function SearchPanel({ onClose }: { onClose: () => void }) {
   }
 
   return (
-    <motion.div
+    <m.div
       ref={panelRef}
       role="search"
       initial={{ opacity: 0, y: -8 }}
@@ -58,6 +58,6 @@ export function SearchPanel({ onClose }: { onClose: () => void }) {
           </button>
         </form>
       </Container>
-    </motion.div>
+    </m.div>
   )
 }

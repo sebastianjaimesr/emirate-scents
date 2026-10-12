@@ -1,4 +1,4 @@
-import { motion } from 'motion/react'
+import { m } from 'motion/react'
 import type { ReactNode } from 'react'
 
 interface RevealProps {
@@ -15,7 +15,7 @@ interface RevealProps {
  * elimina el desplazamiento y deja solo el fundido.
  */
 export function Reveal({ children, className, delay = 0, as = 'div' }: RevealProps) {
-  const Component = motion[as]
+  const Component = m[as]
   return (
     <Component
       className={className}
