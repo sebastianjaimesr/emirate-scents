@@ -16,7 +16,7 @@ const variants: Record<Variant, string> = {
 
 interface ButtonLinkProps {
   children: ReactNode
-  /** Ruta interna (/catalogo) o enlace externo (https://...). */
+  /** Ruta interna (/catalogo), ancla en la misma página (#seccion) o enlace externo (https://...). */
   to: string
   variant?: Variant
   className?: string
@@ -36,6 +36,15 @@ export function ButtonLink({ children, to, variant = 'primary', className }: But
   if (/^https?:\/\//.test(to)) {
     return (
       <a href={to} target="_blank" rel="noopener noreferrer" className={classes}>
+        {children}
+      </a>
+    )
+  }
+
+  // Un ancla (#colecciones) es un salto dentro de la misma página: no cambia de ruta
+  if (to.startsWith('#')) {
+    return (
+      <a href={to} className={classes}>
         {children}
       </a>
     )
