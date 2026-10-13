@@ -77,6 +77,7 @@ export function toMovementDto(movement: MovementRecord) {
     stockAfter: movement.stockAfter,
     reason: movement.reason,
     adminName: movement.admin?.name ?? null,
+    orderId: movement.orderId,
     orderNumber: movement.order?.number ?? null,
     createdAt: movement.createdAt.toISOString(),
   }

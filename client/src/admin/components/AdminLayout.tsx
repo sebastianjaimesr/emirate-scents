@@ -1,4 +1,14 @@
-import { Boxes, ExternalLink, LayoutDashboard, LogOut, Menu, Package, Tags, X } from 'lucide-react'
+import {
+  Boxes,
+  ExternalLink,
+  LayoutDashboard,
+  LogOut,
+  Menu,
+  Package,
+  ReceiptText,
+  Tags,
+  X,
+} from 'lucide-react'
 import { useState, type ReactNode } from 'react'
 import { NavLink, useLocation } from 'react-router'
 import { Wordmark } from '../../components/brand/Wordmark'
@@ -8,6 +18,7 @@ import { useAdminSession, type AdminUser } from '../session'
 
 const navigation = [
   { to: '/admin', label: 'Resumen', icon: LayoutDashboard, end: true },
+  { to: '/admin/pedidos', label: 'Pedidos', icon: ReceiptText, end: false },
   { to: '/admin/productos', label: 'Productos', icon: Package, end: false },
   { to: '/admin/inventario', label: 'Inventario', icon: Boxes, end: false },
   { to: '/admin/catalogo', label: 'Categorías y marcas', icon: Tags, end: false },
@@ -33,7 +44,7 @@ export function AdminLayout({ admin, children }: { admin: AdminUser; children: R
   }
 
   return (
-    <div className="min-h-svh bg-[#f4efe6] lg:grid lg:grid-cols-[16rem_1fr]">
+    <div className="min-h-svh bg-[#f4efe6] lg:grid lg:grid-cols-[16rem_minmax(0,1fr)]">
       <a
         href="#panel-contenido"
         className="sr-only z-50 bg-gold-500 px-4 py-3 text-sm font-semibold text-ink-950 focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
@@ -117,7 +128,7 @@ export function AdminLayout({ admin, children }: { admin: AdminUser; children: R
       <main
         id="panel-contenido"
         tabIndex={-1}
-        className="mx-auto w-full max-w-6xl px-4 py-6 focus:outline-none sm:px-6 lg:px-10 lg:py-10"
+        className="mx-auto w-full max-w-6xl min-w-0 px-4 py-6 focus:outline-none sm:px-6 lg:px-10 lg:py-10"
       >
         {children}
       </main>

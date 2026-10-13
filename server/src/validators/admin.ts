@@ -213,3 +213,37 @@ export type UpdateProductInput = z.infer<typeof updateProductSchema>
 export type AdminProductsQuery = z.infer<typeof adminProductsQuerySchema>
 export type InventoryMovementInput = z.infer<typeof inventoryMovementSchema>
 export type MovementsQuery = z.infer<typeof movementsQuerySchema>
+export type OrdersQuery = z.infer<typeof ordersQuerySchema>
+
+// ── Pedidos ────────────────────────────────────────────────────────────────────────────
+
+const orderStatuses = [
+  'PENDIENTE_CONFIRMACION',
+  'CONFIRMADO',
+  'EN_PREPARACION',
+  'ENVIADO',
+  'ENTREGADO',
+  'CANCELADO',
+] as const
+
+export const ordersQuerySchema = z.object({
+  q: z.string().trim().max(100).default(''),
+  estado: z.enum(orderStatuses).optional(),
+  pagina: z.coerce.number().int().min(1).max(10_000).default(1),
+  porPagina: z.coerce.number().int().min(1).max(100).default(25),
+})
+
+export const orderStatusChangeSchema = z
+  .object({
+    status: z.enum(orderStatuses, 'Elige un estado'),
+    note: singleLine(0, 300).default(''),
+  })
+  .strict()
+  .refine((value) => value.status !== 'CANCELADO' || value.note.length >= 3, {
+    path: ['note'],
+    message: 'Escribe el motivo de la cancelación',
+  })
+
+export const orderShippingSchema = z
+  .object({ shippingCost: pesos.max(5_000_000, 'Costo de envío demasiado alto').nullable() })
+  .strict()

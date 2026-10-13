@@ -5,7 +5,7 @@ import { adminApi, errorMessage } from '../adminApi'
 import { MovementsTable } from '../components/MovementsTable'
 import { Alert, Badge, Button, Loading, PageTitle, Panel } from '../components/ui'
 import { formatDateTime } from '../format'
-import { orderStatusLabels, type Dashboard } from '../types'
+import { orderStatusLabels, orderStatusTone, type Dashboard } from '../types'
 
 /**
  * Resumen del negocio. Todas las cifras vienen de la base de datos en el momento de abrir la
@@ -94,11 +94,28 @@ export function DashboardPage() {
           )}
         </Panel>
 
-        <Panel title="Pedidos recientes">
+        <Panel
+          title="Pedidos recientes"
+          actions={
+            <Link to="/admin/pedidos" className="text-sm font-semibold hover:underline">
+              Ver todos
+            </Link>
+          }
+        >
           <p className="mb-3 text-sm text-smoke-500">
             Confirmados en los últimos 30 días: <strong>{orders.confirmedLast30Days.count}</strong>{' '}
-            ({formatCOP(orders.confirmedLast30Days.total)}). La gestión de pedidos llega en la
-            próxima fase.
+            ({formatCOP(orders.confirmedLast30Days.total)}).
+            {orders.pendingCount > 0 && (
+              <>
+                {' '}
+                <Link
+                  to="/admin/pedidos?estado=PENDIENTE_CONFIRMACION"
+                  className="font-semibold text-ink-950 hover:underline"
+                >
+                  Ver los {orders.pendingCount} por confirmar
+                </Link>
+              </>
+            )}
           </p>
           {orders.recent.length === 0 ? (
             <p className="text-sm text-smoke-500">Todavía no hay pedidos.</p>
@@ -110,14 +127,19 @@ export function DashboardPage() {
                   className="flex flex-wrap items-center justify-between gap-2 py-2"
                 >
                   <div className="text-sm">
-                    <span className="font-mono text-xs">{order.orderNumber}</span> ·{' '}
-                    {order.customerName}, {order.city}
+                    <Link
+                      to={`/admin/pedidos/${order.id}`}
+                      className="font-mono text-xs font-semibold hover:underline"
+                    >
+                      {order.orderNumber}
+                    </Link>{' '}
+                    · {order.customerName}, {order.city}
                     <span className="block text-xs text-smoke-500">
                       {formatDateTime(order.createdAt)}
                     </span>
                   </div>
                   <div className="text-right text-sm">
-                    <Badge tone={order.status === 'PENDIENTE_CONFIRMACION' ? 'warning' : 'neutral'}>
+                    <Badge tone={orderStatusTone[order.status]}>
                       {orderStatusLabels[order.status]}
                     </Badge>
                     <span className="mt-1 block">{formatCOP(order.total)}</span>

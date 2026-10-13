@@ -158,4 +158,74 @@ test.describe('gestión', () => {
     await form.getByRole('button', { name: 'Registrar ajuste' }).click()
     await expect(form.getByRole('alert')).toContainText('No hay suficientes unidades')
   })
+
+  test('un pedido de la tienda: buscarlo, fijar el envío, confirmarlo y cancelarlo', async ({
+    page,
+  }) => {
+    // Un cliente pide 2 unidades de Oud Rosa desde la tienda (misma API que el formulario)
+    const created = await page.request.post('/api/orders', {
+      data: {
+        customer: {
+          name: 'Cliente Prueba E2E',
+          phone: '3001234567',
+          department: 'Antioquia',
+          city: 'Medellín',
+          address: 'Calle 1 # 2-3',
+          notes: '',
+        },
+        paymentMethod: 'CONTRA_ENTREGA',
+        items: [{ productId: 'p2', quantity: 2 }],
+        dataConsent: true,
+      },
+    })
+    expect(created.status()).toBe(201)
+    const { orderNumber } = (await created.json()) as { orderNumber: string }
+
+    await login(page)
+    await page.getByRole('link', { name: 'Pedidos', exact: true }).click()
+    await page.getByLabel('Buscar por número, cliente, celular o ciudad').fill(orderNumber)
+    await page.getByRole('button', { name: 'Buscar' }).click()
+    await expect(page.getByRole('link', { name: orderNumber })).toBeVisible()
+    // Las pestañas de estados se desplazan dentro del panel: la página no se sale de la pantalla
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(
+      page.viewportSize()!.width,
+    )
+    await page.getByRole('link', { name: orderNumber }).click()
+
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(`Pedido ${orderNumber}`)
+    await expect(page.getByText('Pendiente de confirmar').first()).toBeVisible()
+    await expect(page.getByTestId('order-total')).toHaveText(/600\.000/)
+
+    // Envío: el total se recalcula en el servidor
+    await page.getByLabel('Valor en pesos').fill('12.000')
+    await page.getByRole('button', { name: 'Guardar envío' }).click()
+    await expect(page.getByText('Costo de envío guardado.')).toBeVisible()
+    await expect(page.getByTestId('order-total')).toHaveText(/612\.000/)
+
+    // Confirmar descuenta las existencias y lo deja en el historial
+    await page.getByRole('button', { name: 'Confirmar pedido' }).click()
+    const dialog = page.getByRole('dialog')
+    await expect(dialog).toContainText('Se descuentan del inventario 2 unidad(es)')
+    await dialog.getByLabel('Nota (opcional)').fill('Confirmado por WhatsApp')
+    await dialog.getByRole('button', { name: 'Confirmar pedido' }).click()
+    await expect(page.getByText('Pedido confirmado.')).toBeVisible()
+    const movements = page.getByRole('table').last()
+    await expect(movements.getByRole('row').nth(1)).toContainText('Venta')
+    await expect(movements.getByRole('row').nth(1)).toContainText('−2')
+    await expect(page.getByText('Confirmado por WhatsApp')).toBeVisible()
+
+    // Cancelar exige motivo y devuelve las unidades
+    await page.getByRole('button', { name: 'Cancelar pedido' }).click()
+    await expect(dialog).toContainText('Las 2 unidad(es) vuelven al inventario')
+    await dialog.getByRole('button', { name: 'Cancelar pedido' }).click()
+    await expect(dialog.getByText('Escribe el motivo de la cancelación')).toBeVisible()
+    await dialog.getByLabel('Motivo de la cancelación').fill('El cliente desistió')
+    await dialog.getByRole('button', { name: 'Cancelar pedido' }).click()
+    await expect(page.getByText('Pedido cancelado.')).toBeVisible()
+    await expect(movements.getByRole('row').nth(2)).toContainText('Devolución')
+    await expect(movements.getByRole('row').nth(2)).toContainText('+2')
+    // Cancelado es final: ya no hay botones de estado ni se puede cambiar el envío
+    await expect(page.getByText('ya no cambia de estado')).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Guardar envío' })).toHaveCount(0)
+  })
 })

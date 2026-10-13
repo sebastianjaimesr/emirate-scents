@@ -7,6 +7,8 @@ import { CatalogSettingsPage } from './pages/CatalogSettingsPage'
 import { DashboardPage } from './pages/DashboardPage'
 import { InventoryPage } from './pages/InventoryPage'
 import { LoginPage } from './pages/LoginPage'
+import { OrderDetailPage } from './pages/OrderDetailPage'
+import { OrdersPage } from './pages/OrdersPage'
 import { ProductEditPage } from './pages/ProductEditPage'
 import { ProductsPage } from './pages/ProductsPage'
 import { useAdminSession, type AdminUser } from './session'
@@ -44,6 +46,8 @@ export function AdminApp() {
         <AdminLayout admin={state.admin}>
           <Routes>
             <Route index element={<DashboardPage />} />
+            <Route path="pedidos" element={<OrdersPage />} />
+            <Route path="pedidos/:id" element={<OrderDetailPage />} />
             <Route path="productos" element={<ProductsPage />} />
             <Route path="productos/nuevo" element={<ProductEditPage />} />
             <Route path="productos/:id" element={<ProductEditPage />} />

@@ -1,5 +1,7 @@
 /* Tipos de lo que devuelve la API del panel (server/src/services/admin). */
 
+import type { PaymentMethod } from '../types/order'
+
 export type ProductStatus = 'BORRADOR' | 'PUBLICADO' | 'ARCHIVADO'
 export type MovementType = 'ENTRADA' | 'AJUSTE' | 'VENTA' | 'DEVOLUCION'
 export type OrderStatus =
@@ -66,6 +68,7 @@ export interface Movement {
   stockAfter: number
   reason: string
   adminName: string | null
+  orderId: string | null
   orderNumber: number | null
   createdAt: string
 }
@@ -110,6 +113,71 @@ export interface Dashboard {
   recentMovements: Movement[]
 }
 
+export interface OrderSummary {
+  id: string
+  orderNumber: string
+  status: OrderStatus
+  customerName: string
+  customerPhone: string
+  city: string
+  department: string
+  paymentMethod: PaymentMethod
+  units: number
+  subtotal: number
+  shippingCost: number | null
+  total: number
+  createdAt: string
+}
+
+export interface OrdersPage extends Page<OrderSummary> {
+  countsByStatus: Partial<Record<OrderStatus, number>>
+}
+
+export interface AdminOrder {
+  id: string
+  orderNumber: string
+  status: OrderStatus
+  allowedTransitions: OrderStatus[]
+  shippingEditable: boolean
+  customer: {
+    name: string
+    phone: string
+    department: string
+    city: string
+    address: string
+    notes: string | null
+  }
+  paymentMethod: PaymentMethod
+  items: {
+    id: string
+    name: string
+    brandName: string
+    sku: string
+    sizeMl: number | null
+    unitPrice: number
+    quantity: number
+    lineTotal: number
+    product: { id: string; sku: string; name: string; stock: number; status: ProductStatus } | null
+  }[]
+  subtotal: number
+  shippingCost: number | null
+  total: number
+  stockDeductedAt: string | null
+  dataConsentAt: string
+  privacyPolicyVersion: string
+  history: {
+    id: string
+    fromStatus: OrderStatus
+    toStatus: OrderStatus
+    note: string | null
+    adminName: string | null
+    createdAt: string
+  }[]
+  movements: Movement[]
+  createdAt: string
+  updatedAt: string
+}
+
 export const statusLabels: Record<ProductStatus, string> = {
   BORRADOR: 'Borrador',
   PUBLICADO: 'Publicado',
@@ -131,3 +199,12 @@ export const orderStatusLabels: Record<OrderStatus, string> = {
   ENTREGADO: 'Entregado',
   CANCELADO: 'Cancelado',
 }
+
+export const orderStatusTone = {
+  PENDIENTE_CONFIRMACION: 'warning',
+  CONFIRMADO: 'info',
+  EN_PREPARACION: 'info',
+  ENVIADO: 'info',
+  ENTREGADO: 'success',
+  CANCELADO: 'neutral',
+} as const satisfies Record<OrderStatus, string>
