@@ -1,11 +1,12 @@
-import { LazyMotion, MotionConfig } from 'motion/react'
-import { Outlet, ScrollRestoration } from 'react-router'
+import { LazyMotion, m, MotionConfig } from 'motion/react'
+import { Outlet, ScrollRestoration, useMatches } from 'react-router'
 import { ArchClipDefs } from '../components/brand/Arch'
 import { AnnouncementBar } from '../components/layout/AnnouncementBar'
 import { Footer } from '../components/layout/Footer'
 import { Header } from '../components/layout/Header'
 import { WhatsAppFloatingButton } from '../components/layout/WhatsAppFloatingButton'
 import { CartDrawer } from '../features/cart/CartDrawer'
+import { CartFlightLayer } from '../features/cart/CartFlight'
 
 /**
  * Estructura común a todas las páginas.
@@ -17,6 +18,11 @@ import { CartDrawer } from '../features/cart/CartDrawer'
 const loadMotionFeatures = () => import('../lib/motionFeatures').then((module) => module.default)
 
 export function RootLayout() {
+  // Cada tipo de página (inicio, catálogo, ficha...) entra con un fundido suave. Se usa el id de
+  // la ruta y no la dirección: cambiar de categoría o de filtros no repite la transición.
+  const matches = useMatches()
+  const routeId = matches.at(-1)?.id
+
   return (
     <LazyMotion features={loadMotionFeatures} strict>
       <MotionConfig reducedMotion="user">
@@ -30,11 +36,19 @@ export function RootLayout() {
         <AnnouncementBar />
         <Header />
         <main id="contenido" tabIndex={-1} className="focus:outline-none">
-          <Outlet />
+          <m.div
+            key={routeId}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <Outlet />
+          </m.div>
         </main>
         <Footer />
         <WhatsAppFloatingButton />
         <CartDrawer />
+        <CartFlightLayer />
         <ScrollRestoration />
       </MotionConfig>
     </LazyMotion>

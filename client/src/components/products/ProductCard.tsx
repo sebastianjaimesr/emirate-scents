@@ -4,6 +4,8 @@ import { concentrationLabels, type Product } from '../../types/product'
 import { Price } from './Price'
 import { ProductBadges } from './ProductBadges'
 import { ProductImage } from './ProductImage'
+import { TiltFrame } from './TiltFrame'
+import { useTilt } from './useTilt'
 
 /** Tarjeta de producto para cuadrículas del catálogo y de la página de inicio. */
 export function ProductCard({
@@ -19,20 +21,27 @@ export function ProductCard({
   ]
     .filter(Boolean)
     .join(' · ')
+  const tilt = useTilt()
 
   return (
-    <article className="group relative flex h-full flex-col">
-      <div className="relative aspect-[4/5] overflow-hidden">
-        <div className="size-full transition-transform duration-700 ease-luxe group-hover:scale-[1.04]">
-          <ProductImage
-            image={product.images[0]}
-            fallbackLabel={product.name}
-            priority={priority}
-            sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
-          />
-        </div>
-        <ProductBadges product={product} className="absolute top-3 left-3" />
-        {/* z-10: por encima del enlace que cubre toda la tarjeta */}
+    <article
+      {...tilt.handlers}
+      className="group relative flex h-full flex-col transition-transform duration-500 ease-luxe hover:-translate-y-1"
+    >
+      <div className="relative">
+        <TiltFrame tilt={tilt} className="aspect-[4/5]">
+          <div className="size-full transition-transform duration-700 ease-luxe group-hover:scale-[1.04]">
+            <ProductImage
+              image={product.images[0]}
+              fallbackLabel={product.name}
+              priority={priority}
+              sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
+            />
+          </div>
+          <ProductBadges product={product} className="absolute top-3 left-3" />
+        </TiltFrame>
+        {/* Fuera del marco inclinado (su transform crearía un contexto de apilamiento propio) y
+            con z-10, para quedar por encima del enlace que cubre toda la tarjeta */}
         <FavoriteButton
           productId={product.id}
           productName={product.name}

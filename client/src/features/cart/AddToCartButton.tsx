@@ -1,21 +1,31 @@
 import { Check, ShoppingBag } from 'lucide-react'
-import { AnimatePresence, m } from 'motion/react'
-import { useState } from 'react'
+import { AnimatePresence, m, useReducedMotion } from 'motion/react'
+import { useState, type MouseEvent } from 'react'
 import type { Product } from '../../types/product'
+import { FLIGHT_SECONDS, flyToCart } from './cartFlight'
 import { useCartStore } from './cartStore'
 
-/** Agrega el producto al carrito, muestra una confirmación breve y abre el panel. */
+/**
+ * Agrega el producto al carrito, muestra una confirmación breve, lo hace volar hasta el icono
+ * del carrito y abre el panel.
+ */
 export function AddToCartButton({ product, quantity }: { product: Product; quantity: number }) {
   const addItem = useCartStore((state) => state.addItem)
   const openDrawer = useCartStore((state) => state.openDrawer)
   const [justAdded, setJustAdded] = useState(false)
+  const prefersReducedMotion = useReducedMotion()
   const isSoldOut = product.stock <= 0
 
-  function handleClick() {
+  function handleClick(event: MouseEvent<HTMLButtonElement>) {
     addItem(product.id, quantity, product.stock)
     setJustAdded(true)
     window.setTimeout(() => setJustAdded(false), 1600)
-    openDrawer()
+    // Primero el producto "vuela" al icono del carrito; al llegar, se abre el panel
+    if (!prefersReducedMotion && flyToCart(event.currentTarget)) {
+      window.setTimeout(openDrawer, FLIGHT_SECONDS * 1000)
+    } else {
+      openDrawer()
+    }
   }
 
   return (
