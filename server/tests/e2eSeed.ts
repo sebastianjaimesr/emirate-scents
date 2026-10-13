@@ -4,6 +4,7 @@
  * con DATABASE_URL apuntando a TEST_DATABASE_URL.
  */
 import { prisma } from '../src/lib/prisma.js'
+import { hashPassword } from '../src/lib/password.js'
 import { buildSearchText } from '../src/lib/text.js'
 import { resetCatalog } from './fixtures.js'
 
@@ -27,6 +28,15 @@ await prisma.product.create({
     stock: 5,
     searchText: buildSearchText({ name: 'Muestra DEMO', brandName: 'Marca A' }),
     publishedAt: new Date('2026-06-01'),
+  },
+})
+
+// Administrador SOLO de la base de datos de pruebas (mismos datos que e2e/admin.spec.ts)
+await prisma.adminUser.create({
+  data: {
+    email: 'admin@e2e.test',
+    name: 'Admin E2E',
+    passwordHash: await hashPassword('clave de pruebas e2e'),
   },
 })
 

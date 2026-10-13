@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router'
+import { createBrowserRouter, type RouteObject } from 'react-router'
 import { CartPage } from '../pages/CartPage'
 import { FavoritesPage } from '../pages/FavoritesPage'
 import { HomePage } from '../pages/HomePage'
@@ -10,8 +10,25 @@ import { RootLayout } from './RootLayout'
  * El catálogo, el detalle de producto y el pedido se cargan bajo demanda (`lazy`): su código
  * solo se descarga cuando el visitante entra en ellos, y la página de inicio carga más rápido.
  */
+/**
+ * El panel administrativo solo existe donde la tienda y la API comparten dominio (Railway o tu
+ * computador). En GitHub Pages (vista previa, o tienda con VITE_API_URL hacia otro dominio) se
+ * excluye: Vite elimina este bloque al compilar y el código del panel ni siquiera se publica.
+ */
+const ADMIN_ENABLED = import.meta.env.VITE_PREVIEW !== 'true' && !import.meta.env.VITE_API_URL
+
+const adminRoutes: RouteObject[] = ADMIN_ENABLED
+  ? [
+      {
+        path: '/admin/*',
+        lazy: async () => ({ Component: (await import('../admin/AdminApp')).AdminApp }),
+      },
+    ]
+  : []
+
 export const router = createBrowserRouter(
   [
+    ...adminRoutes,
     {
       path: '/',
       Component: RootLayout,

@@ -4,10 +4,10 @@ import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 import { defineConfig, type Plugin } from 'vite'
 
-// En desarrollo y en `npm run preview`, las peticiones a /api se redirigen al servidor
-// Express (server/, puerto 4000). Así la tienda y la API parecen el mismo sitio y no hace
-// falta configurar CORS en local.
-const apiProxy = { '/api': 'http://localhost:4000' }
+// En desarrollo y en `npm run preview`, las peticiones a /api y las fotos subidas desde el
+// panel (/uploads) se redirigen al servidor Express (server/, puerto 4000). Así la tienda y la
+// API parecen el mismo sitio y no hace falta configurar CORS en local.
+const apiProxy = { '/api': 'http://localhost:4000', '/uploads': 'http://localhost:4000' }
 
 /**
  * Ajustes de la vista previa de GitHub Pages (`npm run build:preview`):

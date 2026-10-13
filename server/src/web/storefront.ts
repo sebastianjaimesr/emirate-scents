@@ -38,8 +38,12 @@ export function storefront(distDir = clientDistDir): Router {
     }),
   )
   // (Excepto /api y /assets: un archivo que ya no existe debe dar 404, no la página)
-  router.get(/^(?!\/(api|assets)(\/|$)).*/, (_req, res) => {
+  router.get(/^(?!\/(api|assets)(\/|$)).*/, (req, res) => {
     res.setHeader('Cache-Control', 'no-cache')
+    // El panel nunca debe aparecer en buscadores
+    if (req.path === '/admin' || req.path.startsWith('/admin/')) {
+      res.setHeader('X-Robots-Tag', 'noindex, nofollow')
+    }
     res.sendFile(indexHtml)
   })
   return router
