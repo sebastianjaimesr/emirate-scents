@@ -57,47 +57,51 @@ model Brand {
 }
 
 model Product {
-  id                   String         @id @default(cuid())
+  id                   String              @id @default(cuid())
   /// Código de inventario. Prefijos: AR- árabes, DS- diseñador, NI- nicho, EQ- equivalencias.
-  sku                  String         @unique
+  sku                  String              @unique
   /// Identificador legible para la URL: /producto/<slug>
-  slug                 String         @unique
+  slug                 String              @unique
   name                 String
   brandId              String
-  brand                Brand          @relation(fields: [brandId], references: [id], onDelete: Restrict)
+  brand                Brand               @relation(fields: [brandId], references: [id], onDelete: Restrict)
   categoryId           String
-  category             Category       @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  category             Category            @relation(fields: [categoryId], references: [id], onDelete: Restrict)
   shortDescription     String
   description          String
   /// Pesos colombianos. Decimal, nunca Float, para no perder exactitud con el dinero.
-  price                Decimal        @db.Decimal(12, 2)
+  price                Decimal             @db.Decimal(12, 2)
   /// Precio anterior. Solo si el descuento es real.
-  compareAtPrice       Decimal?       @db.Decimal(12, 2)
+  compareAtPrice       Decimal?            @db.Decimal(12, 2)
   sizeMl               Int?
   concentration        Concentration?
   olfactoryFamily      String?
-  notesTop             String[]       @default([])
-  notesHeart           String[]       @default([])
-  notesBase            String[]       @default([])
+  notesTop             String[]            @default([])
+  notesHeart           String[]            @default([])
+  notesBase            String[]            @default([])
   audience             Audience?
   /// Solo equivalencias: perfil olfativo de referencia, nunca presentado como el original.
   inspirationReference String?
-  stock                Int            @default(0)
-  status               ProductStatus  @default(BORRADOR)
-  isNew                Boolean        @default(false)
-  isFeatured           Boolean        @default(false)
+  /// Solo cambia con un movimiento de inventario (InventoryMovement), nunca directamente.
+  stock                Int                 @default(0)
+  /// Con estas unidades o menos, el panel avisa de "stock bajo".
+  lowStockThreshold    Int                 @default(2)
+  status               ProductStatus       @default(BORRADOR)
+  isNew                Boolean             @default(false)
+  isFeatured           Boolean             @default(false)
   /// Solo con datos de ventas reales.
-  isBestSeller         Boolean        @default(false)
+  isBestSeller         Boolean             @default(false)
   /// true = producto ficticio de demostración que NO está a la venta.
-  isDemo               Boolean        @default(false)
+  isDemo               Boolean             @default(false)
   /// Texto de búsqueda sin tildes ni mayúsculas (nombre, marca, familia y notas).
   /// Lo calcula el servidor con buildSearchText() cada vez que guarda un producto.
-  searchText           String         @default("")
+  searchText           String              @default("")
   publishedAt          DateTime?
   images               ProductImage[]
   orderItems           OrderItem[]
-  createdAt            DateTime       @default(now())
-  updatedAt            DateTime       @updatedAt
+  inventoryMovements   InventoryMovement[]
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @updatedAt
 
   @@index([categoryId])
   @@index([brandId])
@@ -106,14 +110,21 @@ model Product {
 }
 
 model ProductImage {
-  id        String  @id @default(cuid())
-  productId String
-  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-  /// Ruta dentro de client/public, por ejemplo /images/products/AR-0001/1.webp
-  url       String
+  id         String   @id @default(cuid())
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  /// Dirección de la imagen principal (la más grande). Las fotos subidas desde el panel viven
+  /// en el almacenamiento de imágenes; las antiguas, en client/public (/images/products/...).
+  url        String
+  /// Carpeta de la foto dentro del almacenamiento (null = foto antigua en client/public).
+  storageKey String?
+  /// Anchos disponibles en píxeles (cada uno es <storageKey>/<ancho>.webp).
+  widths     Int[]    @default([])
   /// Texto alternativo descriptivo para lectores de pantalla.
-  alt       String
-  position  Int     @default(0)
+  alt        String
+  /// 0 = foto principal; el resto es el orden de la galería.
+  position   Int      @default(0)
+  createdAt  DateTime @default(now())
 
   @@index([productId, position])
 }
@@ -122,6 +133,7 @@ model ProductImage {
 enum OrderStatus {
   PENDIENTE_CONFIRMACION
   CONFIRMADO
+  EN_PREPARACION
   ENVIADO
   ENTREGADO
   CANCELADO
@@ -134,10 +146,10 @@ enum PaymentMethod {
 }
 
 model Order {
-  id                   String        @id @default(cuid())
+  id                   String              @id @default(cuid())
   /// Consecutivo que forma el número visible del pedido: ES-2026-000123.
-  number               Int           @unique @default(autoincrement())
-  status               OrderStatus   @default(PENDIENTE_CONFIRMACION)
+  number               Int                 @unique @default(autoincrement())
+  status               OrderStatus         @default(PENDIENTE_CONFIRMACION)
   customerName         String
   /// Celular colombiano normalizado a 10 dígitos (3001234567).
   customerPhone        String
@@ -147,17 +159,21 @@ model Order {
   notes                String?
   paymentMethod        PaymentMethod
   /// Calculado por el servidor con los precios de la base de datos, nunca los del navegador.
-  subtotal             Decimal       @db.Decimal(12, 2)
+  subtotal             Decimal             @db.Decimal(12, 2)
   /// Vacío = "pendiente de cotización".
-  shippingCost         Decimal?      @db.Decimal(12, 2)
-  total                Decimal       @db.Decimal(12, 2)
+  shippingCost         Decimal?            @db.Decimal(12, 2)
+  total                Decimal             @db.Decimal(12, 2)
   /// Fecha en que el cliente autorizó el tratamiento de sus datos (Ley 1581 de 2012).
   dataConsentAt        DateTime
   /// Versión de la política de datos que aceptó.
   privacyPolicyVersion String
+  /// Cuándo se descontaron las existencias (al confirmar). Evita descontar dos veces.
+  stockDeductedAt      DateTime?
   items                OrderItem[]
-  createdAt            DateTime      @default(now())
-  updatedAt            DateTime      @updatedAt
+  statusChanges        OrderStatusChange[]
+  inventoryMovements   InventoryMovement[]
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @updatedAt
 
   @@index([status, createdAt])
 }
@@ -180,4 +196,88 @@ model OrderItem {
 
   @@index([orderId])
   @@index([productId])
+}
+
+/// Historial de estados de cada pedido: quién lo cambió, cuándo y por qué.
+model OrderStatusChange {
+  id         String      @id @default(cuid())
+  orderId    String
+  order      Order       @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  fromStatus OrderStatus
+  toStatus   OrderStatus
+  note       String?
+  adminId    String?
+  admin      AdminUser?  @relation(fields: [adminId], references: [id], onDelete: SetNull)
+  createdAt  DateTime    @default(now())
+
+  @@index([orderId, createdAt])
+  @@index([createdAt])
+}
+
+enum InventoryMovementType {
+  /// Llegada de mercancía.
+  ENTRADA
+  /// Corrección (conteo físico, daño, pérdida...). Puede sumar o restar.
+  AJUSTE
+  /// Unidades que salen al confirmar un pedido.
+  VENTA
+  /// Unidades que vuelven al cancelar un pedido ya descontado.
+  DEVOLUCION
+}
+
+/// Historial de existencias. Solo se añaden filas: PostgreSQL impide editarlas o borrarlas
+/// (ver la migración "panel_admin"). Un error se corrige con un AJUSTE nuevo.
+model InventoryMovement {
+  id         String                @id @default(cuid())
+  productId  String
+  product    Product               @relation(fields: [productId], references: [id], onDelete: Restrict)
+  type       InventoryMovementType
+  /// Unidades: positivo suma, negativo resta. Nunca 0.
+  quantity   Int
+  /// Existencias del producto justo después de este movimiento.
+  stockAfter Int
+  reason     String
+  orderId    String?
+  order      Order?                @relation(fields: [orderId], references: [id], onDelete: Restrict)
+  adminId    String?
+  /// Restrict: un administrador con movimientos no se borra (se desactiva con isActive).
+  admin      AdminUser?            @relation(fields: [adminId], references: [id], onDelete: Restrict)
+  createdAt  DateTime              @default(now())
+
+  @@index([productId, createdAt])
+  @@index([createdAt])
+}
+
+/// Personas con acceso al panel. Se crean con `npm run admin:crear`, nunca desde el código.
+model AdminUser {
+  id                 String              @id @default(cuid())
+  /// Siempre en minúsculas.
+  email              String              @unique
+  name               String
+  /// Argon2id. La contraseña nunca se guarda.
+  passwordHash       String
+  isActive           Boolean             @default(true)
+  lastLoginAt        DateTime?
+  sessions           AdminSession[]
+  inventoryMovements InventoryMovement[]
+  orderStatusChanges OrderStatusChange[]
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+}
+
+/// Sesión abierta del panel. La cookie lleva un código aleatorio; aquí solo se guarda su huella
+/// (SHA-256), así que una copia de la base de datos no permite entrar al panel.
+model AdminSession {
+  id         String    @id @default(cuid())
+  tokenHash  String    @unique
+  adminId    String
+  admin      AdminUser @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  /// Última actividad: tras 2 horas sin actividad la sesión caduca.
+  lastSeenAt DateTime  @default(now())
+  /// Caducidad máxima (12 horas después de iniciar sesión), haya actividad o no.
+  expiresAt  DateTime
+  createdAt  DateTime  @default(now())
+
+  @@index([adminId])
+  @@index([expiresAt])
 }

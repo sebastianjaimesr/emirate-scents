@@ -172,14 +172,29 @@ export async function applyCatalog(
 
         const existing = await tx.product.findUnique({
           where: { sku: row.sku },
-          select: { id: true },
+          select: { id: true, stock: true },
         })
         if (existing) {
-          await tx.productImage.deleteMany({ where: { productId: existing.id } })
+          // Se reemplazan las fotos de la hoja; las subidas desde el panel se conservan
+          await tx.productImage.deleteMany({
+            where: { productId: existing.id, storageKey: null },
+          })
           await tx.product.update({
             where: { id: existing.id },
             data: { ...data, images: { create: images } },
           })
+          // Todo cambio de existencias queda en el historial de inventario
+          if (row.inventario !== existing.stock) {
+            await tx.inventoryMovement.create({
+              data: {
+                productId: existing.id,
+                type: 'AJUSTE',
+                quantity: row.inventario - existing.stock,
+                stockAfter: row.inventario,
+                reason: 'Importación de catálogo',
+              },
+            })
+          }
           updated++
         } else {
           let slug = slugify(`${row.nombre} ${row.tamano_ml ? `${row.tamano_ml}ml` : ''}`)
@@ -192,6 +207,16 @@ export async function applyCatalog(
               slug,
               publishedAt: new Date(),
               images: { create: images },
+              ...(row.inventario > 0 && {
+                inventoryMovements: {
+                  create: {
+                    type: 'ENTRADA',
+                    quantity: row.inventario,
+                    stockAfter: row.inventario,
+                    reason: 'Importación de catálogo (inventario inicial)',
+                  },
+                },
+              }),
             },
           })
           created++
