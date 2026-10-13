@@ -75,6 +75,11 @@ export function createAdminRouter() {
   router.get('/inventory/movements', admin.listMovements)
   router.post('/inventory/movements', admin.createMovement)
 
+  router.get('/orders', admin.listOrders)
+  router.get('/orders/:id', admin.getOrder)
+  router.patch('/orders/:id/status', admin.changeOrderStatus)
+  router.patch('/orders/:id/shipping', admin.setOrderShipping)
+
   router.get('/categories', admin.listCategories)
   router.post('/categories', admin.createCategory)
   router.patch('/categories/:id', admin.updateCategory)

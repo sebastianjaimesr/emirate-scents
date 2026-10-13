@@ -72,7 +72,15 @@ export function MovementsTable({
                 {formatQuantity(movement.quantity)}
               </td>
               <td className="px-2 py-2 text-right tabular-nums">{movement.stockAfter}</td>
-              <td className="px-2 py-2">{movement.reason}</td>
+              <td className="px-2 py-2">
+                {movement.orderId ? (
+                  <Link to={`/admin/pedidos/${movement.orderId}`} className="hover:underline">
+                    {movement.reason}
+                  </Link>
+                ) : (
+                  movement.reason
+                )}
+              </td>
               <td className="px-2 py-2 text-smoke-500">{movement.adminName ?? 'Sistema'}</td>
             </tr>
           ))}

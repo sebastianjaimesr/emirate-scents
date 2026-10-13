@@ -4,6 +4,7 @@ import { ZodError } from 'zod'
 import { Prisma } from '../generated/prisma/client.js'
 import { HttpError } from '../lib/httpError.js'
 import { logger } from '../lib/logger.js'
+import { OrderStockShortageError } from '../services/admin/orderAdmin.js'
 import { OrderItemsUnavailableError } from '../services/orderService.js'
 
 /** Rutas que no existen: siempre JSON, nunca la página HTML por defecto de Express. */
@@ -35,6 +36,13 @@ export const errorHandler: ErrorRequestHandler = (error, req, res, _next) => {
     res
       .status(error.status)
       .json({ error: { code: error.code, message: error.message, items: error.items } })
+    return
+  }
+
+  if (error instanceof OrderStockShortageError) {
+    res.status(error.status).json({
+      error: { code: error.code, message: error.message, shortages: error.shortages },
+    })
     return
   }
 

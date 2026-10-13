@@ -4,6 +4,7 @@ import { HttpError } from '../lib/httpError.js'
 import { getDashboard } from '../services/admin/dashboardAdmin.js'
 import * as images from '../services/admin/imageAdmin.js'
 import * as inventory from '../services/admin/inventoryAdmin.js'
+import * as orders from '../services/admin/orderAdmin.js'
 import * as products from '../services/admin/productAdmin.js'
 import * as taxonomy from '../services/admin/taxonomyAdmin.js'
 import {
@@ -17,6 +18,9 @@ import {
   imageParams,
   inventoryMovementSchema,
   movementsQuerySchema,
+  orderShippingSchema,
+  ordersQuerySchema,
+  orderStatusChangeSchema,
   productStatusSchema,
   updateBrandSchema,
   updateCategorySchema,
@@ -103,6 +107,28 @@ export async function listMovements(req: Request, res: Response) {
 export async function createMovement(req: Request, res: Response) {
   const input = inventoryMovementSchema.parse(req.body)
   res.status(201).json(await inventory.recordMovement(input, currentAdmin(res).id))
+}
+
+// ── Pedidos ──
+export async function listOrders(req: Request, res: Response) {
+  res.json(await orders.listAdminOrders(ordersQuerySchema.parse(req.query)))
+}
+
+export async function getOrder(req: Request, res: Response) {
+  const { id } = idParam.parse(req.params)
+  res.json(await orders.getAdminOrder(id))
+}
+
+export async function changeOrderStatus(req: Request, res: Response) {
+  const { id } = idParam.parse(req.params)
+  const input = orderStatusChangeSchema.parse(req.body)
+  res.json(await orders.changeOrderStatus(id, input, currentAdmin(res).id))
+}
+
+export async function setOrderShipping(req: Request, res: Response) {
+  const { id } = idParam.parse(req.params)
+  const { shippingCost } = orderShippingSchema.parse(req.body)
+  res.json(await orders.setOrderShipping(id, shippingCost))
 }
 
 // ── Categorías ──

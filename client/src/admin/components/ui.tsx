@@ -292,6 +292,7 @@ export function ConfirmDialog({
   title,
   children,
   confirmLabel,
+  cancelLabel = 'Cancelar',
   danger = false,
   busy = false,
   onConfirm,
@@ -301,6 +302,8 @@ export function ConfirmDialog({
   title: string
   children: ReactNode
   confirmLabel: string
+  /** Texto del botón que cierra sin hacer nada (en pedidos, "Volver": "Cancelar" confundiría). */
+  cancelLabel?: string
   danger?: boolean
   busy?: boolean
   onConfirm: () => void
@@ -330,7 +333,7 @@ export function ConfirmDialog({
       <div className="mt-2 text-sm text-smoke-500">{children}</div>
       <div className="mt-6 flex justify-end gap-2">
         <Button variant="secondary" onClick={onCancel} disabled={busy}>
-          Cancelar
+          {cancelLabel}
         </Button>
         <Button variant={danger ? 'danger' : 'primary'} onClick={onConfirm} busy={busy}>
           {confirmLabel}
