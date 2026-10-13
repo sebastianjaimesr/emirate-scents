@@ -79,10 +79,26 @@ async function main() {
       publishedAt: new Date(`${product.publishedAt}T12:00:00Z`),
     }
 
+    // Las existencias solo se fijan al crear el producto, como una entrada del historial de
+    // inventario. Al repetir la semilla no se tocan: las cambia el panel con sus movimientos.
+    const { stock, ...withoutStock } = data
     await prisma.product.upsert({
       where: { id: product.id },
-      create: { id: product.id, ...data },
-      update: data,
+      create: {
+        id: product.id,
+        ...data,
+        ...(stock > 0 && {
+          inventoryMovements: {
+            create: {
+              type: 'ENTRADA',
+              quantity: stock,
+              stockAfter: stock,
+              reason: 'Inventario DEMO',
+            },
+          },
+        }),
+      },
+      update: withoutStock,
     })
   }
 

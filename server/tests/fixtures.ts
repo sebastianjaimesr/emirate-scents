@@ -78,7 +78,21 @@ export const fixtureProducts: FixtureProduct[] = [
 
 const brandNames = { 'marca-a': 'Marca A', 'marca-b': 'Marca B' }
 
+/**
+ * Vacía el historial de inventario. PostgreSQL lo impide salvo que la transacción active
+ * emirate.purgar_inventario (solo lo hacen las pruebas; ver la migración panel_admin).
+ */
+export async function purgeInventory() {
+  await prisma.$transaction([
+    prisma.$executeRaw`SELECT set_config('emirate.purgar_inventario', 'si', true)`,
+    prisma.inventoryMovement.deleteMany(),
+  ])
+}
+
 export async function resetCatalog() {
+  await purgeInventory()
+  await prisma.adminSession.deleteMany()
+  await prisma.adminUser.deleteMany()
   await prisma.order.deleteMany()
   await prisma.productImage.deleteMany()
   await prisma.product.deleteMany()

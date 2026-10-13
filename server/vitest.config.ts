@@ -1,4 +1,6 @@
 import 'dotenv/config'
+import { tmpdir } from 'node:os'
+import path from 'node:path'
 import { defineConfig } from 'vitest/config'
 
 /*
@@ -11,6 +13,9 @@ export default defineConfig({
   test: {
     env: {
       NODE_ENV: 'test',
+      // Las fotos subidas en las pruebas van a una carpeta temporal, nunca a uploads/
+      UPLOADS_DIR: path.join(tmpdir(), 'emirate-scents-test-uploads'),
+      ADMIN_ORIGIN: 'http://panel.test',
       ...(testDatabaseUrl && { DATABASE_URL: testDatabaseUrl }),
     },
     globalSetup: ['tests/globalSetup.ts'],

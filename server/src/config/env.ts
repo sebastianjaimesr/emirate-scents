@@ -34,6 +34,20 @@ const envSchema = z
           .map((origin) => origin.trim())
           .filter(Boolean),
       ),
+    // Dirección (origen) desde la que se usa el panel /admin, separadas por comas. El panel
+    // solo acepta cambios que lleguen desde aquí (protección contra peticiones falsificadas).
+    // En producción: la dirección del servicio en Railway, por ejemplo https://xxx.up.railway.app
+    ADMIN_ORIGIN: z
+      .string()
+      .default('http://localhost:5173,http://localhost:4000')
+      .transform((value) =>
+        value
+          .split(',')
+          .map((origin) => origin.trim().replace(/\/+$/, ''))
+          .filter(Boolean),
+      ),
+    // Carpeta donde se guardan las fotos subidas desde el panel
+    UPLOADS_DIR: z.string().min(1).default('uploads'),
   })
   .refine((env) => env.NODE_ENV !== 'production' || env.PUBLIC_URL, {
     path: ['PUBLIC_URL'],
