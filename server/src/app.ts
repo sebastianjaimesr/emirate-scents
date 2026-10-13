@@ -39,7 +39,11 @@ export function createApp() {
       autoLogging: env.NODE_ENV !== 'test' && { ignore: (req) => !req.url?.startsWith('/api') },
       // Solo lo necesario para diagnosticar: sin cabeceras (cookies, IP completa...)
       serializers: {
-        req: (req: { method: string; url: string }) => ({ method: req.method, url: req.url }),
+        // Sin la parte de búsqueda (?q=...): puede llevar nombres o celulares de clientes
+        req: (req: { method: string; url: string }) => ({
+          method: req.method,
+          url: req.url.split('?')[0],
+        }),
         res: (res: { statusCode: number }) => ({ statusCode: res.statusCode }),
       },
     }),
@@ -83,8 +87,10 @@ export function createApp() {
 
   // API pública: solo la tienda puede llamarla desde el navegador, y sin cookies
   app.use('/api', cors({ origin: env.CORS_ORIGIN, methods: ['GET', 'POST'] }), limiter, apiRouter)
-  if (env.PUBLIC_URL) app.use(seo(env.PUBLIC_URL))
-  if (env.SERVE_CLIENT) app.use(storefront())
+  if (env.PUBLIC_URL) app.use(seo(env.PUBLIC_URL, { adminOnly: env.ADMIN_ONLY }))
+  if (env.SERVE_CLIENT) {
+    app.use(storefront(undefined, { storeUrl: env.ADMIN_ONLY ? env.PUBLIC_URL : undefined }))
+  }
   app.use(notFoundHandler)
   app.use(errorHandler)
 

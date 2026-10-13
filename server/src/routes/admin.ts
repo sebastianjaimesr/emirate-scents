@@ -20,7 +20,10 @@ const tooManyAttempts = {
  * Orden de las protecciones:
  * 1. cabeceras: sin caché y fuera de los buscadores;
  * 2. origen: los cambios solo se aceptan desde la dirección del panel (anti-CSRF);
- * 3. límite de intentos de acceso: 5 fallidos cada 15 minutos por IP y por correo;
+ * 3. límite de intentos de acceso: 5 fallidos cada 15 minutos por IP. No hay límite por correo
+ *    a propósito: cualquiera que conozca el correo podría bloquear al administrador real
+ *    desde otra conexión. Contra intentos desde muchas IP protegen la contraseña de 12+
+ *    caracteres y el costo de Argon2id;
  * 4. sesión: todo lo demás exige un administrador con sesión vigente.
  */
 export function createAdminRouter() {
@@ -36,18 +39,7 @@ export function createAdminRouter() {
     legacyHeaders: false,
     message: tooManyAttempts,
   })
-  const loginByEmail = rateLimit({
-    windowMs,
-    limit: 5,
-    skipSuccessfulRequests: true,
-    standardHeaders: false,
-    legacyHeaders: false,
-    keyGenerator: (req) =>
-      `correo:${typeof req.body?.email === 'string' ? req.body.email.trim().toLowerCase().slice(0, 254) : ''}`,
-    message: tooManyAttempts,
-  })
-
-  router.post('/auth/login', loginByIp, loginByEmail, auth.login)
+  router.post('/auth/login', loginByIp, auth.login)
   router.post('/auth/logout', auth.logout)
 
   // A partir de aquí, todo exige sesión

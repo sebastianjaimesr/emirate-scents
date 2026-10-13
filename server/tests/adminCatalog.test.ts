@@ -332,6 +332,17 @@ describe('fotos', () => {
     )
     expect(tiny.status).toBe(400)
     expect(tiny.body.error.code).toBe('IMAGE_TOO_SMALL')
+
+    // Pocos bytes pero demasiados píxeles (25 MP): se rechaza antes de decodificarla
+    const huge = await post('/api/admin/products/p1/images').attach(
+      'imagen',
+      await sharp({ create: { width: 5000, height: 5000, channels: 3, background: '#000' } })
+        .png({ compressionLevel: 9 })
+        .toBuffer(),
+      'enorme.png',
+    )
+    expect(huge.status).toBe(400)
+    expect(huge.body.error.code).toBe('IMAGE_TOO_LARGE')
   })
 
   it('rechaza archivos de más de 8 MB', async () => {

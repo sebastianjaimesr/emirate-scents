@@ -9,10 +9,15 @@ const privatePaths = ['/carrito', '/favoritos', '/pedido']
  * publicados de la base de datos, así incluye los nuevos sin tocar el código.
  * Los productos DEMO nunca aparecen.
  */
-export function seo(publicUrl: string): Router {
+export function seo(publicUrl: string, { adminOnly = false } = {}): Router {
   const router = express.Router()
 
   router.get('/robots.txt', (_req, res) => {
+    // Servidor solo de API y panel (la tienda está en GitHub Pages): nada que indexar aquí
+    if (adminOnly) {
+      res.type('text/plain').send('User-agent: *\nDisallow: /\n')
+      return
+    }
     res
       .type('text/plain')
       .send(

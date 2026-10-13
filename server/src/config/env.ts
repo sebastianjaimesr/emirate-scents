@@ -46,18 +46,62 @@ const envSchema = z
           .map((origin) => origin.trim().replace(/\/+$/, ''))
           .filter(Boolean),
       ),
-    // Carpeta donde se guardan las fotos subidas desde el panel
+    // Carpeta donde se guardan las fotos subidas desde el panel. En Railway, dentro de un
+    // volumen (por ejemplo /data/uploads): si no, las fotos se pierden en cada publicación
     UPLOADS_DIR: z.string().min(1).default('uploads'),
+    // true cuando la tienda se publica en otro sitio (GitHub Pages): este servidor solo
+    // atiende la API, el panel y las fotos, y las páginas de la tienda redirigen a PUBLIC_URL
+    ADMIN_ONLY: z.stringbool().default(false),
   })
   .refine((env) => env.NODE_ENV !== 'production' || env.PUBLIC_URL, {
     path: ['PUBLIC_URL'],
     error: 'En producción falta PUBLIC_URL (la dirección pública de la tienda)',
   })
+  // ADMIN_ONLY solo se usa en el servidor publicado. Sin NODE_ENV=production la cookie del
+  // panel no llevaría Secure ni __Host-: mejor no arrancar que arrancar inseguro
+  .refine((env) => !env.ADMIN_ONLY || env.NODE_ENV === 'production', {
+    path: ['NODE_ENV'],
+    error: 'Con ADMIN_ONLY=true, NODE_ENV debe ser production',
+  })
+  .refine((env) => !env.ADMIN_ONLY || (env.SERVE_CLIENT && env.PUBLIC_URL), {
+    path: ['ADMIN_ONLY'],
+    error: 'ADMIN_ONLY=true necesita SERVE_CLIENT=true (el panel) y PUBLIC_URL (adónde redirigir)',
+  })
+  // Un origen es solo protocolo + dominio (+ puerto): https://tienda.com, sin ruta ni "/" final.
+  // Con una ruta (…github.io/emirate-scents) el navegador nunca coincide y todo falla en silencio
+  .superRefine((env, ctx) => {
+    for (const key of ['CORS_ORIGIN', 'ADMIN_ORIGIN'] as const) {
+      for (const origin of env[key]) {
+        if (!isOrigin(origin)) {
+          ctx.addIssue({
+            code: 'custom',
+            path: [key],
+            message: `"${origin}" no es un origen válido: usa solo protocolo y dominio, como https://tienda.com`,
+          })
+        } else if (env.NODE_ENV === 'production' && !origin.startsWith('https://')) {
+          ctx.addIssue({
+            code: 'custom',
+            path: [key],
+            message: `En producción ${key} debe usar https:// (ahora tiene "${origin}")`,
+          })
+        }
+      }
+    }
+  })
+
+function isOrigin(value: string) {
+  try {
+    return new URL(value).origin === value
+  } catch {
+    return false
+  }
+}
 
 export type Env = z.infer<typeof envSchema>
 
-function loadEnv(): Env {
-  const result = envSchema.safeParse(process.env)
+/** Valida un conjunto de variables (exportada para probar las reglas sin tocar process.env). */
+export function parseEnv(source: Record<string, string | undefined>): Env {
+  const result = envSchema.safeParse(source)
   if (!result.success) {
     const problems = result.error.issues
       .map((issue) => `  - ${issue.path.join('.')}: ${issue.message}`)
@@ -67,4 +111,4 @@ function loadEnv(): Env {
   return result.data
 }
 
-export const env = loadEnv()
+export const env = parseEnv(process.env)

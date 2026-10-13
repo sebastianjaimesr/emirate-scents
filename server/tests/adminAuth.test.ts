@@ -120,7 +120,7 @@ describe('inicio de sesión', () => {
     }
   })
 
-  it('bloquea tras 5 intentos fallidos con el mismo correo (15 minutos)', async () => {
+  it('bloquea tras 5 intentos fallidos desde la misma dirección IP (15 minutos)', async () => {
     for (let attempt = 0; attempt < 5; attempt++) {
       expect((await login({ email: 'admin@prueba.test', password: 'mal' })).status).toBe(401)
     }

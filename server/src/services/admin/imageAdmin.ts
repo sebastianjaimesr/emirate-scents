@@ -17,6 +17,8 @@ import { imageStorage } from '../../storage/imageStorage.js'
 export const MAX_IMAGE_BYTES = 8 * 1024 * 1024
 export const MAX_IMAGES_PER_PRODUCT = 12
 const WIDTHS = [480, 960, 1600]
+/** 24 megapíxeles: más que cualquier cámara de celular habitual, y acota la memoria al decodificar. */
+const MAX_INPUT_PIXELS = 24_000_000
 const ACCEPTED_FORMATS = new Set(['jpeg', 'png', 'webp'])
 
 const imageSelect = { id: true, url: true, alt: true, position: true, widths: true } as const
@@ -24,7 +26,8 @@ const imageSelect = { id: true, url: true, alt: true, position: true, widths: tr
 async function processImage(data: Buffer) {
   let metadata: Metadata
   try {
-    metadata = await sharp(data, { limitInputPixels: 50_000_000 }).metadata()
+    // Solo lee la cabecera del archivo (no decodifica): el tamaño se comprueba abajo
+    metadata = await sharp(data, { limitInputPixels: false }).metadata()
   } catch {
     throw new HttpError(400, 'INVALID_IMAGE', 'El archivo no es una imagen válida')
   }
@@ -33,6 +36,13 @@ async function processImage(data: Buffer) {
   }
   if ((metadata.pages ?? 1) > 1) {
     throw new HttpError(400, 'INVALID_IMAGE', 'Las imágenes animadas no se admiten')
+  }
+  if ((metadata.width ?? 0) * (metadata.height ?? 0) > MAX_INPUT_PIXELS) {
+    throw new HttpError(
+      400,
+      'IMAGE_TOO_LARGE',
+      'La foto tiene demasiados píxeles (máximo 24 megapíxeles): redúcela antes de subirla',
+    )
   }
   // Ancho real después de aplicar la orientación de la cámara
   const width = (metadata.autoOrient?.width ?? metadata.width) || 0
@@ -43,16 +53,20 @@ async function processImage(data: Buffer) {
   if (widths.length === 0 || widths.at(-1)! < width) widths.push(Math.min(width, WIDTHS.at(-1)!))
   const uniqueWidths = [...new Set(widths)].sort((a, b) => a - b)
 
-  const variants = await Promise.all(
-    uniqueWidths.map(async (target) => ({
+  // Una medida detrás de otra, desde una sola lectura de la foto: así una imagen enorme no
+  // ocupa varias veces la memoria de un servidor pequeño
+  const source = sharp(data, { limitInputPixels: MAX_INPUT_PIXELS }).rotate()
+  const variants: { width: number; data: Buffer }[] = []
+  for (const target of uniqueWidths) {
+    variants.push({
       width: target,
-      data: await sharp(data, { limitInputPixels: 50_000_000 })
-        .rotate()
+      data: await source
+        .clone()
         .resize({ width: target, withoutEnlargement: true })
         .webp({ quality: 82 })
         .toBuffer(),
-    })),
-  )
+    })
+  }
   return variants
 }
 
