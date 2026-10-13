@@ -12,6 +12,20 @@ function trackX(page: Page) {
   })
 }
 
+/** Posición de la fila cuando el resorte ya se detuvo (dos lecturas seguidas iguales). */
+async function settledTrackX(page: Page) {
+  let previous = Number.NaN
+  await expect
+    .poll(async () => {
+      const current = await trackX(page)
+      const settled = Math.abs(current - previous) < 0.5
+      previous = current
+      return settled
+    })
+    .toBe(true)
+  return previous
+}
+
 /** Lleva la página a una fracción (0 a 1) del recorrido de la vitrina. */
 async function scrollShowcaseTo(page: Page, fraction: number) {
   await page.evaluate((value) => {
@@ -36,7 +50,8 @@ test.describe('pantallas grandes', () => {
     // Al bajar hasta el final, la fila se desplaza a la izquierda
     await scrollShowcaseTo(page, 1)
     await expect.poll(() => trackX(page)).toBeLessThan(-100)
-    const atEnd = await trackX(page)
+    // Se mide el final cuando el resorte terminó (antes daba un valor intermedio a veces)
+    const atEnd = await settledTrackX(page)
     await expect(page.locator('#vitrina-title')).toBeInViewport()
 
     // A mitad de camino, la fila queda entre el inicio y el final

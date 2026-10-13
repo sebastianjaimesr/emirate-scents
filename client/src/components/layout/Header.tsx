@@ -128,6 +128,8 @@ export function Header() {
                 ? `Abrir carrito (${cartCount} ${cartCount === 1 ? 'producto' : 'productos'})`
                 : 'Abrir carrito'
             }
+            // Destino de la animación "vuela al carrito" (features/cart/CartFlight)
+            data-cart-target
             className={iconButton}
           >
             <ShoppingBag className="size-5" strokeWidth={1.5} />

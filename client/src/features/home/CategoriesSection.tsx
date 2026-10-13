@@ -1,4 +1,5 @@
 import { ArrowRight } from 'lucide-react'
+import { m } from 'motion/react'
 import { Link } from 'react-router'
 import { ArchFrame, ArchPattern } from '../../components/brand/Arch'
 import { Container } from '../../components/ui/Container'
@@ -33,9 +34,18 @@ export function CategoriesSection() {
                   innerClassName={cx(category.tone, 'transition-transform duration-700 ease-luxe')}
                   outlineClassName="text-gold-700/60 transition-colors duration-500 group-hover:text-gold-700"
                 >
-                  <div className="size-full transition-transform duration-700 ease-luxe group-hover:scale-[1.05]">
-                    <ArchPattern className="text-gold-300/25" />
-                  </div>
+                  {/* Al entrar en pantalla, el interior del arco se "abre" desde un acercamiento */}
+                  <m.div
+                    className="size-full"
+                    initial={{ scale: 1.25, opacity: 0.4 }}
+                    whileInView={{ scale: 1, opacity: 1 }}
+                    viewport={{ once: true, margin: '0px 0px -10% 0px' }}
+                    transition={{ duration: 1.4, delay: index * 0.12, ease: [0.22, 1, 0.36, 1] }}
+                  >
+                    <div className="size-full transition-transform duration-700 ease-luxe group-hover:scale-[1.05]">
+                      <ArchPattern className="text-gold-300/25" />
+                    </div>
+                  </m.div>
                   <span
                     aria-hidden="true"
                     className="absolute inset-x-0 bottom-6 text-center font-display text-5xl text-gold-300/80 sm:text-6xl"
