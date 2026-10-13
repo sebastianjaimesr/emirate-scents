@@ -1,3 +1,5 @@
+import { tmpdir } from 'node:os'
+import path from 'node:path'
 import { defineConfig, devices } from '@playwright/test'
 
 /*
@@ -44,6 +46,10 @@ export default defineConfig({
       NODE_ENV: 'test',
       SERVE_CLIENT: 'true',
       PUBLIC_URL: `http://localhost:${PORT}`,
+      // El panel se usa desde la misma dirección de las pruebas
+      ADMIN_ORIGIN: `http://localhost:${PORT}`,
+      // Fotos subidas en las pruebas: carpeta temporal, nunca server/uploads
+      UPLOADS_DIR: path.join(tmpdir(), 'emirate-scents-e2e-uploads'),
     },
     reuseExistingServer: false,
   },
