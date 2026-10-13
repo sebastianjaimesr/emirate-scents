@@ -1,5 +1,10 @@
 # Fase 8: Preparación para producción
 
+> **Guía anterior al rediseño.** Describe la tienda y la API en un solo servidor y sin panel. La
+> guía vigente, con la tienda en GitHub Pages y el panel en Railway, es
+> [rediseno/fase-8-publicacion.md](rediseno/fase-8-publicacion.md). Las secciones de catálogo,
+> dominio y copias de seguridad siguen sirviendo.
+
 ## 1. Cómo queda montada la tienda publicada
 
 ```

@@ -1,3 +1,4 @@
+import { mediaUrl } from '../../lib/mediaUrl'
 import { m, useTransform, type MotionValue } from 'motion/react'
 import type { FocusEvent } from 'react'
 import { Link } from 'react-router'
@@ -78,7 +79,7 @@ export function ShowcaseItem({ product, index, position, onFocus }: ShowcaseItem
         >
           {image ? (
             <img
-              src={image.url}
+              src={mediaUrl(image.url)}
               alt=""
               loading="lazy"
               decoding="async"

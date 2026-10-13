@@ -8,16 +8,20 @@ Tienda online de perfumería premium: perfumes árabes, de diseñador, de nicho 
 
 ## Estado del proyecto
 
-| Fase | Contenido                                                                     | Estado         |
-| ---- | ----------------------------------------------------------------------------- | -------------- |
-| 1    | Análisis y arquitectura ([documento](docs/fase-1-analisis-y-arquitectura.md)) | ✅             |
-| 2    | Identidad visual y página de inicio                                           | ✅             |
-| 3    | Catálogo y productos                                                          | ✅             |
-| 4    | Favoritos, carrito e interacciones                                            | ✅             |
-| 5    | Backend (Express + PostgreSQL + Prisma) ([documento](docs/fase-5-backend.md)) | ✅             |
-| 6    | Pedidos y WhatsApp ([documento](docs/fase-6-pedidos.md))                      | ✅             |
-| 7    | Pruebas, seguridad y optimización ([documento](docs/fase-7-calidad.md))       | ✅             |
-| 8    | Preparación para producción ([documento](docs/fase-8-produccion.md))          | 🔍 En revisión |
+| Fase | Contenido                                                                     | Estado |
+| ---- | ----------------------------------------------------------------------------- | ------ |
+| 1    | Análisis y arquitectura ([documento](docs/fase-1-analisis-y-arquitectura.md)) | ✅     |
+| 2    | Identidad visual y página de inicio                                           | ✅     |
+| 3    | Catálogo y productos                                                          | ✅     |
+| 4    | Favoritos, carrito e interacciones                                            | ✅     |
+| 5    | Backend (Express + PostgreSQL + Prisma) ([documento](docs/fase-5-backend.md)) | ✅     |
+| 6    | Pedidos y WhatsApp ([documento](docs/fase-6-pedidos.md))                      | ✅     |
+| 7    | Pruebas, seguridad y optimización ([documento](docs/fase-7-calidad.md))       | ✅     |
+| 8    | Preparación para producción ([documento](docs/fase-8-produccion.md))          | ✅     |
+
+**Rediseño (2026-10):** hero 3D, vitrina, panel `/admin`, pedidos e inventario. Documentos en
+[docs/rediseno](docs/rediseno/). Para publicar, la guía vigente es
+[fase-8-publicacion.md](docs/rediseno/fase-8-publicacion.md).
 
 ## Requisitos (Windows + VS Code)
 
@@ -114,7 +118,9 @@ Para mostrar la tienda sin servidor existe una **vista previa** en
 - los pedidos están desactivados;
 - pide a Google no indexarla.
 
-Se publica sola con cada cambio en `main` (`.github/workflows/vista-previa-pages.yml`).
+Se publica sola con cada cambio en `main` (`.github/workflows/tienda-pages.yml`). Cuando
+configures la variable `VITE_API_URL` en GitHub, ese mismo flujo publica la tienda real conectada
+a la API ([guía](docs/rediseno/fase-8-publicacion.md#42-github-pages-la-tienda-real)).
 
 Requisitos, una sola vez:
 
@@ -128,7 +134,7 @@ npm run build:preview --workspace client
 ```
 
 La tienda completa, con pedidos reales, se publica como explica la
-[guía de producción](docs/fase-8-produccion.md).
+[guía de publicación](docs/rediseno/fase-8-publicacion.md).
 
 ## Tecnologías
 

@@ -1,0 +1,58 @@
+# Comprueba cada Pull Request (y cada cambio en main) igual que en tu computador:
+# lint, tipos, formato, pruebas del cliente y de la API, build y pruebas en el navegador.
+# Usa una base de datos PostgreSQL temporal que se borra al terminar.
+name: Pruebas
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pruebas-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pruebas:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: emirate
+          POSTGRES_PASSWORD: emirate_dev
+          POSTGRES_DB: emirate_scents
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U emirate" --health-interval 5s --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # Mismos valores que server/.env.example: base de datos local y la de pruebas aparte
+      - name: Preparar server/.env y la base de datos de pruebas
+        run: |
+          cp server/.env.example server/.env
+          PGPASSWORD=emirate_dev psql -h localhost -U emirate -d emirate_scents -c 'CREATE DATABASE emirate_scents_test'
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run format:check
+      - run: npm test
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+      - name: Guardar el informe si algo falla
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: informe-playwright
+          path: e2e/informe
+          retention-days: 7

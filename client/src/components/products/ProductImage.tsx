@@ -1,3 +1,4 @@
+import { mediaUrl } from '../../lib/mediaUrl'
 import { useState } from 'react'
 import { cx } from '../../lib/cx'
 import type { ProductImage as ProductImageData } from '../../types/product'
@@ -60,7 +61,7 @@ export function ProductImage({
 
   return (
     <img
-      src={image.url}
+      src={mediaUrl(image.url)}
       alt={image.alt}
       sizes={sizes}
       loading={priority ? 'eager' : 'lazy'}

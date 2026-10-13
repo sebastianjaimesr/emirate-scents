@@ -45,11 +45,30 @@ describe('tienda servida por la API (storefront)', () => {
   })
 
   it('no tapa las rutas de la API ni los archivos que no existen', async () => {
-    for (const url of ['/api/no-existe', '/assets/index-viejo.js']) {
+    for (const url of ['/api/no-existe', '/assets/index-viejo.js', '/uploads/products/x/y.webp']) {
       const res = await request(app).get(url)
       expect(res.status).toBe(404)
       expect(res.body.error.code).toBe('NOT_FOUND')
     }
+  })
+
+  it('con la tienda en GitHub Pages: sirve el panel y redirige las páginas de la tienda', async () => {
+    const adminOnly = express().use(
+      storefront(dist, { storeUrl: 'https://sebastianjaimesr.github.io/emirate-scents' }),
+    )
+    for (const url of ['/admin', '/admin/pedidos/abc']) {
+      const res = await request(adminOnly).get(url)
+      expect(res.status).toBe(200)
+      expect(res.text).toContain('<title>Tienda</title>')
+      expect(res.headers['x-robots-tag']).toBe('noindex, nofollow')
+    }
+    const page = await request(adminOnly).get('/producto/oud?x=1')
+    expect(page.status).toBe(302)
+    expect(page.headers.location).toBe(
+      'https://sebastianjaimesr.github.io/emirate-scents/producto/oud?x=1',
+    )
+    // Los archivos del panel siguen sirviéndose
+    expect((await request(adminOnly).get('/assets/index-abc123.js')).status).toBe(200)
   })
 
   it('explica qué hacer si falta la tienda compilada', () => {
@@ -71,6 +90,12 @@ describe('robots.txt y sitemap.xml', () => {
     expect(res.status).toBe(200)
     expect(res.text).toContain('Disallow: /pedido')
     expect(res.text).toContain('Sitemap: https://tienda.example/sitemap.xml')
+  })
+
+  it('en el servidor solo de API y panel, robots.txt no deja indexar nada', async () => {
+    const adminOnly = express().use(seo('https://tienda.example', { adminOnly: true }))
+    const res = await request(adminOnly).get('/robots.txt')
+    expect(res.text).toBe('User-agent: *\nDisallow: /\n')
   })
 
   it('el mapa del sitio lista categorías y productos publicados, sin DEMO ni borradores', async () => {
