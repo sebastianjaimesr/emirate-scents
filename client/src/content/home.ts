@@ -14,6 +14,12 @@ export const heroContent = {
   advice: '¿Necesitas ayuda para elegir? Te asesoramos por WhatsApp',
 }
 
+/** Vitrina horizontal del inicio (features/showcase). */
+export const showcaseContent = {
+  eyebrow: 'The Fragrance Collection',
+  title: 'Descubre el universo Emirate',
+}
+
 export const manifestoContent = {
   eyebrow: 'La casa',
   quote: 'Un perfume no se lleva: se recuerda.',
