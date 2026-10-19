@@ -22,6 +22,7 @@ const buttonVariants: Record<ButtonVariant, string> = {
   ghost: 'text-ink-900 hover:bg-ink-900/5',
 }
 
+/** Botón del panel con variantes de color; busy muestra un indicador de carga y lo desactiva. */
 export function Button({
   variant = 'primary',
   busy = false,
@@ -58,6 +59,7 @@ interface FieldProps {
   className?: string
 }
 
+/** Envoltura común de los campos: etiqueta, campo, ayuda y mensaje de error. */
 function FieldShell({
   id,
   label,
@@ -86,9 +88,11 @@ function FieldShell({
   )
 }
 
+/** Calcula aria-describedby para que el lector de pantalla lea el error (o la ayuda) del campo. */
 const describedBy = (id: string, error?: string, hint?: string) =>
   [error && `${id}-error`, hint && !error && `${id}-hint`].filter(Boolean).join(' ') || undefined
 
+/** Campo de texto con etiqueta, ayuda y error. */
 export function TextField({
   label,
   error,
@@ -110,6 +114,7 @@ export function TextField({
   )
 }
 
+/** Área de texto con etiqueta, ayuda y error. */
 export function TextArea({
   label,
   error,
@@ -131,6 +136,7 @@ export function TextArea({
   )
 }
 
+/** Lista desplegable con etiqueta, ayuda y error. */
 export function SelectField({
   label,
   error,
@@ -155,6 +161,7 @@ export function SelectField({
   )
 }
 
+/** Casilla de verificación con etiqueta y ayuda opcional. */
 export function Checkbox({
   label,
   hint,
@@ -184,6 +191,7 @@ export function Checkbox({
   )
 }
 
+/** Tarjeta blanca con título y acciones opcionales; agrupa contenido del panel. */
 export function Panel({
   title,
   actions,
@@ -208,6 +216,7 @@ export function Panel({
   )
 }
 
+/** Título de la página del panel con descripción y acciones; también cambia el título de la pestaña. */
 export function PageTitle({
   title,
   description,
@@ -239,6 +248,7 @@ const tones: Record<Tone, string> = {
   info: 'bg-gold-500/20 text-gold-700',
 }
 
+/** Etiqueta de color (por ejemplo, el estado de un pedido). */
 export function Badge({ tone = 'neutral', children }: { tone?: Tone; children: ReactNode }) {
   return (
     <span
@@ -252,6 +262,9 @@ export function Badge({ tone = 'neutral', children }: { tone?: Tone; children: R
   )
 }
 
+/**
+ * Mensaje de error, éxito o información. Los errores usan role="alert" para que se anuncien de inmediato.
+ */
 export function Alert({
   tone = 'danger',
   children,
@@ -274,6 +287,7 @@ export function Alert({
   )
 }
 
+/** Indicador de "Cargando…". */
 export function Loading({ label = 'Cargando…' }: { label?: string }) {
   return (
     <p role="status" className="flex items-center gap-2 py-8 text-sm text-smoke-500">
@@ -343,6 +357,7 @@ export function ConfirmDialog({
   )
 }
 
+/** Paginación con botones Anterior/Siguiente; no se muestra si hay una sola página. */
 export function Pager({
   page,
   totalPages,

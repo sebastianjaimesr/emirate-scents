@@ -1,3 +1,6 @@
+/**
+ * Filtros aplicados en el catálogo, como chips que se pueden quitar.
+ */
 import { X } from 'lucide-react'
 import { formatCOP } from '../../lib/formatCOP'
 import { countActiveFilters, type CatalogFacets, type CatalogQuery } from './catalogQuery'

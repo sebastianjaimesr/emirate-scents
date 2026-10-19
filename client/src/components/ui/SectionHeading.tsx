@@ -1,3 +1,6 @@
+/**
+ * Encabezado de sección: subtítulo pequeño, título y texto de entrada.
+ */
 import { cx } from '../../lib/cx'
 import { Reveal } from './Reveal'
 
@@ -11,6 +14,7 @@ interface SectionHeadingProps {
   align?: 'left' | 'center'
 }
 
+/** Encabezado de sección con animación de aparición; tone="dark" para fondos oscuros. */
 export function SectionHeading({
   id,
   eyebrow,

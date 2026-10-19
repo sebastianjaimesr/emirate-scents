@@ -44,6 +44,7 @@ const texts = {
   brands: { title: 'Marcas', one: 'marca', path: '/brands' },
 }
 
+/** Panel para administrar categorías o marcas: lista, crear, editar y borrar. */
 function TaxonomyPanel({ kind }: { kind: 'categories' | 'brands' }) {
   const text = texts[kind]
   const [version, setVersion] = useState(0)
@@ -141,6 +142,7 @@ function TaxonomyPanel({ kind }: { kind: 'categories' | 'brands' }) {
   )
 }
 
+/** Formulario para crear o renombrar una categoría o marca. */
 function TaxonomyForm({
   kind,
   item,

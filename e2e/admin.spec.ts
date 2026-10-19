@@ -14,6 +14,7 @@ test.beforeEach(async ({ page }) => {
   })
 })
 
+/** Inicia sesión en el panel con el administrador de prueba. */
 async function login(page: Page) {
   await page.goto('/admin')
   await page.getByLabel('Correo').fill(EMAIL)

@@ -1,3 +1,6 @@
+/**
+ * Importación del catálogo desde una hoja de cálculo: valida cada fila y crea o actualiza productos.
+ */
 import { existsSync } from 'node:fs'
 import path from 'node:path'
 import type { PrismaClient } from '../generated/prisma/client.js'
@@ -5,6 +8,7 @@ import { buildSearchText, normalizeText } from '../lib/text.js'
 import { parseCsv } from './csv.js'
 import { type CatalogRow, catalogColumns, catalogRowSchema } from './rowSchema.js'
 
+/** Problema encontrado en una fila de la hoja de cálculo. */
 export interface ImportProblem {
   /** Fila de la hoja de cálculo (la 1 es la de los títulos). */
   line: number
@@ -13,6 +17,7 @@ export interface ImportProblem {
   message: string
 }
 
+/** Fila ya validada, con su número de línea. */
 export interface ValidatedRow extends CatalogRow {
   line: number
 }
@@ -20,6 +25,7 @@ export interface ValidatedRow extends CatalogRow {
 /** Ruta pública de una foto: client/public/images/products/<SKU>/<archivo>. */
 export const photoUrl = (sku: string, file: string) => `/images/products/${sku}/${file}`
 
+/** Convierte un texto en slug para la URL: sin tildes, en minúsculas y con guiones. */
 export const slugify = (value: string) => normalizeText(value).trim().replace(/\s+/g, '-')
 
 /**

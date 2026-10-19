@@ -17,12 +17,14 @@ const COMMON_PASSWORDS = new Set([
   'qwertyuiopas',
 ])
 
+/** Validación del correo del administrador (sin espacios, en minúsculas). */
 export const adminEmailSchema = z
   .string()
   .trim()
   .toLowerCase()
   .max(254)
   .pipe(z.email('Correo inválido'))
+/** Validación del nombre del administrador. */
 export const adminNameSchema = z.string().trim().min(2, 'Escribe tu nombre').max(60)
 
 /** Devuelve el problema de la contraseña, o null si es aceptable. */
@@ -42,6 +44,9 @@ export function passwordProblem(password: string, email: string) {
   return null
 }
 
+/**
+ * Crea una cuenta de administrador con la contraseña cifrada; valida correo, nombre y seguridad de la contraseña.
+ */
 export async function createAdmin(input: { email: string; name: string; password: string }) {
   const email = adminEmailSchema.parse(input.email)
   const name = adminNameSchema.parse(input.name)

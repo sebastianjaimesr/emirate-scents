@@ -1,3 +1,6 @@
+/**
+ * Pruebas de la conversión entre el formulario de producto y los datos que se envían a la API.
+ */
 import { describe, expect, it } from 'vitest'
 import { emptyProduct, parsePesos, slugify, toPayload } from './productForm'
 

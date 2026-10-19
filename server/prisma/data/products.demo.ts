@@ -15,6 +15,7 @@ export interface DemoBrand {
   name: string
 }
 
+/** Producto DEMO de los datos de prueba. */
 export interface DemoProduct {
   id: string
   sku: string
@@ -49,6 +50,7 @@ const brands = {
 
 type DemoInput = Omit<DemoProduct, 'id' | 'description'> & { description?: string }
 
+/** Completa un producto DEMO con su id, descripción y valores por defecto. */
 function demo(input: DemoInput): DemoProduct {
   return {
     ...input,

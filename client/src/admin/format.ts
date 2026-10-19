@@ -1,3 +1,6 @@
+/**
+ * Formatos de fecha y dinero para el panel de administración (zona horaria de Colombia).
+ */
 const dateTime = new Intl.DateTimeFormat('es-CO', {
   dateStyle: 'medium',
   timeStyle: 'short',

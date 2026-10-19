@@ -1,3 +1,6 @@
+/**
+ * Pruebas de las validaciones del formulario de compra.
+ */
 import { describe, expect, it } from 'vitest'
 import { checkoutSchema, normalizeColombianMobile } from './checkoutSchema'
 

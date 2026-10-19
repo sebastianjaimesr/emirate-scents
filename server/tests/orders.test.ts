@@ -1,3 +1,6 @@
+/**
+ * Pruebas de la API de pedidos.
+ */
 import request from 'supertest'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { createApp } from '../src/app.js'
@@ -6,6 +9,7 @@ import { prisma } from '../src/lib/prisma.js'
 import { formatOrderNumber } from '../src/services/orderService.js'
 import { resetCatalog } from './fixtures.js'
 
+/** Aplicación Express para las pruebas (sin abrir un puerto). */
 const app = createApp()
 
 beforeAll(async () => {
@@ -16,6 +20,7 @@ beforeAll(async () => {
 })
 afterAll(() => prisma.$disconnect())
 
+/** Pedido válido de ejemplo para las pruebas. */
 const validOrder = () => ({
   customer: {
     name: '  Ana   Gómez ',

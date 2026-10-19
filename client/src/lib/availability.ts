@@ -1,3 +1,7 @@
+/**
+ * Cálculo de la disponibilidad de un producto a partir de su stock.
+ */
+/** Disponibilidad: hay unidades, quedan pocas o está agotado. */
 export type AvailabilityStatus = 'available' | 'low' | 'sold-out'
 
 /** Umbral a partir del cual se muestra "Últimas unidades". */

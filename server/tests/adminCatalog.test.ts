@@ -23,10 +23,14 @@ afterAll(() => prisma.$disconnect())
 
 // Las peticiones que cambian datos llevan el origen del panel, como haría el navegador
 const post = (url: string) => agent.post(url).set('Origin', PANEL_ORIGIN)
+/** PATCH con el origen del panel (la API rechaza peticiones de otros orígenes). */
 const patch = (url: string) => agent.patch(url).set('Origin', PANEL_ORIGIN)
+/** PUT con el origen del panel. */
 const put = (url: string) => agent.put(url).set('Origin', PANEL_ORIGIN)
+/** DELETE con el origen del panel. */
 const del = (url: string) => agent.delete(url).set('Origin', PANEL_ORIGIN)
 
+/** Datos de un producto nuevo válido; overrides cambia los campos que se necesiten. */
 const newProduct = (overrides: object = {}) => ({
   sku: 'AR-0101',
   slug: 'oud-de-prueba',

@@ -21,6 +21,9 @@ async function loadAllProducts() {
   }
 }
 
+/**
+ * Página de inventario: productos con su stock, filtro por tipo de movimiento y registro de entradas y ajustes.
+ */
 export function InventoryPage() {
   const [params, setParams] = useSearchParams()
   const type = params.get('tipo') ?? ''

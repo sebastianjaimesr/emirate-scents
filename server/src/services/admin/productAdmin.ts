@@ -28,6 +28,7 @@ const adminProductInclude = {
 
 type AdminProductRecord = Prisma.ProductGetPayload<{ include: typeof adminProductInclude }>
 
+/** Convierte un producto de la base en el objeto del panel. */
 export function toAdminProduct(product: AdminProductRecord) {
   return {
     id: product.id,
@@ -65,6 +66,7 @@ export function toAdminProduct(product: AdminProductRecord) {
   }
 }
 
+/** Producto del panel (tipo deducido de toAdminProduct). */
 export type AdminProduct = ReturnType<typeof toAdminProduct>
 
 const orderBy: Record<AdminProductsQuery['orden'], Prisma.ProductOrderByWithRelationInput[]> = {
@@ -74,6 +76,7 @@ const orderBy: Record<AdminProductsQuery['orden'], Prisma.ProductOrderByWithRela
   'precio-desc': [{ price: 'desc' }, { id: 'asc' }],
 }
 
+/** Lista los productos del panel con búsqueda, filtros (estado, categoría, marca) y paginación. */
 export async function listAdminProducts(query: AdminProductsQuery) {
   const words = searchWords(query.q)
   const where: Prisma.ProductWhereInput = {
@@ -116,6 +119,7 @@ export async function listAdminProducts(query: AdminProductsQuery) {
   }
 }
 
+/** Busca un producto del panel por id o lanza un error 404. */
 export async function getAdminProduct(id: string) {
   const product = await prisma.product.findUnique({ where: { id }, include: adminProductInclude })
   if (!product) throw notFound('Producto no encontrado')
@@ -154,6 +158,9 @@ async function checkUnique(
   }
 }
 
+/**
+ * Arma el texto de búsqueda del producto (nombre, marca, familia y notas, sin tildes) para buscar rápido.
+ */
 async function searchTextFor(
   tx: Prisma.TransactionClient,
   product: {
@@ -169,6 +176,10 @@ async function searchTextFor(
   return buildSearchText({ ...product, brandName: brand.name })
 }
 
+/**
+ * Crea un producto en una transacción: valida que existan la marca y la categoría, que el SKU y el slug
+ * no estén repetidos y registra el stock inicial como movimiento de inventario.
+ */
 export async function createAdminProduct(input: CreateProductInput, adminId: string) {
   const { initialStock, ...fields } = input
   const id = await prisma.$transaction(async (tx) => {
@@ -199,6 +210,7 @@ export async function createAdminProduct(input: CreateProductInput, adminId: str
   return getAdminProduct(id)
 }
 
+/** Actualiza un producto en una transacción, revisando que no se repitan SKU ni slug. */
 export async function updateAdminProduct(id: string, input: UpdateProductInput) {
   await prisma.$transaction(async (tx) => {
     const current = await tx.product.findUnique({ where: { id } })
@@ -245,6 +257,7 @@ async function publishProblems(tx: Prisma.TransactionClient, id: string) {
   return problems
 }
 
+/** Error 400 cuando falta información para publicar un producto. */
 const incompleteError = (problems: string[]) =>
   new HttpError(
     400,
@@ -252,6 +265,7 @@ const incompleteError = (problems: string[]) =>
     `No se puede publicar todavía: ${problems.join('; ').toLowerCase()}`,
   )
 
+/** Cambia el estado de publicación; para publicar revisa que el producto esté completo. */
 export async function setProductStatus(id: string, status: 'BORRADOR' | 'PUBLICADO' | 'ARCHIVADO') {
   await prisma.$transaction(async (tx) => {
     const product = await tx.product.findUnique({ where: { id } })

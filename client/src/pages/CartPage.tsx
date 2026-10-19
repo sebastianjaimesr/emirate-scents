@@ -1,3 +1,6 @@
+/**
+ * Página del carrito de compras (/carrito).
+ */
 import { ShoppingBag } from 'lucide-react'
 import { AnimatePresence, m } from 'motion/react'
 import { ButtonLink } from '../components/ui/ButtonLink'
@@ -11,6 +14,7 @@ import { useCartStore } from '../features/cart/cartStore'
 import { CartSummary } from '../features/cart/CartSummary'
 import { useCartDetails } from '../features/cart/useCartDetails'
 
+/** Página del carrito: líneas, avisos, resumen y botones para vaciar o continuar con la compra. */
 export function CartPage() {
   const clear = useCartStore((state) => state.clear)
   const { lines, subtotal, hasDemoProducts, hasSoldOut, isLoading, loadError, isEmpty } =

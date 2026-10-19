@@ -1,3 +1,6 @@
+/**
+ * Botón de corazón para marcar o quitar favoritos.
+ */
 import { Heart } from 'lucide-react'
 import { AnimatePresence, m, useReducedMotion } from 'motion/react'
 import { useState } from 'react'

@@ -40,6 +40,9 @@ function hash(text: string) {
   return value
 }
 
+/**
+ * Ilustración SVG de un frasco generada a partir de un texto: el mismo texto siempre da la misma forma y color.
+ */
 export function BottleIllustration({ seed, className }: { seed: string; className?: string }) {
   const id = useId()
   const value = hash(seed)

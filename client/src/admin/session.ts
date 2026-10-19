@@ -1,5 +1,9 @@
+/**
+ * Estado de la sesión del administrador (comprobando, sin sesión o con sesión), compartido con Zustand.
+ */
 import { create } from 'zustand'
 
+/** Administrador con sesión iniciada. */
 export interface AdminUser {
   id: string
   email: string

@@ -45,6 +45,7 @@ export const categories: readonly Category[] = [
   },
 ]
 
+/** Busca una categoría por su slug (el texto de la dirección); undefined si no existe. */
 export function findCategory(slug: string | undefined) {
   return categories.find((category) => category.slug === slug)
 }

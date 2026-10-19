@@ -16,6 +16,7 @@ export interface ImageStorage {
 }
 
 export const UPLOADS_URL_PREFIX = '/uploads'
+/** Carpeta absoluta donde se guardan las fotos subidas. */
 export const uploadsRoot = path.resolve(env.UPLOADS_DIR)
 
 /** Evita que una clave mal formada escriba fuera de la carpeta de fotos. */

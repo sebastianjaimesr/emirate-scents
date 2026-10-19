@@ -89,6 +89,9 @@ const envSchema = z
     }
   })
 
+/**
+ * Indica si el texto es un origen válido (protocolo + dominio + puerto), por ejemplo https://tienda.com.
+ */
 function isOrigin(value: string) {
   try {
     return new URL(value).origin === value
@@ -97,6 +100,7 @@ function isOrigin(value: string) {
   }
 }
 
+/** Variables de entorno ya validadas. */
 export type Env = z.infer<typeof envSchema>
 
 /** Valida un conjunto de variables (exportada para probar las reglas sin tocar process.env). */
@@ -111,4 +115,5 @@ export function parseEnv(source: Record<string, string | undefined>): Env {
   return result.data
 }
 
+/** Configuración del servidor validada al arrancar: si falta algo, el servidor no inicia. */
 export const env = parseEnv(process.env)

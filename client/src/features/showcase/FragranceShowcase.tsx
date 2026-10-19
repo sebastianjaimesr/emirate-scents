@@ -56,6 +56,7 @@ export function FragranceShowcase() {
   )
 }
 
+/** Encabezado de la vitrina: título, aviso DEMO si aplica y contador opcional. */
 function Heading({
   hasDemo,
   counter,
@@ -99,6 +100,9 @@ function Heading({
   )
 }
 
+/**
+ * Vitrina "fijada" para escritorio: la sección queda fija mientras el scroll desplaza los frascos de lado a lado.
+ */
 function PinnedShowcase({ products, hasDemo }: { products: Product[]; hasDemo: boolean }) {
   const sectionRef = useRef<HTMLElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
@@ -200,6 +204,7 @@ function Counter({ position, count }: { position: MotionValue<number>; count: nu
   )
 }
 
+/** Barra de progreso dorada que avanza con el scroll. */
 function ProgressBar({ progress }: { progress: MotionValue<number> }) {
   return (
     <div aria-hidden="true" className="h-px w-full bg-gold-500/20">
@@ -208,6 +213,7 @@ function ProgressBar({ progress }: { progress: MotionValue<number> }) {
   )
 }
 
+/** Vitrina en carrusel horizontal (celulares o movimiento reducido). */
 function CarouselShowcase({ products, hasDemo }: { products: Product[]; hasDemo: boolean }) {
   return (
     <section

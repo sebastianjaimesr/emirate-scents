@@ -17,6 +17,9 @@ import { CartFlightLayer } from '../features/cart/CartFlight'
  */
 const loadMotionFeatures = () => import('../lib/motionFeatures').then((module) => module.default)
 
+/**
+ * Estructura común de la tienda: encabezado, contenido de la página con transición, pie de página y botón de WhatsApp.
+ */
 export function RootLayout() {
   // Cada tipo de página (inicio, catálogo, ficha...) entra con un fundido suave. Se usa el id de
   // la ruta y no la dirección: cambiar de categoría o de filtros no repite la transición.

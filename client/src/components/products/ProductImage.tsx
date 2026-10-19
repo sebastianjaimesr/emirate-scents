@@ -1,3 +1,6 @@
+/**
+ * Imagen de producto responsive con reserva cuando no hay foto.
+ */
 import { mediaUrl } from '../../lib/mediaUrl'
 import { useState } from 'react'
 import { cx } from '../../lib/cx'

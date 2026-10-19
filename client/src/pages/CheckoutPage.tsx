@@ -1,3 +1,6 @@
+/**
+ * Página para finalizar la compra (/finalizar-compra).
+ */
 import { ShoppingBag } from 'lucide-react'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router'

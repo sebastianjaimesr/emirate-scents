@@ -1,3 +1,6 @@
+/**
+ * Escena 3D del hero (React Three Fiber): el frasco de perfume, luces y partículas.
+ */
 import { ContactShadows, Environment, Float, Lightformer, Sparkles } from '@react-three/drei'
 import { Canvas, useFrame } from '@react-three/fiber'
 import type { MotionValue } from 'motion/react'
@@ -5,6 +8,7 @@ import { useEffect, useRef, useState } from 'react'
 import { ACESFilmicToneMapping, MathUtils, type Group } from 'three'
 import { PerfumeBottle } from './PerfumeBottle'
 
+/** Props de la escena 3D del hero. */
 export interface HeroSceneProps {
   /** Progreso del scroll del hero: 0 arriba, 1 cuando el hero salió de la pantalla. */
   progress: MotionValue<number>
@@ -61,6 +65,7 @@ export default function HeroScene({ progress, compact, onReady, onContextLost }:
   )
 }
 
+/** Contenido de la escena: gira e inclina el frasco según el scroll y el tiempo en cada frame. */
 function Stage({ progress, compact }: Pick<HeroSceneProps, 'progress' | 'compact'>) {
   const bottleRef = useRef<Group>(null)
 

@@ -6,13 +6,16 @@
 
 export type Concentration = 'EXTRAIT' | 'PARFUM' | 'EDP' | 'EDT' | 'EDC' | 'ACEITE' | 'OTRA'
 
+/** Público al que va dirigido el perfume. */
 export type Audience = 'FEMENINO' | 'MASCULINO' | 'UNISEX'
 
+/** Marca de un producto. */
 export interface Brand {
   slug: string
   name: string
 }
 
+/** Foto de un producto. */
 export interface ProductImage {
   /** Ruta dentro de /public, por ejemplo /images/products/AR-0001/1.webp */
   url: string
@@ -20,12 +23,14 @@ export interface ProductImage {
   alt: string
 }
 
+/** Notas olfativas: de salida, de corazón y de fondo. */
 export interface OlfactoryNotes {
   top: string[]
   heart: string[]
   base: string[]
 }
 
+/** Producto de la tienda tal como lo usa el frontend. */
 export interface Product {
   id: string
   /** Código de inventario. Prefijos: AR- árabes, DS- diseñador, NI- nicho, EQ- equivalencias. */

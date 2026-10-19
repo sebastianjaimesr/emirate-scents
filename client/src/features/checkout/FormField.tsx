@@ -1,3 +1,6 @@
+/**
+ * Envoltura de los campos del formulario de compra.
+ */
 import type { ReactNode } from 'react'
 import { cx } from '../../lib/cx'
 

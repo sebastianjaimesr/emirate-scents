@@ -1,3 +1,6 @@
+/**
+ * Rutas de la API del panel de administración.
+ */
 import { Router } from 'express'
 import { rateLimit } from 'express-rate-limit'
 import multer from 'multer'

@@ -18,6 +18,10 @@ import { loginSchema } from '../validators/admin.js'
 const invalidCredentials = () =>
   new HttpError(401, 'INVALID_CREDENTIALS', 'Correo o contraseña incorrectos')
 
+/**
+ * Inicio de sesión del panel: valida correo y contraseña, crea la sesión y envía la cookie.
+ * Si algo falla responde siempre el mismo error, para no revelar si el correo existe.
+ */
 export async function login(req: Request, res: Response) {
   const parsed = loginSchema.safeParse(req.body)
   if (!parsed.success) throw invalidCredentials()
@@ -44,6 +48,7 @@ export async function login(req: Request, res: Response) {
   res.json({ admin: { id: admin.id, email: admin.email, name: admin.name } })
 }
 
+/** Cierra la sesión: borra la sesión de la base y la cookie. */
 export async function logout(req: Request, res: Response) {
   const token = readSessionToken(req)
   if (token) await deleteSession(token)
@@ -51,6 +56,7 @@ export async function logout(req: Request, res: Response) {
   res.status(204).end()
 }
 
+/** Devuelve el administrador de la sesión actual. */
 export function me(_req: Request, res: Response) {
   res.json({ admin: currentAdmin(res) })
 }

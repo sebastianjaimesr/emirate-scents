@@ -1,3 +1,6 @@
+/**
+ * Animación de aparición al hacer scroll.
+ */
 import { m } from 'motion/react'
 import type { ReactNode } from 'react'
 

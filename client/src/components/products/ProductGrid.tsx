@@ -1,3 +1,6 @@
+/**
+ * Cuadrícula de tarjetas de producto y su versión "cargando".
+ */
 import { AnimatePresence, m } from 'motion/react'
 import { cx } from '../../lib/cx'
 import type { Product } from '../../types/product'
@@ -34,6 +37,7 @@ export function ProductGrid({ products, className, priorityCount = 0 }: ProductG
   )
 }
 
+/** Cuadrícula de tarjetas vacías animadas mientras cargan los productos. */
 export function ProductGridSkeleton({
   count = 8,
   className,

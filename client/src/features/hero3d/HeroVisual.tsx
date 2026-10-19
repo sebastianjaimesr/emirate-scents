@@ -1,9 +1,13 @@
+/**
+ * Parte visual del hero: arco dorado y la escena 3D (con imagen de respaldo si no hay WebGL).
+ */
 import { AnimatePresence, m, useReducedMotion, useTransform, type MotionValue } from 'motion/react'
 import { lazy, Suspense, useEffect, useState } from 'react'
 import { Logo } from '../../components/brand/Logo'
 import { SceneErrorBoundary } from './SceneErrorBoundary'
 import { supportsWebGL, whenIdle } from './webgl'
 
+/** La escena 3D se descarga aparte (lazy) para que la página cargue rápido. */
 const HeroScene = lazy(() => import('./HeroScene'))
 
 const ease = [0.22, 1, 0.36, 1] as const

@@ -13,12 +13,14 @@ import type { Product } from '../types/product'
 import { ApiError, apiGet } from './apiClient'
 
 const isPreview = import.meta.env.VITE_PREVIEW === 'true'
+/** El catálogo de vista previa se descarga solo si se usa (modo sin servidor). */
 const preview = () => import('./preview/previewCatalog')
 
 interface ItemsResponse<T> {
   items: T[]
 }
 
+/** Busca productos en la API con los filtros del catálogo (o en el catálogo de vista previa). */
 export async function getProducts(query: CatalogQuery): Promise<CatalogPage> {
   if (isPreview) return (await preview()).getProducts(query)
   // Los parámetros de la API son los mismos que los de la URL de la tienda
@@ -28,6 +30,7 @@ export async function getProducts(query: CatalogQuery): Promise<CatalogPage> {
   return apiGet<CatalogPage>('/products', params)
 }
 
+/** Filtros disponibles de una categoría (o de todo el catálogo). */
 export async function getCatalogFilters(category?: string): Promise<CatalogFacets> {
   if (isPreview) return (await preview()).getCatalogFilters(category)
   return apiGet<CatalogFacets>('/catalog/filters', { categoria: category })
@@ -62,6 +65,7 @@ export async function getProductsByIds(ids: string[]): Promise<Product[]> {
   return items
 }
 
+/** Tipos de productos destacados en el inicio. */
 export type HighlightKind = 'recomendados' | 'novedades' | 'mas-vendidos'
 
 /** Selecciones para la página de inicio. Cada una depende de un dato real del producto. */

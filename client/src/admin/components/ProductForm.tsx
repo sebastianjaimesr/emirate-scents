@@ -1,3 +1,6 @@
+/**
+ * Formulario para crear o editar un producto del catálogo desde el panel de administración.
+ */
 import { useState, type FormEvent } from 'react'
 import { audienceLabels, concentrationLabels } from '../../types/product'
 import { slugify, type ProductFormValues } from '../productForm'
@@ -20,6 +23,10 @@ interface ProductFormProps {
 const errorFor = (errors: Record<string, string>, field: string) =>
   errors[field] ?? Object.entries(errors).find(([key]) => key.startsWith(`${field}.`))?.[1]
 
+/**
+ * Formulario de producto. Mantiene los valores en estado local y los entrega a onSubmit;
+ * los errores del servidor llegan en fieldErrors y se muestran junto a cada campo.
+ */
 export function ProductForm({
   initialValues,
   isNew,
