@@ -1,3 +1,6 @@
+/**
+ * Gestión de las fotos de un producto en el panel (subir, ordenar, describir y borrar).
+ */
 import { ArrowLeft, ArrowRight, ImagePlus, Star, Trash2 } from 'lucide-react'
 import { useRef, useState, type ChangeEvent } from 'react'
 import { adminApi, errorMessage } from '../adminApi'

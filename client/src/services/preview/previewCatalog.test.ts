@@ -1,7 +1,11 @@
+/**
+ * Pruebas del catálogo de la vista previa (funciona sin servidor).
+ */
 import { describe, expect, it } from 'vitest'
 import { parseCatalogQuery } from '../../features/catalog/catalogQuery'
 import * as preview from './previewCatalog'
 
+/** Atajo: convierte un texto de parámetros de URL en un CatalogQuery. */
 const query = (search: string, category?: string) =>
   parseCatalogQuery(new URLSearchParams(search), category)
 

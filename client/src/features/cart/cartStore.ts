@@ -1,3 +1,6 @@
+/**
+ * Estado global del carrito con Zustand, guardado en el navegador (localStorage).
+ */
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 import { addItem, removeItem, setItemQuantity, type CartItem } from './cartItems'

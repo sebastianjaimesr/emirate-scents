@@ -1,3 +1,6 @@
+/**
+ * Formulario de compra: datos de entrega, método de pago y envío del pedido.
+ */
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Check, LoaderCircle } from 'lucide-react'
 import { useForm, useWatch } from 'react-hook-form'

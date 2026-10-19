@@ -16,6 +16,9 @@ if (!connectionString)
 
 const prisma = new PrismaClient({ adapter: new PrismaPg({ connectionString }) })
 
+/**
+ * Carga los datos iniciales: categorías, marcas y productos DEMO (upsert, así se puede ejecutar varias veces).
+ */
 async function main() {
   for (const [position, category] of categories.entries()) {
     await prisma.category.upsert({

@@ -7,6 +7,7 @@ export const paymentMethodLabels: Record<PaymentMethod, string> = {
   ACORDAR_POR_WHATSAPP: 'Acordar por WhatsApp',
 }
 
+/** Datos de entrega del cliente. */
 export interface OrderCustomer {
   name: string
   phone: string
@@ -16,6 +17,7 @@ export interface OrderCustomer {
   notes?: string
 }
 
+/** Pedido que se envía a la API. */
 export interface OrderRequest {
   customer: OrderCustomer
   paymentMethod: PaymentMethod
@@ -47,8 +49,10 @@ export interface OrderConfirmation {
   total: number
 }
 
+/** Por qué un producto del carrito no se puede comprar. */
 export type UnavailableReason = 'NOT_FOUND' | 'DEMO_PRODUCT' | 'SOLD_OUT' | 'INSUFFICIENT_STOCK'
 
+/** Producto no disponible al crear el pedido, con el motivo y las unidades disponibles. */
 export interface UnavailableItem {
   productId: string
   reason: UnavailableReason

@@ -16,6 +16,7 @@ const orderBy: Record<SortOption, Prisma.ProductOrderByWithRelationInput[]> = {
   nombre: [{ name: 'asc' }, { id: 'asc' }],
 }
 
+/** Convierte los filtros del catálogo en la condición "where" de Prisma (solo productos publicados). */
 function buildWhere(query: CatalogQuery): Prisma.ProductWhereInput {
   return {
     ...published,
@@ -31,6 +32,7 @@ function buildWhere(query: CatalogQuery): Prisma.ProductWhereInput {
   }
 }
 
+/** Una página de resultados del catálogo. */
 export interface CatalogPage {
   items: ProductDto[]
   total: number
@@ -38,6 +40,7 @@ export interface CatalogPage {
   totalPages: number
 }
 
+/** Busca productos publicados con filtros, orden y paginación. */
 export async function listProducts(query: CatalogQuery): Promise<CatalogPage> {
   const where = buildWhere(query)
   const total = await prisma.product.count({ where })
@@ -54,6 +57,7 @@ export async function listProducts(query: CatalogQuery): Promise<CatalogPage> {
   return { items: products.map(toProductDto), total, page, totalPages }
 }
 
+/** Filtros disponibles con su cantidad de productos y el rango de precios. */
 export interface CatalogFacets {
   brands: { slug: string; name: string; count: number }[]
   sizes: { value: number; count: number }[]
@@ -116,6 +120,7 @@ export async function getFacets(categorySlug?: string): Promise<CatalogFacets> {
   }
 }
 
+/** Busca un producto publicado por slug; null si no existe. */
 export async function getProductBySlug(slug: string): Promise<ProductDto | null> {
   const product = await prisma.product.findFirst({
     where: { ...published, slug },
@@ -184,6 +189,7 @@ export async function getHighlightedProducts(kind: HighlightKind, limit: number)
   return products.map(toProductDto)
 }
 
+/** Categorías con la cantidad de productos publicados. */
 export async function listCategories() {
   const categories = await prisma.category.findMany({
     orderBy: { position: 'asc' },
@@ -199,6 +205,7 @@ export async function listCategories() {
   }))
 }
 
+/** Marcas que tienen al menos un producto publicado. */
 export async function listBrands() {
   return prisma.brand.findMany({
     where: { products: { some: published } },

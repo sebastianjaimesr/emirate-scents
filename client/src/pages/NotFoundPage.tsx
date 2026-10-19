@@ -1,9 +1,13 @@
+/**
+ * Página 404 de la tienda.
+ */
 import { Compass } from 'lucide-react'
 import { ButtonLink } from '../components/ui/ButtonLink'
 import { Container } from '../components/ui/Container'
 import { EmptyState } from '../components/ui/EmptyState'
 import { PageMeta } from '../components/ui/PageMeta'
 
+/** Página que se muestra cuando la dirección no existe. */
 export function NotFoundPage() {
   return (
     <>

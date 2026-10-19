@@ -22,6 +22,9 @@ export function clampQuantity(quantity: number, stock = MAX_QUANTITY_PER_ITEM) {
   return Math.min(max, Math.max(1, Math.floor(quantity)))
 }
 
+/**
+ * Agrega un producto al carrito (o suma cantidad si ya estaba), sin pasar del stock ni del máximo por producto.
+ */
 export function addItem(
   items: CartItem[],
   productId: string,
@@ -40,6 +43,7 @@ export function addItem(
   )
 }
 
+/** Cambia la cantidad de un producto; 0 o menos lo quita del carrito. */
 export function setItemQuantity(
   items: CartItem[],
   productId: string,
@@ -52,16 +56,20 @@ export function setItemQuantity(
   )
 }
 
+/** Quita un producto del carrito. */
 export function removeItem(items: CartItem[], productId: string): CartItem[] {
   return items.filter((item) => item.productId !== productId)
 }
 
+/** Cantidad total de unidades en el carrito. */
 export function countItems(items: CartItem[]) {
   return items.reduce((total, item) => total + item.quantity, 0)
 }
 
+/** Estado de una línea del carrito: normal, agotado o con la cantidad reducida por falta de stock. */
 export type CartLineStatus = 'ok' | 'sold-out' | 'reduced'
 
+/** Línea del carrito con el producto, la cantidad efectiva y su total. */
 export interface CartLine {
   product: Product
   /** Cantidad efectiva (ajustada al inventario disponible). */

@@ -7,6 +7,7 @@ import { prisma } from '../src/lib/prisma.js'
 export const PANEL_ORIGIN = 'http://panel.test'
 export const ADMIN_PASSWORD = 'una frase larga de prueba'
 
+/** Crea un administrador de prueba en la base. */
 export async function createTestAdmin(email = 'admin@prueba.test', isActive = true) {
   return prisma.adminUser.create({
     data: {

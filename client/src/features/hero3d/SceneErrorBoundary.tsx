@@ -1,3 +1,6 @@
+/**
+ * Límite de errores para la escena 3D.
+ */
 import { Component, type ReactNode } from 'react'
 
 interface SceneErrorBoundaryProps {

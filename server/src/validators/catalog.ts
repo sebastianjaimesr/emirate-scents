@@ -13,11 +13,13 @@ export const sortValues = [
   'precio-desc',
   'nombre',
 ] as const
+/** Valores posibles de orden del catálogo. */
 export type SortOption = (typeof sortValues)[number]
 
 export const MAX_PAGE_SIZE = 48
 export const DEFAULT_PAGE_SIZE = 12
 
+/** Validación de un slug en la URL. */
 const slug = z
   .string()
   .trim()
@@ -42,8 +44,10 @@ const csvList = <T extends z.ZodType>(item: T, max = 20) =>
     z.array(item).max(max, `Máximo ${max} valores`),
   )
 
+/** Número entero entre 0 y mil millones (para precios). */
 const wholeNumber = z.coerce.number().int().min(0).max(1_000_000_000)
 
+/** Validación de los filtros del catálogo que llegan en la URL (?q=, ?marca=, ?tamano=...). */
 export const catalogQuerySchema = z
   .object({
     q: z.string().trim().max(100).default(''),
@@ -65,23 +69,30 @@ export const catalogQuerySchema = z
     { message: 'precioMin no puede ser mayor que precioMax', path: ['precioMin'] },
   )
 
+/** Filtros del catálogo ya validados. */
 export type CatalogQuery = z.infer<typeof catalogQuerySchema>
 
+/** Validación de los parámetros de los filtros disponibles. */
 export const facetsQuerySchema = z.object({ categoria: slug.optional() })
 
+/** Validación del parámetro :slug. */
 export const slugParamsSchema = z.object({ slug })
 
 export const highlightKinds = ['recomendados', 'novedades', 'mas-vendidos'] as const
+/** Tipos de productos destacados. */
 export type HighlightKind = (typeof highlightKinds)[number]
 
+/** Validación del tipo de destacados. */
 export const highlightParamsSchema = z.object({ kind: z.enum(highlightKinds) })
 
+/** Validación de ?limite= (entre 1 y 12, por defecto 4). */
 export const limitQuerySchema = z.object({
   limite: z.coerce.number().int().min(1).max(12).default(4),
 })
 
 export const MAX_LOOKUP_IDS = 50
 
+/** Validación de ?ids= para buscar productos del carrito. */
 export const lookupQuerySchema = z.object({
   ids: csvList(z.string().min(1).max(64), MAX_LOOKUP_IDS),
 })

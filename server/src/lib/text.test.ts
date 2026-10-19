@@ -1,3 +1,6 @@
+/**
+ * Pruebas de la normalización de textos para búsqueda.
+ */
 import { describe, expect, it } from 'vitest'
 import { buildSearchText, normalizeText, searchWords } from './text.js'
 

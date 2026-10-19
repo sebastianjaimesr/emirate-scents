@@ -18,6 +18,7 @@ import type { HighlightKind } from '../productService'
 
 const collator = new Intl.Collator('es')
 
+/** Convierte un producto DEMO de los datos de prueba en un Product de la tienda. */
 function toProduct(demo: DemoProduct): Product {
   return {
     ...demo,
@@ -27,6 +28,7 @@ function toProduct(demo: DemoProduct): Product {
   }
 }
 
+/** Productos DEMO con su texto de búsqueda ya preparado (sin tildes ni mayúsculas). */
 const products = demoProducts.map((demo) => ({
   product: toProduct(demo),
   searchText: buildSearchText({
@@ -38,6 +40,7 @@ const products = demoProducts.map((demo) => ({
   }),
 }))
 
+/** Orden de más nuevo a más antiguo; el id desempata. */
 const byNewest = (a: Product, b: Product) =>
   b.publishedAt.localeCompare(a.publishedAt) || a.id.localeCompare(b.id)
 
@@ -49,9 +52,13 @@ const comparators: Record<SortOption, (a: Product, b: Product) => number> = {
   nombre: (a, b) => collator.compare(a.name, b.name) || a.id.localeCompare(b.id),
 }
 
+/** Productos de una categoría (o todos si no se indica). */
 const inCategory = (category?: string) =>
   products.filter(({ product }) => !category || product.categorySlug === category)
 
+/**
+ * Versión sin servidor de la búsqueda del catálogo: filtra, ordena y pagina los productos DEMO en el navegador.
+ */
 export async function getProducts(query: CatalogQuery): Promise<CatalogPage> {
   const words = searchWords(query.search)
   const matches = inCategory(query.category)
@@ -80,12 +87,14 @@ export async function getProducts(query: CatalogQuery): Promise<CatalogPage> {
   }
 }
 
+/** Cuenta cuántas veces aparece cada valor. */
 function countBy<T>(values: T[]) {
   const counts = new Map<T, number>()
   for (const value of values) counts.set(value, (counts.get(value) ?? 0) + 1)
   return counts
 }
 
+/** Versión sin servidor de los filtros disponibles (marcas, tamaños, familias y rango de precios). */
 export async function getCatalogFilters(category?: string): Promise<CatalogFacets> {
   const items = inCategory(category).map(({ product }) => product)
   const brandNames = new Map(items.map((product) => [product.brand.slug, product.brand.name]))
@@ -104,10 +113,12 @@ export async function getCatalogFilters(category?: string): Promise<CatalogFacet
   }
 }
 
+/** Busca un producto DEMO por slug. */
 export async function getProductBySlug(slug: string): Promise<Product | null> {
   return products.find(({ product }) => product.slug === slug)?.product ?? null
 }
 
+/** Productos relacionados: primero de la misma categoría, hasta completar el límite. */
 export async function getRelatedProducts(product: Product, limit: number): Promise<Product[]> {
   const sameCategory = inCategory(product.categorySlug)
     .map(({ product: item }) => item)
@@ -122,6 +133,7 @@ export async function getRelatedProducts(product: Product, limit: number): Promi
   )
 }
 
+/** Productos DEMO con los ids indicados, en el mismo orden. */
 export async function getProductsByIds(ids: string[]): Promise<Product[]> {
   return ids.flatMap((id) => products.find(({ product }) => product.id === id)?.product ?? [])
 }
@@ -132,6 +144,7 @@ const highlightFilter: Record<HighlightKind, (product: Product) => boolean> = {
   'mas-vendidos': (product) => !!product.isBestSeller,
 }
 
+/** Productos destacados (recomendados, novedades o más vendidos) de los datos DEMO. */
 export async function getHighlightedProducts(kind: HighlightKind, limit: number) {
   return products
     .map(({ product }) => product)

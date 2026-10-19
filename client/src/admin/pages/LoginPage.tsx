@@ -1,9 +1,13 @@
+/**
+ * Página de inicio de sesión del panel de administración.
+ */
 import { useState, type FormEvent } from 'react'
 import { Wordmark } from '../../components/brand/Wordmark'
 import { AdminApiError, adminApi, errorMessage } from '../adminApi'
 import { Alert, Button, TextField } from '../components/ui'
 import { useAdminSession, type AdminUser } from '../session'
 
+/** Formulario de acceso al panel: envía correo y contraseña y, si son correctos, abre la sesión. */
 export function LoginPage({ notice }: { notice?: string }) {
   const [error, setError] = useState<string>()
   const [busy, setBusy] = useState(false)

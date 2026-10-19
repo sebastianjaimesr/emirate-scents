@@ -1,3 +1,6 @@
+/**
+ * Creación de pedidos: valida stock y precios con la base de datos y descuenta el inventario en una transacción.
+ */
 import { PRIVACY_POLICY_VERSION } from '../config/policies.js'
 import { Prisma } from '../generated/prisma/client.js'
 import { HttpError } from '../lib/httpError.js'
@@ -5,8 +8,10 @@ import { prisma } from '../lib/prisma.js'
 import type { CreateOrderInput } from '../validators/order.js'
 import { toCOP } from './productMapper.js'
 
+/** Por qué un producto del pedido no se puede comprar. */
 export type UnavailableReason = 'NOT_FOUND' | 'DEMO_PRODUCT' | 'SOLD_OUT' | 'INSUFFICIENT_STOCK'
 
+/** Producto del pedido que no está disponible, con el motivo. */
 export interface UnavailableItem {
   productId: string
   reason: UnavailableReason

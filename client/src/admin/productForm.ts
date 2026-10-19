@@ -55,6 +55,7 @@ export const emptyProduct: ProductFormValues = {
   initialStock: '0',
 }
 
+/** Convierte un producto de la API en los valores (textos) que muestra el formulario. */
 export function toFormValues(product: AdminProduct): ProductFormValues {
   return {
     name: product.name,
@@ -88,14 +89,20 @@ export function parsePesos(value: string) {
   return digits === '' ? null : Number(digits)
 }
 
+/** Texto a entero; vacío significa null. */
 const parseInteger = (value: string) => (value.trim() === '' ? null : Number(value))
+/** Texto separado por comas, punto y coma o saltos de línea a lista sin vacíos. */
 const list = (value: string) =>
   value
     .split(/[,;\n]/)
     .map((item) => item.trim())
     .filter(Boolean)
+/** Texto vacío a null. */
 const orNull = (value: string) => value.trim() || null
 
+/**
+ * Convierte los valores del formulario en el objeto que espera la API (precios en número, listas, nulls).
+ */
 export function toPayload(values: ProductFormValues, isNew: boolean) {
   return {
     name: values.name,

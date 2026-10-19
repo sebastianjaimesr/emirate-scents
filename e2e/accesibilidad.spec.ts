@@ -1,3 +1,6 @@
+/**
+ * Pruebas de extremo a extremo (Playwright) de accesibilidad: revisan las páginas principales con axe.
+ */
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 

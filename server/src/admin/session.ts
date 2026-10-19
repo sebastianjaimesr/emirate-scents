@@ -24,8 +24,10 @@ const isProduction = env.NODE_ENV === 'production'
  */
 export const SESSION_COOKIE = isProduction ? '__Host-es_admin' : 'es_admin'
 
+/** Huella SHA-256 del token: en la base se guarda la huella, nunca el token real. */
 const hashToken = (token: string) => createHash('sha256').update(token).digest('hex')
 
+/** Crea una sesión para el administrador y devuelve el token que irá en la cookie. */
 export async function createSession(adminId: string) {
   const token = randomBytes(32).toString('base64url')
   await prisma.adminSession.create({
@@ -38,6 +40,7 @@ export async function createSession(adminId: string) {
   return token
 }
 
+/** Administrador dueño de la sesión. */
 export interface SessionAdmin {
   id: string
   email: string
@@ -70,6 +73,7 @@ export async function findSession(token: string): Promise<SessionAdmin | null> {
   return { id, email, name }
 }
 
+/** Borra la sesión (cerrar sesión). */
 export async function deleteSession(token: string) {
   await prisma.adminSession.deleteMany({ where: { tokenHash: hashToken(token) } })
 }
@@ -109,10 +113,12 @@ const cookieOptions = {
   path: '/',
 } as const
 
+/** Envía la cookie de sesión (httpOnly) al navegador. */
 export function setSessionCookie(res: Response, token: string) {
   res.cookie(SESSION_COOKIE, token, { ...cookieOptions, maxAge: ABSOLUTE_TIMEOUT_MS })
 }
 
+/** Borra la cookie de sesión del navegador. */
 export function clearSessionCookie(res: Response) {
   res.clearCookie(SESSION_COOKIE, cookieOptions)
 }

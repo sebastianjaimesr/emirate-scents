@@ -50,6 +50,7 @@ const capProfile: Profile = [
   [0, 1.42],
 ]
 
+/** Crea una geometría de revolución (como un torno): gira un perfil 2D alrededor del eje vertical. */
 function lathe(profile: Profile, segments = FACETS) {
   return new LatheGeometry(
     profile.map(([radius, height]) => new Vector2(radius, height)),
@@ -57,6 +58,9 @@ function lathe(profile: Profile, segments = FACETS) {
   )
 }
 
+/**
+ * Frasco de perfume 3D hecho con geometrías de revolución: vidrio, líquido y tapa. simple=true usa materiales más livianos.
+ */
 export function PerfumeBottle({ simple = false }: { simple?: boolean }) {
   const glass = useMemo(() => lathe(glassProfile), [])
   const liquid = useMemo(() => lathe(liquidProfile), [])

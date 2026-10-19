@@ -1,3 +1,6 @@
+/**
+ * Barra del catálogo: total de resultados, orden y botón de filtros.
+ */
 import { Search, SlidersHorizontal } from 'lucide-react'
 import { useState, type FormEvent } from 'react'
 import { sortOptions, type CatalogQuery, type SortOption } from './catalogQuery'

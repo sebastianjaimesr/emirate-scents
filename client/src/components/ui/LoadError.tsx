@@ -1,3 +1,6 @@
+/**
+ * Mensaje de error de carga con botón para reintentar.
+ */
 import { CloudOff, RotateCw } from 'lucide-react'
 import { buildWhatsAppUrl, whatsappMessages } from '../../lib/whatsapp'
 import { WhatsAppIcon } from '../brand/BrandIcons'

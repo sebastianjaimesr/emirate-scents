@@ -9,10 +9,12 @@ const options = { algorithm: 2 /* Argon2id */, memoryCost: 19_456, timeCost: 2, 
 
 export const MIN_PASSWORD_LENGTH = 12
 
+/** Cifra una contraseña con Argon2. */
 export function hashPassword(password: string) {
   return hash(password, options)
 }
 
+/** Compara una contraseña con su huella cifrada; false si no coincide o si la huella es inválida. */
 export async function verifyPassword(passwordHash: string, password: string) {
   try {
     return await verify(passwordHash, password)
@@ -28,6 +30,10 @@ export async function verifyPassword(passwordHash: string, password: string) {
  * se puede averiguar qué correos tienen acceso midiendo el tiempo.
  */
 let dummyHash: Promise<string> | undefined
+/**
+ * Huella falsa que se compara cuando el correo no existe, para que la respuesta tarde lo mismo
+ * (así no se puede adivinar qué correos existen midiendo el tiempo).
+ */
 export function getDummyHash() {
   dummyHash ??= hash(crypto.randomUUID(), options)
   return dummyHash

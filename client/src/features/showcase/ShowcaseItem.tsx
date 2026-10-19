@@ -1,3 +1,6 @@
+/**
+ * Un frasco de la vitrina con su nombre, precio y enlace a la ficha.
+ */
 import { mediaUrl } from '../../lib/mediaUrl'
 import { m, useTransform, type MotionValue } from 'motion/react'
 import type { FocusEvent } from 'react'
@@ -19,6 +22,7 @@ interface ShowcaseItemProps {
   onFocus?: (event: FocusEvent<HTMLAnchorElement>) => void
 }
 
+/** Limita un valor al rango de -limit a +limit. */
 const clamp = (value: number, limit: number) => Math.max(-limit, Math.min(limit, value))
 
 /** Un perfume de la vitrina: frasco con luz y sombra, nombre, marca, precio y enlace. */

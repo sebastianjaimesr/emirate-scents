@@ -1,3 +1,6 @@
+/**
+ * Paginación numerada del catálogo.
+ */
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { getPageItems } from './pageItems'
 

@@ -1,3 +1,6 @@
+/**
+ * Indicador de disponibilidad de un producto (disponible, pocas unidades o agotado).
+ */
 import { getAvailability } from '../../lib/availability'
 import { cx } from '../../lib/cx'
 
@@ -7,6 +10,7 @@ const dotColor = {
   'sold-out': 'bg-smoke-500',
 } as const
 
+/** Muestra un punto de color y el texto de disponibilidad según el stock. */
 export function AvailabilityLabel({ stock }: { stock: number }) {
   const availability = getAvailability(stock)
   return (

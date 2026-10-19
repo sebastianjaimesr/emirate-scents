@@ -1,3 +1,6 @@
+/**
+ * Panel de filtros del catálogo: marcas, tamaños, familias olfativas y precio.
+ */
 import { Check } from 'lucide-react'
 import { useState, type FormEvent, type ReactNode } from 'react'
 import { NavLink } from 'react-router'
@@ -12,6 +15,7 @@ interface FiltersPanelProps {
   onChange: (changes: Partial<CatalogQuery>) => void
 }
 
+/** Grupo de filtros con su título (fieldset + legend para accesibilidad). */
 function FilterGroup({ title, children }: { title: string; children: ReactNode }) {
   return (
     <fieldset className="border-b border-sand-300 py-6 first:pt-0">
@@ -21,6 +25,7 @@ function FilterGroup({ title, children }: { title: string; children: ReactNode }
   )
 }
 
+/** Opción de filtro con casilla y cantidad de productos. */
 function CheckboxOption({
   label,
   count,
@@ -46,6 +51,7 @@ function CheckboxOption({
   )
 }
 
+/** Filtro de precio mínimo y máximo; se aplica al presionar "Aplicar". */
 function PriceFilter({ query, facets, onChange }: FiltersPanelProps) {
   // Estado local: el filtro se aplica al pulsar "Aplicar", no con cada tecla
   const [min, setMin] = useState(query.minPrice?.toString() ?? '')

@@ -12,6 +12,9 @@ interface ErrorBody {
   error?: { code?: string; message?: string; items?: unknown }
 }
 
+/**
+ * Error de la API con su código HTTP, código de error y detalle (por ejemplo, los productos no disponibles).
+ */
 export class ApiError extends Error {
   /** Código HTTP de la respuesta; 0 si no hubo conexión. */
   readonly status: number
@@ -31,6 +34,7 @@ export class ApiError extends Error {
 
 type QueryValue = string | number | undefined
 
+/** Hace la petición con un tiempo máximo de espera y convierte cualquier falla en {@link ApiError}. */
 async function request<T>(path: string, init: RequestInit) {
   let response: Response
   try {
@@ -50,6 +54,7 @@ async function request<T>(path: string, init: RequestInit) {
   return (await response.json()) as T
 }
 
+/** Petición GET con parámetros de búsqueda (los valores vacíos se omiten). */
 export function apiGet<T>(path: string, query?: Record<string, QueryValue> | URLSearchParams) {
   const params =
     query instanceof URLSearchParams
@@ -63,6 +68,7 @@ export function apiGet<T>(path: string, query?: Record<string, QueryValue> | URL
   return request<T>(`${path}${search}`, { method: 'GET' })
 }
 
+/** Petición POST con cuerpo JSON. */
 export function apiPost<T>(path: string, body: unknown) {
   return request<T>(path, {
     method: 'POST',

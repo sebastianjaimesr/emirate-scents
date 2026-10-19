@@ -1,6 +1,10 @@
+/**
+ * Pruebas de la lectura y escritura de los filtros del catálogo en la URL.
+ */
 import { describe, expect, it } from 'vitest'
 import { parseCatalogQuery, toSearchParams } from './catalogQuery'
 
+/** Atajo: convierte un texto de parámetros de URL en un CatalogQuery. */
 const parse = (search: string, category?: string) =>
   parseCatalogQuery(new URLSearchParams(search), category)
 
