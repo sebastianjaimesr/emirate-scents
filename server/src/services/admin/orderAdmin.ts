@@ -214,7 +214,8 @@ export class OrderStockShortageError extends HttpError {
 
 /**
  * Cambia el estado de un pedido en una transacción: verifica que el cambio esté permitido,
- * devuelve el stock si se cancela y guarda el cambio en el historial.
+ * descuenta el stock al confirmarlo, lo devuelve si se cancela un pedido ya descontado
+ * y guarda el cambio en el historial.
  */
 export async function changeOrderStatus(
   id: string,

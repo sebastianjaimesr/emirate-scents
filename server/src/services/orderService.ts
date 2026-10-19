@@ -1,5 +1,7 @@
 /**
- * Creación de pedidos: valida stock y precios con la base de datos y descuenta el inventario en una transacción.
+ * Creación de pedidos de la tienda: verifica en la base de datos que cada producto esté publicado,
+ * no sea DEMO y tenga stock, y guarda el pedido con los precios reales. El inventario NO se
+ * descuenta aquí: se descuenta cuando el negocio confirma el pedido en el panel (ver orderAdmin).
  */
 import { PRIVACY_POLICY_VERSION } from '../config/policies.js'
 import { Prisma } from '../generated/prisma/client.js'
