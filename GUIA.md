@@ -14,24 +14,24 @@ Una **tienda online de perfumes** completa (full-stack):
 
 ## 2. Lenguajes y tecnologías
 
-| Parte | Tecnología | Para qué |
-|---|---|---|
-| Todo | **TypeScript** | Un solo lenguaje con tipos en el frontend, el backend y las pruebas. |
-| Frontend (`client/`) | **React 19** + **Vite** | Interfaz por componentes y servidor de desarrollo. |
-| | **React Router** | Páginas y rutas (`/catalogo`, `/producto/:slug`, `/admin`…). |
-| | **Tailwind CSS** | Estilos con clases utilitarias. |
-| | **Zustand** | Estado global: carrito, favoritos, sesión del panel. |
-| | **React Hook Form + Zod** | Formulario de compra y sus validaciones. |
-| | **Motion** | Animaciones. |
-| | **Three.js + React Three Fiber** | El frasco 3D del inicio. |
-| Backend (`server/`) | **Node.js + Express 5** | La API REST (`/api/...`). |
-| | **Prisma** + **PostgreSQL** | Base de datos y acceso a ella con tipos. |
-| | **Zod** | Validación de todo lo que llega a la API. |
-| | **Argon2** | Cifrado de contraseñas de administradores. |
-| | **sharp** + **multer** | Subida y conversión de fotos a WebP. |
-| | **helmet**, **express-rate-limit**, **pino** | Seguridad de cabeceras, límite de peticiones y registros. |
-| Pruebas | **Vitest**, **Supertest**, **Playwright** (+ axe) | Unitarias, de la API y de extremo a extremo (incluida accesibilidad). |
-| Calidad | **oxlint**, **Prettier**, **GitHub Actions** | Linter, formato y ejecución automática de pruebas. |
+| Parte                | Tecnología                                        | Para qué                                                              |
+| -------------------- | ------------------------------------------------- | --------------------------------------------------------------------- |
+| Todo                 | **TypeScript**                                    | Un solo lenguaje con tipos en el frontend, el backend y las pruebas.  |
+| Frontend (`client/`) | **React 19** + **Vite**                           | Interfaz por componentes y servidor de desarrollo.                    |
+|                      | **React Router**                                  | Páginas y rutas (`/catalogo`, `/producto/:slug`, `/admin`…).          |
+|                      | **Tailwind CSS**                                  | Estilos con clases utilitarias.                                       |
+|                      | **Zustand**                                       | Estado global: carrito, favoritos, sesión del panel.                  |
+|                      | **React Hook Form + Zod**                         | Formulario de compra y sus validaciones.                              |
+|                      | **Motion**                                        | Animaciones.                                                          |
+|                      | **Three.js + React Three Fiber**                  | El frasco 3D del inicio.                                              |
+| Backend (`server/`)  | **Node.js + Express 5**                           | La API REST (`/api/...`).                                             |
+|                      | **Prisma** + **PostgreSQL**                       | Base de datos y acceso a ella con tipos.                              |
+|                      | **Zod**                                           | Validación de todo lo que llega a la API.                             |
+|                      | **Argon2**                                        | Cifrado de contraseñas de administradores.                            |
+|                      | **sharp** + **multer**                            | Subida y conversión de fotos a WebP.                                  |
+|                      | **helmet**, **express-rate-limit**, **pino**      | Seguridad de cabeceras, límite de peticiones y registros.             |
+| Pruebas              | **Vitest**, **Supertest**, **Playwright** (+ axe) | Unitarias, de la API y de extremo a extremo (incluida accesibilidad). |
+| Calidad              | **oxlint**, **Prettier**, **GitHub Actions**      | Linter, formato y ejecución automática de pruebas.                    |
 
 ## 3. Cómo está organizado (monorepo)
 
@@ -65,16 +65,19 @@ emirate-scents/
 ## 4. Flujos principales
 
 ### 4.1 Ver el catálogo
+
 1. `CatalogPage` lee los filtros de la **URL** (`?marca=…&tamano=…`) con `useCatalogQuery`. Por eso un enlace con filtros se puede compartir.
 2. `productService.getProducts()` llama a `GET /api/products` con esos parámetros.
 3. En el servidor, `catalogQuerySchema` (Zod) valida los parámetros y `catalogService.listProducts()` arma la consulta de Prisma (solo productos **publicados**), cuenta el total y devuelve una página.
 
 ### 4.2 Carrito y favoritos
+
 - Viven en el navegador con **Zustand + `persist`** (localStorage): sobreviven a recargar la página sin necesidad de cuenta.
 - El carrito solo guarda `id` y cantidad. Para mostrarlo, `useCartDetails` pide los productos actualizados (`GET /api/catalog/lookup?ids=…`), así el precio y el stock siempre son los reales.
 - Las funciones del carrito (`cartItems.ts`) son **puras** (reciben datos y devuelven datos nuevos), lo que las hace fáciles de probar.
 
 ### 4.3 Hacer un pedido (el más importante para sustentar)
+
 1. `CheckoutForm` valida los datos con **React Hook Form + Zod** (`checkoutSchema`): nombre, celular colombiano, departamento, ciudad, dirección, método de pago y autorización de datos.
 2. Se envía `POST /api/orders` con los datos del cliente y solo **ids y cantidades** (nunca precios).
 3. En el servidor, `createOrderSchema` valida todo otra vez, y `createOrder()` dentro de una **transacción**:
@@ -84,30 +87,32 @@ emirate-scents/
 4. La tienda guarda el pedido en `sessionStorage` y muestra `OrderConfirmationPage`, que arma el mensaje y el enlace de **WhatsApp** para confirmarlo con el negocio.
 
 ### 4.4 Inventario (regla del negocio)
+
 - Un pedido nuevo **no** descuenta unidades: queda "Pendiente de confirmación".
 - Cuando el administrador lo pasa a **CONFIRMADO**, se descuentan las unidades (movimiento VENTA).
 - Si se **cancela** un pedido ya descontado, las unidades vuelven (movimiento DEVOLUCION).
 - Las transiciones permitidas están en `ORDER_TRANSITIONS` (`orderAdmin.ts`); todo ocurre en una transacción.
 
 ### 4.5 Panel de administración
+
 - Inicio de sesión con correo y contraseña (cifrada con **Argon2**). Se crea una sesión en la base y se envía una **cookie httpOnly** (JavaScript no la puede leer).
 - En la base se guarda la **huella SHA-256** del token, no el token real.
 - Todas las rutas `/api/admin` revisan la sesión (`requireAdmin`) y el origen de la petición (`requireAdminOrigin`), y tienen límite de intentos.
-- El código del panel se carga con *lazy loading*: un cliente de la tienda nunca lo descarga.
+- El código del panel se carga con _lazy loading_: un cliente de la tienda nunca lo descarga.
 
 ## 5. Seguridad (pregunta casi segura)
 
-| Riesgo | Cómo se protege |
-|---|---|
-| Alguien cambia el precio en el navegador | El servidor ignora precios del cliente y usa los de la base. |
-| Datos inválidos o maliciosos | Zod valida cada entrada en el servidor (además de la validación del formulario). |
-| Robots que envían pedidos | Campo trampa invisible (`website`) y límite de 10 pedidos cada 15 minutos por IP. |
-| Fuerza bruta en el login | Límite de intentos y el mismo mensaje de error para correo o contraseña incorrectos. |
-| Adivinar correos midiendo el tiempo | Si el correo no existe, se compara contra una huella falsa (`getDummyHash`) para tardar lo mismo. |
-| Robo de la sesión con JavaScript | Cookie `httpOnly`; en la base solo se guarda la huella del token. |
-| Cabeceras inseguras | `helmet`. |
-| Datos personales en los registros | Los logs del pedido solo guardan número y total. |
-| Productos de ejemplo vendidos por error | Los productos DEMO no se pueden comprar. |
+| Riesgo                                   | Cómo se protege                                                                                   |
+| ---------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| Alguien cambia el precio en el navegador | El servidor ignora precios del cliente y usa los de la base.                                      |
+| Datos inválidos o maliciosos             | Zod valida cada entrada en el servidor (además de la validación del formulario).                  |
+| Robots que envían pedidos                | Campo trampa invisible (`website`) y límite de 10 pedidos cada 15 minutos por IP.                 |
+| Fuerza bruta en el login                 | Límite de intentos y el mismo mensaje de error para correo o contraseña incorrectos.              |
+| Adivinar correos midiendo el tiempo      | Si el correo no existe, se compara contra una huella falsa (`getDummyHash`) para tardar lo mismo. |
+| Robo de la sesión con JavaScript         | Cookie `httpOnly`; en la base solo se guarda la huella del token.                                 |
+| Cabeceras inseguras                      | `helmet`.                                                                                         |
+| Datos personales en los registros        | Los logs del pedido solo guardan número y total.                                                  |
+| Productos de ejemplo vendidos por error  | Los productos DEMO no se pueden comprar.                                                          |
 
 ## 6. Conceptos clave
 
