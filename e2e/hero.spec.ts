@@ -36,8 +36,8 @@ test('sin WebGL, el hero muestra la composición de reserva y sus botones funcio
   await expect(page.locator(`${visual} img`)).toBeVisible()
 
   await page.getByRole('link', { name: 'Descubrir perfumes' }).click()
-  // Lleva a la vitrina de perfumes
-  await expect(page.locator('#vitrina-title')).toBeInViewport()
+  // Lleva a la colección (sin WebGL, en su versión estática)
+  await expect(page.locator('#humo-title')).toBeInViewport()
 
   await page.getByRole('link', { name: 'Explorar la colección' }).click()
   await expect(page).toHaveURL(/\/catalogo$/)
