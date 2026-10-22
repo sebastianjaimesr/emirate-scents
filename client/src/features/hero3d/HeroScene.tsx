@@ -3,6 +3,7 @@ import { Canvas, useFrame } from '@react-three/fiber'
 import type { MotionValue } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
 import { ACESFilmicToneMapping, MathUtils, type Group } from 'three'
+import { FpsGuard } from '../scenes/FpsGuard'
 import { PerfumeBottle } from './PerfumeBottle'
 
 export interface HeroSceneProps {
@@ -14,6 +15,8 @@ export interface HeroSceneProps {
   onReady: () => void
   /** Se llama si el navegador pierde el contexto 3D (por falta de memoria, por ejemplo). */
   onContextLost: () => void
+  /** Se llama si la escena va lenta en este dispositivo (ver FpsGuard). */
+  onSlow: () => void
 }
 
 const CAMERA_Z = 8.2
@@ -23,7 +26,13 @@ const CAMERA_Z = 8.2
  * Este archivo se descarga aparte (import dinámico en HeroVisual): quien no ve el hero
  * o no tiene WebGL nunca descarga Three.js.
  */
-export default function HeroScene({ progress, compact, onReady, onContextLost }: HeroSceneProps) {
+export default function HeroScene({
+  progress,
+  compact,
+  onReady,
+  onContextLost,
+  onSlow,
+}: HeroSceneProps) {
   const wrapperRef = useRef<HTMLDivElement>(null)
   const [onScreen, setOnScreen] = useState(true)
 
@@ -44,7 +53,7 @@ export default function HeroScene({ progress, compact, onReady, onContextLost }:
         eventPrefix="client"
         frameloop={onScreen ? 'always' : 'never'}
         // Resolución limitada: en pantallas de alta densidad, dibujar 3× no se nota y cuesta mucho
-        dpr={[1, compact ? 1.25 : 1.6]}
+        dpr={compact ? 1 : [1, 1.6]}
         camera={{ position: [0, 0.35, CAMERA_Z], fov: 30 }}
         gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
         onCreated={({ gl }) => {
@@ -55,6 +64,7 @@ export default function HeroScene({ progress, compact, onReady, onContextLost }:
           requestAnimationFrame(() => requestAnimationFrame(onReady))
         }}
       >
+        <FpsGuard onSlow={onSlow} />
         <Stage progress={progress} compact={compact} />
       </Canvas>
     </div>

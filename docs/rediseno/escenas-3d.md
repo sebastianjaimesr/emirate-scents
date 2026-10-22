@@ -35,7 +35,14 @@ cada perfume en tres filas. En esos casos no se descarga Three.js.
 - Cada escena se descarga aparte (entre 3 y 5 KB comprimida; Three.js ya lo usa el hero).
 - Una escena solo existe cuando su sección está cerca de la pantalla y se pausa cuando sale. Una
   prueba comprueba que nunca hay más de tres lienzos 3D a la vez.
-- En celulares se usan menos partículas y menos resolución.
+- En celulares se usan menos partículas, resolución 1 y una versión más ligera de cada escena:
+  sin reflejos de entorno (el oro es un color cálido con brillo propio), sin el foco ni los
+  haces de luz de la galería y con materiales sencillos en el suelo y la pared. Medido en un
+  celular simulado con el procesador 4 veces más lento: la galería pasó de 4 a 21 cuadros por
+  segundo y el hero de 14 a 20.
+- **Modo ligero:** si una escena no logra 20 cuadros por segundo durante unos segundos, se
+  apaga sola y deja el texto en su sitio (la página no salta). Las demás escenas y el hero
+  tampoco se cargan durante esa visita (`client/src/features/scenes/lowPower.ts`).
 
 ## Cambio en la API
 

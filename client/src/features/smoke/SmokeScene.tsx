@@ -35,13 +35,20 @@ const EDGE = 0.45
  * juntan para escribir el nombre de cada perfume y luego se deshacen en humo para formar el
  * siguiente. El cursor las aparta al pasar. Este archivo se descarga aparte.
  */
-export default function SmokeScene({ compact, onReady, onContextLost, ...props }: SmokeSceneProps) {
+export default function SmokeScene({
+  compact,
+  onReady,
+  onContextLost,
+  onSlow,
+  ...props
+}: SmokeSceneProps) {
   return (
     <SceneCanvas
       compact={compact}
       camera={{ position: [0, 0, 10], fov: 35 }}
       onReady={onReady}
       onContextLost={onContextLost}
+      onSlow={onSlow}
     >
       <Smoke compact={compact} {...props} />
     </SceneCanvas>

@@ -9,17 +9,18 @@ import {
   DoubleSide,
   LineCurve3,
   MathUtils,
-  MeshStandardMaterial,
   Shape,
   ShaderMaterial,
   SRGBColorSpace,
   TextureLoader,
   Vector3,
   type Group,
+  type Material,
   type SpotLight,
   type Texture,
 } from 'three'
 import { loadDisplayFont } from '../scenes/displayFont'
+import { createGoldMaterial, GOLD } from '../scenes/goldMaterial'
 import { SceneCanvas, type SceneCallbacks } from '../scenes/SceneCanvas'
 import { createPlaqueTexture, type PlaqueText } from './plaqueTexture'
 
@@ -42,7 +43,6 @@ const SPACING = 3.4
 const FLOOR_Y = -1
 const WALL_Z = -2.3
 const INK = '#0e0c0a'
-const GOLD = '#c9a54e'
 
 /**
  * "Galería con pedestales": una sala oscura con nichos en arco (el motivo de la marca) y un
@@ -54,6 +54,7 @@ export default function GalleryScene({
   compact,
   onReady,
   onContextLost,
+  onSlow,
   ...props
 }: GallerySceneProps) {
   return (
@@ -62,6 +63,7 @@ export default function GalleryScene({
       camera={{ position: [0, 0.6, 6], fov: 38 }}
       onReady={onReady}
       onContextLost={onContextLost}
+      onSlow={onSlow}
     >
       <fog attach="fog" args={[INK, 7, 17]} />
       <Gallery compact={compact} {...props} />
@@ -100,38 +102,44 @@ function Gallery({ items, progress, compact }: Omit<GallerySceneProps, keyof Sce
 
   return (
     <>
-      <ambientLight intensity={0.18} />
-      <directionalLight position={[-2, 3, 5]} intensity={0.35} color="#fff1d6" />
-      <spotLight
-        ref={spotRef}
-        position={[0, 4.2, 1.6]}
-        angle={0.42}
-        penumbra={0.9}
-        intensity={compact ? 45 : 60}
-        distance={12}
-        color="#f6dca0"
-      />
+      <ambientLight intensity={compact ? 0.35 : 0.18} />
+      <directionalLight position={[-2, 3, 5]} intensity={compact ? 0.8 : 0.35} color="#fff1d6" />
+      {/* En celulares no hay foco: cada luz extra se calcula en cada punto de la pantalla */}
+      {!compact && (
+        <spotLight
+          ref={spotRef}
+          position={[0, 4.2, 1.6]}
+          angle={0.42}
+          penumbra={0.9}
+          intensity={60}
+          distance={12}
+          color="#f6dca0"
+        />
+      )}
 
       {/* Reflejos del oro: un "estudio virtual" de paneles de luz, calculado una sola vez */}
-      <Environment resolution={compact ? 64 : 128} frames={1}>
-        <Lightformer
-          form="rect"
-          intensity={2.5}
-          color="#f6e3b4"
-          position={[0, 4, 2]}
-          scale={[8, 1.2, 1]}
-        />
-        <Lightformer
-          form="rect"
-          intensity={1.6}
-          color={GOLD}
-          position={[-4, 1, 2]}
-          rotation-y={Math.PI / 2}
-          scale={[3, 5, 1]}
-        />
-      </Environment>
+      {/* Reflejos del oro (solo en escritorio; ver createGoldMaterial) */}
+      {!compact && (
+        <Environment resolution={128} frames={1}>
+          <Lightformer
+            form="rect"
+            intensity={2.5}
+            color="#f6e3b4"
+            position={[0, 4, 2]}
+            scale={[8, 1.2, 1]}
+          />
+          <Lightformer
+            form="rect"
+            intensity={1.6}
+            color={GOLD}
+            position={[-4, 1, 2]}
+            rotation-y={Math.PI / 2}
+            scale={[3, 5, 1]}
+          />
+        </Environment>
+      )}
 
-      <Room length={length} />
+      <Room length={length} compact={compact} />
       {items.map((item, index) => (
         <Pedestal
           key={item.id}
@@ -139,6 +147,7 @@ function Gallery({ items, progress, compact }: Omit<GallerySceneProps, keyof Sce
           index={index}
           progress={progress}
           count={items.length}
+          compact={compact}
         />
       ))}
 
@@ -157,17 +166,26 @@ function Gallery({ items, progress, compact }: Omit<GallerySceneProps, keyof Sce
 }
 
 /** Suelo, pared y un nicho en arco detrás de cada pedestal. */
-function Room({ length }: { length: number }) {
+function Room({ length, compact }: { length: number; compact: boolean }) {
   const width = length + 40
+  // Suelo y pared cubren casi toda la pantalla: en celulares usan un material más sencillo
   return (
     <group>
       <mesh rotation-x={-Math.PI / 2} position={[length / 2, FLOOR_Y, 0]}>
         <planeGeometry args={[width, 30]} />
-        <meshStandardMaterial color="#0d0b09" roughness={0.55} metalness={0.3} />
+        {compact ? (
+          <meshLambertMaterial color="#0d0b09" />
+        ) : (
+          <meshStandardMaterial color="#0d0b09" roughness={0.55} metalness={0.3} />
+        )}
       </mesh>
       <mesh position={[length / 2, 2, WALL_Z]}>
         <planeGeometry args={[width, 8]} />
-        <meshStandardMaterial color="#110e0b" roughness={0.95} />
+        {compact ? (
+          <meshLambertMaterial color="#110e0b" />
+        ) : (
+          <meshStandardMaterial color="#110e0b" roughness={0.95} />
+        )}
       </mesh>
     </group>
   )
@@ -270,11 +288,13 @@ function Pedestal({
   index,
   progress,
   count,
+  compact,
 }: {
   item: GalleryItem
   index: number
   progress: MotionValue<number>
   count: number
+  compact: boolean
 }) {
   const x = index * SPACING
   const beam = useLightMaterial(beamFragment)
@@ -282,10 +302,7 @@ function Pedestal({
   const gemRef = useRef<Group>(null)
   const niche = useMemo(() => archShape(2, 3.3), [])
   const outline = useMemo(() => archCurve(2, 3.3), [])
-  const gold = useMemo(
-    () => new MeshStandardMaterial({ color: GOLD, metalness: 1, roughness: 0.28 }),
-    [],
-  )
+  const gold = useMemo(() => createGoldMaterial(compact), [compact])
 
   useEffect(
     () => () => {
@@ -332,14 +349,17 @@ function Pedestal({
       </mesh>
 
       {/* Haz de luz desde el techo y charco de luz en el suelo */}
-      <mesh position-y={1.6} material={beam}>
-        <coneGeometry args={[1, 5.2, 40, 1, true]} />
-      </mesh>
+      {/* El haz es transparente y ocupa media pantalla: en celulares queda solo el charco de luz */}
+      {!compact && (
+        <mesh position-y={1.6} material={beam}>
+          <coneGeometry args={[1, 5.2, 40, 1, true]} />
+        </mesh>
+      )}
       <mesh position-y={FLOOR_Y + 0.005} rotation-x={-Math.PI / 2} material={pool}>
         <planeGeometry args={[3, 3]} />
       </mesh>
 
-      <Exhibit item={item} gemRef={gemRef} gold={gold} />
+      <Exhibit item={item} gemRef={gemRef} gold={gold} compact={compact} />
     </group>
   )
 }
@@ -349,10 +369,12 @@ function Exhibit({
   item,
   gemRef,
   gold,
+  compact,
 }: {
   item: GalleryItem
   gemRef: React.RefObject<Group | null>
-  gold: MeshStandardMaterial
+  gold: Material
+  compact: boolean
 }) {
   const photo = usePhoto(item.imageUrl)
   const [plaque, setPlaque] = useState<Texture>()
@@ -424,7 +446,7 @@ function Exhibit({
             <octahedronGeometry args={[1, 0]} />
             <meshStandardMaterial
               color={GOLD}
-              metalness={0.9}
+              metalness={compact ? 0.3 : 0.9}
               roughness={0.22}
               emissive="#6f5420"
               emissiveIntensity={0.7}

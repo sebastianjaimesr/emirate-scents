@@ -1,6 +1,7 @@
 import { m } from 'motion/react'
 import { Suspense, useRef, useState, type ReactNode } from 'react'
 import { SceneErrorBoundary } from '../hero3d/SceneErrorBoundary'
+import { markLowPower, useLowPower } from './lowPower'
 import { useNearViewport } from './useNearViewport'
 
 /**
@@ -10,16 +11,24 @@ import { useNearViewport } from './useNearViewport'
  * - Aparece con un fundido cuando su primer cuadro está listo.
  * - Si falla al descargarse o al dibujarse, llama a `onError`: la sección pasa a su
  *   versión estática y el resto de la tienda sigue funcionando.
+ * - Si va lenta en este dispositivo, se apaga (y las demás escenas también: "modo ligero").
+ *   El texto de la sección sigue en su sitio, así que la página no salta.
  */
 export function SceneSlot({
   onError,
   children,
 }: {
   onError: () => void
-  children: (callbacks: { onReady: () => void; onContextLost: () => void }) => ReactNode
+  children: (callbacks: {
+    onReady: () => void
+    onContextLost: () => void
+    onSlow: () => void
+  }) => ReactNode
 }) {
   const slotRef = useRef<HTMLDivElement>(null)
-  const near = useNearViewport(slotRef)
+  const isNear = useNearViewport(slotRef)
+  const lowPower = useLowPower()
+  const near = isNear && !lowPower
   const [ready, setReady] = useState(false)
   // Al alejarse, la escena se destruye: la próxima vez vuelve a aparecer con fundido
   if (!near && ready) setReady(false)
@@ -36,7 +45,11 @@ export function SceneSlot({
         >
           <SceneErrorBoundary onError={onError}>
             <Suspense fallback={null}>
-              {children({ onReady: () => setReady(true), onContextLost: onError })}
+              {children({
+                onReady: () => setReady(true),
+                onContextLost: onError,
+                onSlow: markLowPower,
+              })}
             </Suspense>
           </SceneErrorBoundary>
         </m.div>
