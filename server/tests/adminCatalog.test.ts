@@ -301,6 +301,8 @@ describe('fotos', () => {
     expect(served.status).toBe(200)
     expect(served.headers['content-type']).toBe('image/webp')
     expect(served.headers['cross-origin-resource-policy']).toBe('cross-origin')
+    // La galería 3D la usa como textura (WebGL exige permiso CORS para fotos de otro dominio)
+    expect(served.headers['access-control-allow-origin']).toBe('*')
     expect(served.headers['cache-control']).toContain('immutable')
 
     const product = await request(app).get('/api/products/p1')

@@ -52,6 +52,7 @@ export const fixtureProducts: FixtureProduct[] = [
     price: 700000,
     sizeMl: 100,
     olfactoryFamily: 'Amaderada',
+    notesHeart: ['Cuero'],
     isNew: true,
     publishedAt: '2026-02-01',
   },

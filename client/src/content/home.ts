@@ -14,10 +14,21 @@ export const heroContent = {
   advice: '¿Necesitas ayuda para elegir? Te asesoramos por WhatsApp',
 }
 
-/** Vitrina horizontal del inicio (features/showcase). */
-export const showcaseContent = {
-  eyebrow: 'The Fragrance Collection',
-  title: 'Descubre el universo Emirate',
+/** Secciones 3D del inicio (features/smoke, features/gallery, features/notesPyramid). */
+export const sceneContent = {
+  smoke: {
+    eyebrow: 'The Fragrance Collection',
+    title: 'Descubre el universo Emirate',
+  },
+  gallery: {
+    eyebrow: 'La galería',
+    title: 'Cada fragancia, en su pedestal',
+  },
+  pyramid: {
+    eyebrow: 'Pirámide olfativa',
+    title: 'Así se despliega cada perfume',
+    lead: 'Las notas de salida se sienten primero; las de corazón, después; las de fondo son las que permanecen en la piel.',
+  },
 }
 
 export const manifestoContent = {
