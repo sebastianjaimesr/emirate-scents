@@ -163,3 +163,31 @@ test('sin WebGL las secciones muestran su versión estática', async ({ page }) 
     await expect(page.locator(`[data-scene="${scene}-estatica"]`)).toHaveCount(1)
   }
 })
+
+test('si el dispositivo no da abasto, apaga las escenas y deja el texto en su sitio', async ({
+  page,
+  context,
+}) => {
+  test.setTimeout(90_000)
+  // En pruebas la vigilancia está apagada (navigator.webdriver): aquí se activa, y se
+  // simula un procesador 20 veces más lento para que la escena vaya lenta
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'webdriver', { get: () => false })
+  })
+  const cdp = await context.newCDPSession(page)
+  await cdp.send('Emulation.setCPUThrottlingRate', { rate: 20 })
+  await page.goto('/')
+  await scrollSceneTo(page, 'humo', 0)
+  const section = page.locator('[data-scene="humo"]')
+  await expect(section.locator('canvas')).toHaveCount(1, { timeout: 30_000 })
+  // La escena se apaga sola; el texto y la forma de la sección se mantienen
+  await expect(section.locator('canvas')).toHaveCount(0, { timeout: 45_000 })
+  await cdp.send('Emulation.setCPUThrottlingRate', { rate: 1 })
+  await expect(section.locator('h2')).toBeVisible()
+  await expect(section.getByRole('link', { name: /Ver perfume/ })).toBeVisible()
+
+  // Se recuerda durante la visita: al volver al inicio, las secciones ya son estáticas
+  await page.reload()
+  await expect(page.locator('[data-scene="humo-estatica"]')).toHaveCount(1)
+  await expect(page.locator('[data-hero-visual]')).toHaveAttribute('data-hero-visual', 'reserva')
+})

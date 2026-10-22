@@ -1,6 +1,7 @@
 import { AnimatePresence, m, useReducedMotion, useTransform, type MotionValue } from 'motion/react'
 import { lazy, Suspense, useEffect, useState } from 'react'
 import { Logo } from '../../components/brand/Logo'
+import { isLowPower, markLowPower } from '../scenes/lowPower'
 import { SceneErrorBoundary } from './SceneErrorBoundary'
 import { supportsWebGL, whenIdle } from './webgl'
 
@@ -27,6 +28,7 @@ function isCompactScreen() {
  * - Siempre dibuja los arcos dorados (el "mihrab" de la marca), con parallax.
  * - Si el navegador tiene WebGL y no pide reducir movimiento, descarga la escena 3D cuando
  *   la página ya está visible y la funde dentro del arco: el frasco queda enmarcado por él.
+ * - Si la escena va lenta en este dispositivo, se apaga y se activa el modo ligero.
  * - Mientras tanto, o si el 3D no está disponible o falla, se ve el logo: la composición
  *   de reserva, que ya era la del hero original.
  */
@@ -37,7 +39,8 @@ export function HeroVisual({ progress }: { progress: MotionValue<number> }) {
   const [compact] = useState(isCompactScreen)
 
   useEffect(() => {
-    if (prefersReducedMotion || !supportsWebGL()) return
+    // Modo ligero: en esta visita las escenas 3D ya fueron lentas en este dispositivo
+    if (prefersReducedMotion || isLowPower() || !supportsWebGL()) return
     return whenIdle(() => setShow3d(true))
   }, [prefersReducedMotion])
 
@@ -112,6 +115,10 @@ export function HeroVisual({ progress }: { progress: MotionValue<number> }) {
                   compact={compact}
                   onReady={() => setSceneReady(true)}
                   onContextLost={fallBack}
+                  onSlow={() => {
+                    markLowPower()
+                    fallBack()
+                  }}
                 />
               </Suspense>
             </SceneErrorBoundary>

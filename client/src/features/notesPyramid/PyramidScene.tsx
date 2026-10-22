@@ -2,8 +2,17 @@ import { Environment, Html, Lightformer, Sparkles } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
 import type { MotionValue } from 'motion/react'
 import { useEffect, useMemo, useRef } from 'react'
-import { Color, MathUtils, MeshStandardMaterial, Vector3, type Group, type Mesh } from 'three'
+import {
+  Color,
+  MathUtils,
+  MeshStandardMaterial,
+  Vector3,
+  type Group,
+  type Material,
+  type Mesh,
+} from 'three'
 import type { OlfactoryNotes } from '../../types/product'
+import { createGoldMaterial, GOLD } from '../scenes/goldMaterial'
 import { SceneCanvas, type SceneCallbacks } from '../scenes/SceneCanvas'
 import { noteAngles, tiers } from './tiers'
 
@@ -26,7 +35,6 @@ const TIER_Y = [1.15, 0.05, -1.05]
 const TIER_RADIUS = [0.85, 1.45, 2.05]
 const APEX_Y = 2.15
 const EDGES = 6
-const GOLD = '#c9a54e'
 
 /**
  * "Pirámide olfativa": las notas de cada perfume flotan en tres pisos de una pirámide de
@@ -38,6 +46,7 @@ export default function PyramidScene({
   compact,
   onReady,
   onContextLost,
+  onSlow,
   ...props
 }: PyramidSceneProps) {
   return (
@@ -46,6 +55,7 @@ export default function PyramidScene({
       camera={{ position: [0, 0.6, 8.5], fov: 38 }}
       onReady={onReady}
       onContextLost={onContextLost}
+      onSlow={onSlow}
     >
       <Pyramid compact={compact} {...props} />
     </SceneCanvas>
@@ -57,10 +67,7 @@ function Pyramid({ items, progress, compact }: Omit<PyramidSceneProps, keyof Sce
   const apexRef = useRef<Mesh>(null)
   const viewport = useThree((state) => state.viewport)
   const wide = viewport.aspect > 1.1
-  const gold = useMemo(
-    () => new MeshStandardMaterial({ color: GOLD, metalness: 1, roughness: 0.3 }),
-    [],
-  )
+  const gold = useMemo(() => createGoldMaterial(compact), [compact])
   const apexColor = useMemo(() => new Color(), [])
   const palette = useMemo(() => items.map((item) => new Color(item.color)), [items])
   useEffect(() => () => gold.dispose(), [gold])
@@ -99,23 +106,26 @@ function Pyramid({ items, progress, compact }: Omit<PyramidSceneProps, keyof Sce
     <>
       <ambientLight intensity={0.25} />
       <pointLight position={[0, 3, 3]} intensity={18} color="#f6dca0" />
-      <Environment resolution={compact ? 64 : 128} frames={1}>
-        <Lightformer
-          form="rect"
-          intensity={2.5}
-          color="#f6e3b4"
-          position={[0, 4, 2]}
-          scale={[8, 1.2, 1]}
-        />
-        <Lightformer
-          form="rect"
-          intensity={1.5}
-          color={GOLD}
-          position={[-4, 0, 2]}
-          rotation-y={Math.PI / 2}
-          scale={[3, 5, 1]}
-        />
-      </Environment>
+      {/* Reflejos del oro (solo en escritorio; ver createGoldMaterial) */}
+      {!compact && (
+        <Environment resolution={128} frames={1}>
+          <Lightformer
+            form="rect"
+            intensity={2.5}
+            color="#f6e3b4"
+            position={[0, 4, 2]}
+            scale={[8, 1.2, 1]}
+          />
+          <Lightformer
+            form="rect"
+            intensity={1.5}
+            color={GOLD}
+            position={[-4, 0, 2]}
+            rotation-y={Math.PI / 2}
+            scale={[3, 5, 1]}
+          />
+        </Environment>
+      )}
 
       <group position={[offsetX, offsetY, 0]} scale={scale}>
         <group ref={rootRef}>
@@ -158,7 +168,7 @@ function Pyramid({ items, progress, compact }: Omit<PyramidSceneProps, keyof Sce
 }
 
 /** Hilos dorados: un anillo por piso y aristas desde la cúspide hasta la base. */
-function Frame({ gold }: { gold: MeshStandardMaterial }) {
+function Frame({ gold }: { gold: Material }) {
   const edges = useMemo(() => {
     const apex = new Vector3(0, APEX_Y, 0)
     const baseY = TIER_Y[2] - 0.25
@@ -197,7 +207,7 @@ function Edge({
   middle: Vector3
   length: number
   direction: Vector3
-  gold: MeshStandardMaterial
+  gold: Material
 }) {
   const ref = useRef<Mesh>(null)
   useEffect(() => {

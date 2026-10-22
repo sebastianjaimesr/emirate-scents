@@ -1,12 +1,15 @@
 import { Canvas, type CanvasProps } from '@react-three/fiber'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { ACESFilmicToneMapping } from 'three'
+import { FpsGuard } from './FpsGuard'
 
 export interface SceneCallbacks {
   /** Se llama cuando el primer cuadro ya está dibujado (para el fundido de entrada). */
   onReady: () => void
   /** Se llama si el navegador pierde el contexto 3D (por falta de memoria, por ejemplo). */
   onContextLost: () => void
+  /** Se llama si la escena va lenta en este dispositivo (ver FpsGuard). */
+  onSlow: () => void
 }
 
 interface SceneCanvasProps extends SceneCallbacks {
@@ -26,6 +29,7 @@ export function SceneCanvas({
   camera,
   onReady,
   onContextLost,
+  onSlow,
   children,
 }: SceneCanvasProps) {
   const wrapperRef = useRef<HTMLDivElement>(null)
@@ -56,7 +60,8 @@ export function SceneCanvas({
         eventSource={document.body}
         eventPrefix="client"
         frameloop={onScreen ? 'always' : 'never'}
-        dpr={[1, compact ? 1.25 : 1.6]}
+        // En celulares, resolución 1: la pantalla es pequeña y el procesador gráfico, limitado
+        dpr={compact ? 1 : [1, 1.6]}
         camera={camera}
         gl={{ antialias: !compact, alpha: true, powerPreference: 'high-performance' }}
         onCreated={({ gl }) => {
@@ -72,6 +77,7 @@ export function SceneCanvas({
           requestAnimationFrame(() => requestAnimationFrame(onReady))
         }}
       >
+        <FpsGuard onSlow={onSlow} />
         {children}
       </Canvas>
     </div>
