@@ -1,7 +1,7 @@
 # Publica la tienda en GitHub Pages cada vez que cambia main.
 # - Si la variable del repositorio VITE_API_URL existe (Settings → Secrets and variables →
 #   Actions → Variables), publica la tienda real, que pide productos y pedidos a esa API.
-# - Si no existe, publica la vista previa sin servidor: productos DEMO y pedidos desactivados.
+# - Si no existe, publica la vista previa sin servidor: catálogo del Canva y pedidos por WhatsApp.
 # Requisito (una sola vez): Settings → Pages → Source: "GitHub Actions".
 name: Tienda en GitHub Pages
 
@@ -35,7 +35,7 @@ jobs:
         run: npm run build:pages --workspace client
         env:
           VITE_API_URL: ${{ vars.VITE_API_URL }}
-      - name: Compilar la vista previa (DEMO, sin API)
+      - name: Compilar la vista previa (catálogo del Canva, sin API)
         if: vars.VITE_API_URL == ''
         run: npm run build:preview --workspace client
       - uses: actions/configure-pages@v5

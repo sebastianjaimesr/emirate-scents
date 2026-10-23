@@ -1,10 +1,13 @@
 /**
  * Catálogo de la VISTA PREVIA (GitHub Pages), que no tiene servidor ni base de datos.
- * Usa los mismos productos DEMO que la semilla de la API (server/prisma/data) y repite
- * en el navegador lo que hace server/src/services/catalogService.ts: filtrar, buscar,
- * ordenar y paginar. Solo se incluye al compilar con VITE_PREVIEW=true.
+ * Muestra el catálogo real copiado del Canva (server/prisma/data/products.catalog.ts) y
+ * repite en el navegador lo que hace server/src/services/catalogService.ts: filtrar,
+ * buscar, ordenar y paginar. Solo se incluye al compilar con VITE_PREVIEW=true.
  */
-import { demoProducts, type DemoProduct } from '../../../../server/prisma/data/products.demo'
+import {
+  catalogProducts,
+  type CatalogProduct,
+} from '../../../../server/prisma/data/products.catalog'
 import { buildSearchText, searchWords } from '../../../../server/src/lib/text'
 import {
   PAGE_SIZE,
@@ -18,23 +21,23 @@ import type { HighlightKind } from '../productService'
 
 const collator = new Intl.Collator('es')
 
-function toProduct(demo: DemoProduct): Product {
+function toProduct(entry: CatalogProduct): Product {
   return {
-    ...demo,
+    ...entry,
     images: [],
-    publishedAt: new Date(`${demo.publishedAt}T12:00:00Z`).toISOString(),
-    isDemo: true,
+    publishedAt: new Date(`${entry.publishedAt}T12:00:00Z`).toISOString(),
+    isDemo: false,
   }
 }
 
-const products = demoProducts.map((demo) => ({
-  product: toProduct(demo),
+const products = catalogProducts.map((entry) => ({
+  product: toProduct(entry),
   searchText: buildSearchText({
-    ...demo,
-    brandName: demo.brand.name,
-    notesTop: demo.notes?.top,
-    notesHeart: demo.notes?.heart,
-    notesBase: demo.notes?.base,
+    ...entry,
+    brandName: entry.brand.name,
+    notesTop: entry.notes?.top,
+    notesHeart: entry.notes?.heart,
+    notesBase: entry.notes?.base,
   }),
 }))
 

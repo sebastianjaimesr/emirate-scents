@@ -61,3 +61,16 @@ Puedes volver a importar el mismo archivo cuando cambien precios o inventario:
 
 Para cargar el catálogo en la tienda publicada, sigue
 [la guía de producción](fase-8-produccion.md#5-cargar-el-catálogo-real).
+
+## Catálogo copiado del Canva (23-oct-2026)
+
+Las 57 lociones de las páginas de Canva están en
+`server/prisma/data/products.catalog.ts` (lo que muestra la vista previa de GitHub Pages) y en
+`docs/catalogo-canva.csv` (listo para `npm run catalogo:importar`). Del Canva solo salen el
+nombre y el precio. Antes de importarlo a la base de datos real hay que completar:
+
+- `inventario`: vacío cuenta como 0, es decir **agotado**.
+- `tamano_ml`, `concentracion`, notas y `publico`, si se conocen.
+- Las lociones de marcas de diseñador o nicho quedaron como **equivalencias** ("Inspirado en …").
+  Si alguna es original, pásala a `disenador` o `nicho` con su marca real y un código `DS-`/`NI-`.
+- Fotos propias o autorizadas (las del Canva parecen fotos oficiales de las marcas).
