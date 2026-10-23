@@ -37,7 +37,7 @@ test('sin WebGL, el hero muestra la composición de reserva y sus botones funcio
 
   await page.getByRole('link', { name: 'Descubrir perfumes' }).click()
   // Lleva a la colección (sin WebGL, en su versión estática)
-  await expect(page.locator('#humo-title')).toBeInViewport()
+  await expect(page.locator('#galeria-title')).toBeInViewport()
 
   await page.getByRole('link', { name: 'Explorar la colección' }).click()
   await expect(page).toHaveURL(/\/catalogo$/)

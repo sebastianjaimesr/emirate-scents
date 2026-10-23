@@ -1,12 +1,11 @@
 import { expect, test, type Page } from '@playwright/test'
 
 /*
-  Secciones 3D del inicio: el humo que forma el nombre, la galería con pedestales y la
-  pirámide olfativa. Cada una queda fijada mientras se recorre y el texto acompaña al
+  Secciones 3D del inicio: la galería con pedestales y la pirámide olfativa. Cada una queda fijada mientras se recorre y el texto acompaña al
   perfume que está al frente. Sin 3D, muestran la misma información sin animación.
 */
 
-const scenes = ['humo', 'galeria', 'piramide'] as const
+const scenes = ['galeria', 'piramide'] as const
 type Scene = (typeof scenes)[number]
 
 /** Lleva la página a una fracción (0 a 1) del recorrido de una sección. */
@@ -32,7 +31,7 @@ function frontName(page: Page, scene: Scene) {
 test('cada sección fija la escena 3D y el texto cambia de perfume al bajar y al subir', async ({
   page,
 }) => {
-  // Recorre tres escenas 3D; sin tarjeta gráfica (en CI) cada una tarda varios segundos
+  // Recorre dos escenas 3D; sin tarjeta gráfica (en CI) cada una tarda varios segundos
   test.setTimeout(90_000)
   const errors: string[] = []
   page.on('pageerror', (error) => errors.push(error.message))
@@ -86,10 +85,12 @@ test('"Ver perfume" en la galería abre la ficha del perfume al frente', async (
   await page.goto('/')
   await scrollSceneTo(page, 'galeria', 0)
   const name = (await frontName(page, 'galeria').textContent())!
-  await page
-    .locator('[data-scene="galeria"]')
-    .getByRole('link', { name: /Ver perfume/ })
-    .click()
+  const link = page.locator('[data-scene="galeria"]').getByRole('link', { name: /Ver perfume/ })
+  await expect(link).toBeInViewport({ ratio: 1 })
+  // Clic con el ratón donde se ve el enlace: locator.click() primero "desplaza hasta el
+  // elemento" y, en una sección fijada (sticky), Chrome baja la página y cambia de perfume
+  const box = (await link.boundingBox())!
+  await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2)
   await expect(page).toHaveURL(/\/producto\//)
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(name)
 })
@@ -105,29 +106,14 @@ test('la pirámide muestra en texto las notas del perfume al frente', async ({ p
   await expect(notes.getByText('Salida')).toHaveCount(0)
 })
 
-test.describe('pantallas grandes', () => {
-  test.skip(({ isMobile }) => isMobile, 'El índice del humo solo se ve en pantallas grandes')
-
-  test('el índice del humo lleva al perfume elegido', async ({ page }) => {
-    await page.goto('/')
-    await scrollSceneTo(page, 'humo', 0)
-    const index = page.getByRole('navigation', { name: 'Perfumes de la colección' })
-    const third = index.getByRole('button').nth(2)
-    const name = (await third.textContent())!.replace(/^\d+/, '').trim()
-    await third.click()
-    await expect(third).toHaveAttribute('aria-current', 'true')
-    await expect(frontName(page, 'humo')).toHaveText(name)
-  })
-})
-
-test('con "reducir movimiento" las tres secciones son estáticas y no descargan 3D', async ({
+test('con "reducir movimiento" las dos secciones son estáticas y no descargan 3D', async ({
   browser,
 }) => {
   const context = await browser.newContext({ reducedMotion: 'reduce' })
   const page = await context.newPage()
   const sceneRequests: string[] = []
   page.on('request', (request) => {
-    if (/(Smoke|Gallery|Pyramid)Scene/.test(request.url())) sceneRequests.push(request.url())
+    if (/(Gallery|Pyramid)Scene/.test(request.url())) sceneRequests.push(request.url())
   })
   await page.goto('/')
   for (const scene of scenes) {
@@ -177,8 +163,8 @@ test('si el dispositivo no da abasto, apaga las escenas y deja el texto en su si
   const cdp = await context.newCDPSession(page)
   await cdp.send('Emulation.setCPUThrottlingRate', { rate: 20 })
   await page.goto('/')
-  await scrollSceneTo(page, 'humo', 0)
-  const section = page.locator('[data-scene="humo"]')
+  await scrollSceneTo(page, 'galeria', 0)
+  const section = page.locator('[data-scene="galeria"]')
   await expect(section.locator('canvas')).toHaveCount(1, { timeout: 30_000 })
   // La escena se apaga sola; el texto y la forma de la sección se mantienen
   await expect(section.locator('canvas')).toHaveCount(0, { timeout: 45_000 })
@@ -188,6 +174,6 @@ test('si el dispositivo no da abasto, apaga las escenas y deja el texto en su si
 
   // Se recuerda durante la visita: al volver al inicio, las secciones ya son estáticas
   await page.reload()
-  await expect(page.locator('[data-scene="humo-estatica"]')).toHaveCount(1)
+  await expect(page.locator('[data-scene="galeria-estatica"]')).toHaveCount(1)
   await expect(page.locator('[data-hero-visual]')).toHaveAttribute('data-hero-visual', 'reserva')
 })

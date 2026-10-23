@@ -14,12 +14,8 @@ export const heroContent = {
   advice: '¿Necesitas ayuda para elegir? Te asesoramos por WhatsApp',
 }
 
-/** Secciones 3D del inicio (features/smoke, features/gallery, features/notesPyramid). */
+/** Secciones 3D del inicio (features/gallery, features/notesPyramid). */
 export const sceneContent = {
-  smoke: {
-    eyebrow: 'The Fragrance Collection',
-    title: 'Descubre el universo Emirate',
-  },
   gallery: {
     eyebrow: 'La galería',
     title: 'Cada fragancia, en su pedestal',

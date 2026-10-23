@@ -8,7 +8,6 @@ import { OrderStepsSection } from '../features/home/OrderStepsSection'
 import { ProductHighlightSection } from '../features/home/ProductHighlightSection'
 import { PedestalGallery } from '../features/gallery/PedestalGallery'
 import { NotesPyramid } from '../features/notesPyramid/NotesPyramid'
-import { SmokeNames } from '../features/smoke/SmokeNames'
 
 /*
   Las secciones de productos solo aparecen si hay productos que las respalden:
@@ -24,7 +23,6 @@ export function HomePage() {
       <HeroSection />
       {/* Destino del botón "Descubrir perfumes": las secciones 3D, o las colecciones si no hay productos */}
       <div id="coleccion">
-        <SmokeNames />
         <PedestalGallery />
         <CategoriesSection />
       </div>

@@ -1,5 +1,5 @@
 /**
- * Color de cada familia olfativa en las escenas 3D (el humo, la pirámide...).
+ * Color de cada familia olfativa en las escenas 3D (la pirámide).
  * Son tonos de la paleta de la marca: dorados, ámbar, rubí y verdes apagados.
  * Una familia que no está en la lista usa el dorado de la marca.
  */
