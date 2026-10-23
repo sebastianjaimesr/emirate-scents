@@ -44,13 +44,10 @@ export function StageHeading({
  */
 export function StageDetails({
   product,
-  showName = true,
   align = 'center',
   className,
 }: {
   product: Product
-  /** En el humo, el nombre ya lo escriben las partículas: aquí solo lo leen los lectores de pantalla. */
-  showName?: boolean
   align?: 'center' | 'left'
   className?: string
 }) {
@@ -71,9 +68,7 @@ export function StageDetails({
         <p className="text-[0.65rem] font-semibold tracking-[0.2em] text-gold-500 uppercase">
           {product.brand.name}
         </p>
-        <h3 className={cx('text-3xl leading-tight text-ivory-50', !showName && 'sr-only')}>
-          {product.name}
-        </h3>
+        <h3 className="text-3xl leading-tight text-ivory-50">{product.name}</h3>
         {details && <p className="text-xs text-smoke-300">{details}</p>}
         <Price
           price={product.price}
@@ -93,60 +88,6 @@ export function StageDetails({
         </Link>
       </m.div>
     </div>
-  )
-}
-
-/**
- * Índice de perfumes de la escena: "01 Oud Nocturno"... El actual queda resaltado. Pulsar
- * uno lleva la página hasta él (también con el teclado).
- */
-export function StageIndex({
-  products,
-  active,
-  onSelect,
-  label,
-  className,
-}: {
-  products: Product[]
-  active: number
-  onSelect: (index: number) => void
-  label: string
-  className?: string
-}) {
-  return (
-    <nav aria-label={label} className={className}>
-      <ol className="flex flex-col gap-2">
-        {products.map((product, index) => (
-          <li key={product.id}>
-            <button
-              type="button"
-              aria-current={index === active ? 'true' : undefined}
-              onClick={() => onSelect(index)}
-              className={cx(
-                'group flex items-baseline gap-3 text-left text-sm transition-colors duration-300',
-                index === active ? 'text-ivory-50' : 'text-smoke-300/70 hover:text-smoke-300',
-              )}
-            >
-              <span
-                className={cx(
-                  'font-display text-base tabular-nums transition-colors',
-                  index === active ? 'text-gold-500' : 'text-smoke-300/70',
-                )}
-              >
-                {String(index + 1).padStart(2, '0')}
-              </span>
-              <span
-                className={cx(
-                  'h-px self-center bg-gold-500 transition-all duration-500',
-                  index === active ? 'w-6' : 'w-0',
-                )}
-              />
-              {product.name}
-            </button>
-          </li>
-        ))}
-      </ol>
-    </nav>
   )
 }
 
