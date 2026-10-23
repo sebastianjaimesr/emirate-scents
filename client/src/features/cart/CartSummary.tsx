@@ -34,6 +34,9 @@ interface CartSummaryProps {
   onCheckout?: () => void
 }
 
+/** La vista previa de GitHub Pages no tiene servidor: el pedido se envía por WhatsApp. */
+const ordersByWhatsApp = import.meta.env.VITE_PREVIEW === 'true'
+
 /** Resumen del carrito: botón para continuar con el pedido y consulta por WhatsApp. */
 export function CartSummary({
   lines,
@@ -43,6 +46,7 @@ export function CartSummary({
   onCheckout,
 }: CartSummaryProps) {
   const blockingReason = getCartBlockingReason(hasDemoProducts, hasSoldOut)
+  const whatsappUrl = buildWhatsAppUrl(buildCartInquiryMessage(lines, subtotal))
 
   return (
     <div className="space-y-4">
@@ -64,6 +68,16 @@ export function CartSummary({
             Continuar con el pedido
           </button>
         </>
+      ) : ordersByWhatsApp ? (
+        <a
+          href={whatsappUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex min-h-14 w-full items-center justify-center gap-3 bg-ink-950 text-sm font-semibold tracking-[0.08em] text-gold-300 uppercase transition-colors hover:bg-ink-800"
+        >
+          <WhatsAppIcon className="size-5" />
+          Pedir por WhatsApp
+        </a>
       ) : (
         <Link
           to="/pedido"
@@ -80,9 +94,9 @@ export function CartSummary({
       )}
 
       {/* Los productos DEMO no existen: no tiene sentido consultarlos */}
-      {!hasDemoProducts && (
+      {!hasDemoProducts && !ordersByWhatsApp && (
         <a
-          href={buildWhatsAppUrl(buildCartInquiryMessage(lines, subtotal))}
+          href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="flex min-h-11 items-center justify-center gap-2 text-xs font-semibold tracking-[0.12em] text-gold-700 uppercase underline-offset-4 hover:underline"
