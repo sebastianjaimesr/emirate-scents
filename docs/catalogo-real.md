@@ -73,4 +73,6 @@ nombre y el precio. Antes de importarlo a la base de datos real hay que completa
 - `tamano_ml`, `concentracion`, notas y `publico`, si se conocen.
 - Las lociones de marcas de diseñador o nicho quedaron como **equivalencias** ("Inspirado en …").
   Si alguna es original, pásala a `disenador` o `nicho` con su marca real y un código `DS-`/`NI-`.
-- Fotos propias o autorizadas (las del Canva parecen fotos oficiales de las marcas).
+- Fotos: las lociones árabes ya llevan la foto recortada del Canva
+  (`client/public/images/products/AR-XXXX/AR-XXXX-1.webp`, autorizado por el dueño). Son de baja
+  resolución: conviene cambiarlas por fotos propias. Las equivalencias van sin foto.

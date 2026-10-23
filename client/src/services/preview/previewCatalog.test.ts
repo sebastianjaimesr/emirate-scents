@@ -29,6 +29,13 @@ describe('catálogo de la vista previa (sin servidor)', () => {
     }
   })
 
+  it('las lociones árabes llevan su foto y las equivalencias ninguna', () => {
+    for (const product of catalogProducts) {
+      const expected = product.categorySlug === 'equivalencias' ? 0 : 1
+      expect(product.images ?? []).toHaveLength(expected)
+    }
+  })
+
   it('busca sin tildes y combina filtros como la API', async () => {
     const page = await preview.getProducts(query('q=CLASICO&orden=precio-asc'))
     expect(page.items.map((product) => product.name)).toEqual(['Asad Clásico'])
