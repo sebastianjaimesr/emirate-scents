@@ -7,7 +7,9 @@
  * - Las lociones que evocan marcas de diseñador o nicho (Dior, Chanel, Creed…) se publican
  *   como EQUIVALENCIAS: "Inspirado en …", nunca con la marca como si fuera la original.
  * - La marca de las lociones árabes es la que aparece en el nombre o en la etiqueta del frasco.
- * - Sin fotos: las del Canva parecen oficiales de las marcas y no consta la autorización.
+ * - Fotos: las lociones árabes usan la foto del frasco recortada del Canva (el dueño lo
+ *   autorizó el 23-oct-2026). Las equivalencias no llevan foto: la del frasco original
+ *   haría creer que es el perfume de esa marca.
  * - Sin mililitros, concentración, notas ni público: el Canva no los trae.
  *
  * Lo usa la vista previa de GitHub Pages (client/src/services/preview/previewCatalog.ts).
@@ -15,7 +17,10 @@
  */
 import type { DemoBrand, DemoProduct } from './products.demo.js'
 
-export type CatalogProduct = DemoProduct
+export type CatalogProduct = DemoProduct & {
+  /** Ruta dentro de client/public, por ejemplo /images/products/AR-0001/AR-0001-1.webp */
+  images?: { url: string; alt: string }[]
+}
 
 /**
  * La vista previa no lleva inventario. Este número solo permite pedir por WhatsApp,
@@ -61,6 +66,9 @@ function arabic(n: number, name: string, brand: DemoBrand, price: number): Catal
     shortDescription: `${name}, de ${brand.name}.`,
     description: `${name}, de ${brand.name}. ${askMore}`,
     price,
+    images: [
+      { url: `/images/products/${sku}/${sku}-1.webp`, alt: `Frasco de ${name}, de ${brand.name}` },
+    ],
     stock: PREVIEW_STOCK,
     publishedAt: PUBLISHED_AT,
   }

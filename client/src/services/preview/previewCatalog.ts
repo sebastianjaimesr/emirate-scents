@@ -24,7 +24,7 @@ const collator = new Intl.Collator('es')
 function toProduct(entry: CatalogProduct): Product {
   return {
     ...entry,
-    images: [],
+    images: entry.images ?? [],
     publishedAt: new Date(`${entry.publishedAt}T12:00:00Z`).toISOString(),
     isDemo: false,
   }
