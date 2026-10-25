@@ -28,8 +28,16 @@ describe('createFpsWatch', () => {
     expect(run(watch, 12, 4)).toBe(false)
   })
 
+  it('apaga una escena lentísima (menos de 2 cuadros por segundo)', () => {
+    const watch = createFpsWatch()
+    let slow = false
+    // 0.7 s por cuadro: calentamiento y tres tramos lentos caben en 12 s
+    for (let i = 0; i < 17; i++) slow = watch(0.7) || slow
+    expect(slow).toBe(true)
+  })
+
   it('ignora los cuadros muy largos (pestaña oculta)', () => {
     const watch = createFpsWatch()
-    for (let i = 0; i < 20; i++) expect(watch(3)).toBe(false)
+    for (let i = 0; i < 20; i++) expect(watch(30)).toBe(false)
   })
 })
