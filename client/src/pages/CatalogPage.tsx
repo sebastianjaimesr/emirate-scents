@@ -95,11 +95,14 @@ export function CatalogPage() {
               ) : page.total === 0 ? (
                 <EmptyState
                   icon={<SearchX className="size-8" strokeWidth={1.25} />}
-                  title="Sin resultados"
+                  title={activeFilterCount > 0 ? 'Sin resultados' : 'Muy pronto'}
                   description={
                     query.search
                       ? `No encontramos productos para "${query.search}" con estos filtros. Prueba con otros términos o pregúntanos por WhatsApp.`
-                      : 'Ningún producto coincide con estos filtros. Prueba quitando alguno.'
+                      : activeFilterCount > 0
+                        ? 'Ningún producto coincide con estos filtros. Prueba quitando alguno.'
+                        : // Categoría todavía vacía: no hay filtros que quitar
+                          'Todavía no hay perfumes publicados en esta categoría. Pregúntanos por WhatsApp y te ayudamos a encontrar el tuyo.'
                   }
                   actions={
                     <>
