@@ -5,7 +5,9 @@
  *
  * - Los primeros `warmup` segundos no cuentan (al empezar, el navegador prepara la escena).
  * - Cada tramo dura `window` segundos; hacen falta `strikes` tramos lentos seguidos.
- * - Un cuadro muy largo (la pestaña estuvo oculta, por ejemplo) no se cuenta.
+ * - Un cuadro de más de 5 segundos (la pestaña estuvo oculta, por ejemplo) no se cuenta.
+ *   Los cuadros de medio segundo o un segundo sí cuentan: son los de un teléfono que no da
+ *   abasto, justo los que hay que apagar.
  */
 export function createFpsWatch({
   minFps = 20,
@@ -18,7 +20,7 @@ export function createFpsWatch({
   let windowFrames = 0
   let slowWindows = 0
   return (delta: number) => {
-    if (delta > 0.5) return false
+    if (delta > 5) return false
     elapsed += delta
     // (el margen evita que el redondeo de los decimales retrase un tramo)
     if (elapsed < warmup - 1e-6) return false
