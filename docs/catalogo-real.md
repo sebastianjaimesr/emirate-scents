@@ -74,5 +74,8 @@ nombre y el precio. Antes de importarlo a la base de datos real hay que completa
 - Las lociones de marcas de diseñador o nicho quedaron como **equivalencias** ("Inspirado en …").
   Si alguna es original, pásala a `disenador` o `nicho` con su marca real y un código `DS-`/`NI-`.
 - Fotos: las lociones árabes ya llevan la foto recortada del Canva
-  (`client/public/images/products/AR-XXXX/AR-XXXX-1.webp`, autorizado por el dueño). Son de baja
-  resolución: conviene cambiarlas por fotos propias. Las equivalencias van sin foto.
+  (`client/public/images/products/AR-XXXX/AR-XXXX-1.webp`, autorizado por el dueño). El recorte
+  original medía unos 150 px de ancho; se amplió a 800 × 1000 con Real-ESRGAN (IA) mezclado al 55 %
+  con la ampliación normal, para ganar nitidez sin que la IA invente demasiado detalle en las
+  letras de las etiquetas. Aun así, unas fotos propias o el diseño del Canva descargado en
+  tamaño completo se verán mejor. Las equivalencias van sin foto.
