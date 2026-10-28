@@ -7,6 +7,7 @@
     "moduleResolution": "nodenext",
     "verbatimModuleSyntax": true,
     "moduleDetection": "force",
+    "resolveJsonModule": true,
     "skipLibCheck": true,
     "outDir": "dist",
     "rootDir": ".",
