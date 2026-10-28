@@ -1,1 +1,200 @@
-{}
+{
+  "EQ-0001": {
+    "url": "/images/products/EQ-0001/emirate-inspirado-en-erba-pura.webp",
+    "file": "emirate-inspirado-en-erba-pura.webp",
+    "origin": "docs/catalogo/ilustraciones-equivalencias/EQ-0001.png",
+    "source": "Ilustración de Emirate Scents",
+    "sha256": "2f60f2f82e9cee83b659d9271777fe980e8b5cf7f2558122f7bde6192cdecb2f",
+    "originalWidth": 800,
+    "originalHeight": 1000,
+    "bytes": 13048,
+    "savedAt": "2026-10-28T19:58:36.885Z"
+  },
+  "EQ-0002": {
+    "url": "/images/products/EQ-0002/emirate-inspirado-en-le-male-le-parfum.webp",
+    "file": "emirate-inspirado-en-le-male-le-parfum.webp",
+    "origin": "docs/catalogo/ilustraciones-equivalencias/EQ-0002.png",
+    "source": "Ilustración de Emirate Scents",
+    "sha256": "8ee44c449c9737b6702235886fb4784aa81b8b9bfbcb6e05652602aed2307898",
+    "originalWidth": 800,
+    "originalHeight": 1000,
+    "bytes": 13066,
+    "savedAt": "2026-10-28T19:58:37.132Z"
+  },
+  "EQ-0003": {
+    "url": "/images/products/EQ-0003/emirate-inspirado-en-le-beau-le-parfum.webp",
+    "file": "emirate-inspirado-en-le-beau-le-parfum.webp",
+    "origin": "docs/catalogo/ilustraciones-equivalencias/EQ-0003.png",
+    "source": "Ilustración de Emirate Scents",
+    "sha256": "43b1483665d9acfb7002440b86341f465c485756947bffde49440ef5fac7dfc2",
+    "originalWidth": 800,
+    "originalHeight": 1000,
+    "bytes": 13106,
+    "savedAt": "2026-10-28T19:58:37.434Z"
+  },
+  "EQ-0004": {
+    "url": "/images/products/EQ-0004/emirate-inspirado-en-le-male-elixir.webp",
+    "file": "emirate-inspirado-en-le-male-elixir.webp",
+    "origin": "docs/catalogo/ilustraciones-equivalencias/EQ-0004.png",
+    "source": "Ilustración de Emirate Scents",
+    "sha256": "13167bccb6f3b795a989883d3459432275b9ff1548d2f9e6f991d59bfbe4775b",
+    "originalWidth": 800,
+    "originalHeight": 1000,
+    "bytes": 13058,
+    "savedAt": "2026-10-28T19:58:37.701Z"
+  },
+  "EQ-0005": {
+    "url": "/images/products/EQ-0005/emirate-inspirado-en-creed-silver.webp",
+    "file": "emirate-inspirado-en-creed-silver.webp",
+    "origin": "docs/catalogo/ilustraciones-equivalencias/EQ-0005.png",
+    "source": "Ilustración de Emirate Scents",
+    "sha256": "946aa78909372b2724e460248e78b8800e4b5c9af3178b3677fb63587dda0e96",
+    "originalWidth": 800,
+    "originalHeight": 1000,
+    "bytes": 13092,
+    "savedAt": "2026-10-28T19:58:37.942Z"
+  },
+  "EQ-0006": {
+    "url": "/images/products/EQ-0006/emirate-inspirado-en-bleu-de-chanel.webp",
+    "file": "emirate-inspirado-en-bleu-de-chanel.webp",
+    "origin": "docs/catalogo/ilustraciones-equivalencias/EQ-0006.png",
+    "source": "Ilustración de Emirate Scents",
+    "sha256": "cddb590f1c50ca96f67a735915aa3656af7f61fa5211ad93801c6228b8ae89d5",
+    "originalWidth": 800,
+    "originalHeight": 1000,
+    "bytes": 13066,
+    "savedAt": "2026-10-28T19:58:38.193Z"
+  },
+  "EQ-0007": {
+    "url": "/images/products/EQ-0007/emirate-inspirado-en-lacoste-red.webp",
+    "file": "emirate-inspirado-en-lacoste-red.webp",
+    "origin": "docs/catalogo/ilustraciones-equivalencias/EQ-0007.png",
+    "source": "Ilustración de Emirate Scents",
+    "sha256": "1a055482db87e3d7e159539b690e5a39fd20d53692bbfa767ee618123f39e8cb",
+    "originalWidth": 800,
+    "originalHeight": 1000,
+    "bytes": 13052,
+    "savedAt": "2026-10-28T19:58:38.465Z"
+  },
+  "EQ-0008": {
+    "url": "/images/products/EQ-0008/emirate-inspirado-en-212-vip-black.webp",
+    "file": "emirate-inspirado-en-212-vip-black.webp",
+    "origin": "docs/catalogo/ilustraciones-equivalencias/EQ-0008.png",
+    "source": "Ilustración de Emirate Scents",
+    "sha256": "b7a2b4bc902f27693125bf8f635977532dde9785df7221f5c137c5706340665f",
+    "originalWidth": 800,
+    "originalHeight": 1000,
+    "bytes": 13054,
+    "savedAt": "2026-10-28T19:58:38.712Z"
+  },
+  "EQ-0009": {
+    "url": "/images/products/EQ-0009/emirate-inspirado-en-santal-33.webp",
+    "file": "emirate-inspirado-en-santal-33.webp",
+    "origin": "docs/catalogo/ilustraciones-equivalencias/EQ-0009.png",
+    "source": "Ilustración de Emirate Scents",
+    "sha256": "23fe94d2a3490735e7f9c7459577fb45be5821238898304d215287fee64dab37",
+    "originalWidth": 800,
+    "originalHeight": 1000,
+    "bytes": 13074,
+    "savedAt": "2026-10-28T19:58:38.977Z"
+  },
+  "EQ-0010": {
+    "url": "/images/products/EQ-0010/emirate-inspirado-en-sauvage.webp",
+    "file": "emirate-inspirado-en-sauvage.webp",
+    "origin": "docs/catalogo/ilustraciones-equivalencias/EQ-0010.png",
+    "source": "Ilustración de Emirate Scents",
+    "sha256": "bfdea047f1db70855a5d206af3bb32ad1c63d9a4a8da649bd71dc4f54b923fd8",
+    "originalWidth": 800,
+    "originalHeight": 1000,
+    "bytes": 13052,
+    "savedAt": "2026-10-28T19:58:39.219Z"
+  },
+  "EQ-0011": {
+    "url": "/images/products/EQ-0011/emirate-inspirado-en-sauvage-elixir.webp",
+    "file": "emirate-inspirado-en-sauvage-elixir.webp",
+    "origin": "docs/catalogo/ilustraciones-equivalencias/EQ-0011.png",
+    "source": "Ilustración de Emirate Scents",
+    "sha256": "bd07b91c7d295910239d5a9fcc0b2fe1e5841ff6e5ef6f8bd3c29de71a9bf83f",
+    "originalWidth": 800,
+    "originalHeight": 1000,
+    "bytes": 13034,
+    "savedAt": "2026-10-28T19:58:39.474Z"
+  },
+  "EQ-0012": {
+    "url": "/images/products/EQ-0012/emirate-inspirado-en-la-vie-est-belle.webp",
+    "file": "emirate-inspirado-en-la-vie-est-belle.webp",
+    "origin": "docs/catalogo/ilustraciones-equivalencias/EQ-0012.png",
+    "source": "Ilustración de Emirate Scents",
+    "sha256": "740858784871075342b879cc02f4717abc0403278ef04a66d22358519e9e87e5",
+    "originalWidth": 800,
+    "originalHeight": 1000,
+    "bytes": 13054,
+    "savedAt": "2026-10-28T19:58:39.712Z"
+  },
+  "EQ-0013": {
+    "url": "/images/products/EQ-0013/emirate-inspirado-en-moschino-bubble-gum.webp",
+    "file": "emirate-inspirado-en-moschino-bubble-gum.webp",
+    "origin": "docs/catalogo/ilustraciones-equivalencias/EQ-0013.png",
+    "source": "Ilustración de Emirate Scents",
+    "sha256": "817e1dc9dcdab9125a0c439219fd14a12f3a3384ca00ba653ecaa4247933fb2f",
+    "originalWidth": 800,
+    "originalHeight": 1000,
+    "bytes": 13026,
+    "savedAt": "2026-10-28T19:58:39.968Z"
+  },
+  "EQ-0014": {
+    "url": "/images/products/EQ-0014/emirate-inspirado-en-la-bomba.webp",
+    "file": "emirate-inspirado-en-la-bomba.webp",
+    "origin": "docs/catalogo/ilustraciones-equivalencias/EQ-0014.png",
+    "source": "Ilustración de Emirate Scents",
+    "sha256": "5078b7e898505e0d83658c95e55c86af9e493d7c6027c8d9c3a3fb3c87303180",
+    "originalWidth": 800,
+    "originalHeight": 1000,
+    "bytes": 13030,
+    "savedAt": "2026-10-28T19:58:40.221Z"
+  },
+  "EQ-0015": {
+    "url": "/images/products/EQ-0015/emirate-inspirado-en-cloud.webp",
+    "file": "emirate-inspirado-en-cloud.webp",
+    "origin": "docs/catalogo/ilustraciones-equivalencias/EQ-0015.png",
+    "source": "Ilustración de Emirate Scents",
+    "sha256": "376c96310fd91e0d44e59fd7dab4fbd313f1028537e30b7311ec195ae325698a",
+    "originalWidth": 800,
+    "originalHeight": 1000,
+    "bytes": 13052,
+    "savedAt": "2026-10-28T19:58:40.519Z"
+  },
+  "EQ-0016": {
+    "url": "/images/products/EQ-0016/emirate-inspirado-en-thank-u-next.webp",
+    "file": "emirate-inspirado-en-thank-u-next.webp",
+    "origin": "docs/catalogo/ilustraciones-equivalencias/EQ-0016.png",
+    "source": "Ilustración de Emirate Scents",
+    "sha256": "f8765550874ec2331c7018b99cbb828f8e91284f4c93bc9d9e47754d2b73514e",
+    "originalWidth": 800,
+    "originalHeight": 1000,
+    "bytes": 13054,
+    "savedAt": "2026-10-28T19:58:40.810Z"
+  },
+  "EQ-0017": {
+    "url": "/images/products/EQ-0017/emirate-inspirado-en-good-girl.webp",
+    "file": "emirate-inspirado-en-good-girl.webp",
+    "origin": "docs/catalogo/ilustraciones-equivalencias/EQ-0017.png",
+    "source": "Ilustración de Emirate Scents",
+    "sha256": "7e1048aa66caddd1d68c8b360d41ad42a0c3269d6e082c947ae0b485680cfa1a",
+    "originalWidth": 800,
+    "originalHeight": 1000,
+    "bytes": 13036,
+    "savedAt": "2026-10-28T19:58:41.110Z"
+  },
+  "EQ-0018": {
+    "url": "/images/products/EQ-0018/emirate-inspirado-en-good-girl-blush.webp",
+    "file": "emirate-inspirado-en-good-girl-blush.webp",
+    "origin": "docs/catalogo/ilustraciones-equivalencias/EQ-0018.png",
+    "source": "Ilustración de Emirate Scents",
+    "sha256": "820584b0474d3af74ef2efe3f09abeedc0716135743830d5770aa4c1c0e03b70",
+    "originalWidth": 800,
+    "originalHeight": 1000,
+    "bytes": 13042,
+    "savedAt": "2026-10-28T19:58:41.362Z"
+  }
+}

@@ -55,7 +55,7 @@ const slugify = (text: string) =>
     .replace(/^-|-$/g, '')
 
 /** Foto descargada con `npm run fotos:descargar` (server/scripts/productPhotos.ts), si la hay. */
-const photos: Partial<Record<string, { url: string }>> = productPhotos
+const photos: Partial<Record<string, { url: string; source: string }>> = productPhotos
 
 const askMore = 'Escríbenos por WhatsApp para conocer el tamaño, las notas y la disponibilidad.'
 
@@ -99,7 +99,15 @@ function equivalence(n: number, original: string, reference: string, price: numb
     price,
     inspirationReference: reference,
     ...(photo && {
-      images: [{ url: photo.url, alt: `Frasco de Emirate Scents inspirado en ${original}` }],
+      images: [
+        {
+          url: photo.url,
+          // Las ilustraciones las crea server/scripts/equivalenceArt.ts
+          alt: photo.source.startsWith('Ilustración')
+            ? `Ilustración del frasco Emirate Scents inspirado en ${original}`
+            : `Frasco de Emirate Scents inspirado en ${original}`,
+        },
+      ],
     }),
     stock: PREVIEW_STOCK,
     publishedAt: PUBLISHED_AT,

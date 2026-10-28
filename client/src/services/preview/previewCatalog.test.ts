@@ -29,10 +29,12 @@ describe('catálogo de la vista previa (sin servidor)', () => {
     }
   })
 
-  it('las lociones árabes llevan su foto y las equivalencias ninguna', () => {
+  it('cada loción lleva una foto, y la de las equivalencias es propia de Emirate Scents', () => {
     for (const product of catalogProducts) {
-      const expected = product.categorySlug === 'equivalencias' ? 0 : 1
-      expect(product.images ?? []).toHaveLength(expected)
+      expect(product.images ?? []).toHaveLength(1)
+      // Nunca la foto del perfume original: haría creer que es esa marca
+      if (product.categorySlug === 'equivalencias')
+        expect(product.images?.[0]?.alt).toContain('Emirate Scents')
     }
   })
 

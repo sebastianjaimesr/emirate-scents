@@ -63,3 +63,17 @@ tienda (no dependen de enlaces externos que puedan desaparecer).
   original de la marca haría creer que vendes ese perfume.
 - Prefiere fotos oficiales de la marca o de distribuidores que permitan usarlas. Las fotos de
   otras tiendas suelen tener derechos de autor.
+
+## Equivalencias: frasco ilustrado
+
+Mientras no haya fotos propias de los frascos de equivalencia, cada una usa un frasco
+ilustrado de Emirate Scents con el logo y la etiqueta "Línea Equivalencias N.º …":
+
+```bash
+npm run fotos:equivalencias   # dibuja las que falten en docs/catalogo/ilustraciones-equivalencias/
+npm run fotos:descargar       # las optimiza y las conecta
+```
+
+Para cambiar una por una foto propia, edita su entrada en `product-photos.sources.json`
+(`origin` = tu foto, `source` = "Foto propia de Emirate Scents") y ejecuta
+`npm run fotos:descargar -- --reemplazar --solo EQ-0010`.

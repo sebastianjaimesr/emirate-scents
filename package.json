@@ -22,6 +22,7 @@
     "db:studio": "npm run db:studio --workspace server",
     "catalogo:importar": "npm run catalog:import --workspace server --",
     "fotos:descargar": "npm run fotos:descargar --workspace server --",
+    "fotos:equivalencias": "npm run fotos:equivalencias --workspace server",
     "admin:crear": "npm run admin:crear --workspace server --",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
