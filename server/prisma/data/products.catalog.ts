@@ -8,13 +8,15 @@
  *   como EQUIVALENCIAS: "Inspirado en …", nunca con la marca como si fuera la original.
  * - La marca de las lociones árabes es la que aparece en el nombre o en la etiqueta del frasco.
  * - Fotos: las lociones árabes usan la foto del frasco recortada del Canva (el dueño lo
- *   autorizó el 23-oct-2026). Las equivalencias no llevan foto: la del frasco original
- *   haría creer que es el perfume de esa marca.
+ *   autorizó el 23-oct-2026), salvo las que ya tienen una foto profesional descargada con
+ *   `npm run fotos:descargar` (product-photos.json). Las equivalencias solo llevan foto
+ *   propia de Emirate Scents: la del frasco original haría creer que es el perfume de esa marca.
  * - Sin mililitros, concentración, notas ni público: el Canva no los trae.
  *
  * Lo usa la vista previa de GitHub Pages (client/src/services/preview/previewCatalog.ts).
  * Para la tienda con base de datos se importa con docs/catalogo/lociones-canva.csv.
  */
+import productPhotos from './product-photos.json' with { type: 'json' }
 import type { DemoBrand, DemoProduct } from './products.demo.js'
 
 export type CatalogProduct = DemoProduct & {
@@ -52,6 +54,9 @@ const slugify = (text: string) =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '')
 
+/** Foto descargada con `npm run fotos:descargar` (server/scripts/productPhotos.ts), si la hay. */
+const photos: Partial<Record<string, { url: string; source: string }>> = productPhotos
+
 const askMore = 'Escríbenos por WhatsApp para conocer el tamaño, las notas y la disponibilidad.'
 
 function arabic(n: number, name: string, brand: DemoBrand, price: number): CatalogProduct {
@@ -67,7 +72,10 @@ function arabic(n: number, name: string, brand: DemoBrand, price: number): Catal
     description: `${name}, de ${brand.name}. ${askMore}`,
     price,
     images: [
-      { url: `/images/products/${sku}/${sku}-1.webp`, alt: `Frasco de ${name}, de ${brand.name}` },
+      {
+        url: photos[sku]?.url ?? `/images/products/${sku}/${sku}-1.webp`,
+        alt: `Frasco de ${name}, de ${brand.name}`,
+      },
     ],
     stock: PREVIEW_STOCK,
     publishedAt: PUBLISHED_AT,
@@ -78,6 +86,7 @@ function arabic(n: number, name: string, brand: DemoBrand, price: number): Catal
 function equivalence(n: number, original: string, reference: string, price: number) {
   const sku = `EQ-${String(n).padStart(4, '0')}`
   const name = `Inspirado en ${original}`
+  const photo = photos[sku]
   return {
     id: sku.toLowerCase(),
     sku,
@@ -89,6 +98,17 @@ function equivalence(n: number, original: string, reference: string, price: numb
     description: `Loción inspirada en ${reference}. No es el perfume original ni está asociada a esa marca. ${askMore}`,
     price,
     inspirationReference: reference,
+    ...(photo && {
+      images: [
+        {
+          url: photo.url,
+          // Las ilustraciones las crea server/scripts/equivalenceArt.ts
+          alt: photo.source.startsWith('Ilustración')
+            ? `Ilustración del frasco Emirate Scents inspirado en ${original}`
+            : `Frasco de Emirate Scents inspirado en ${original}`,
+        },
+      ],
+    }),
     stock: PREVIEW_STOCK,
     publishedAt: PUBLISHED_AT,
   } satisfies CatalogProduct

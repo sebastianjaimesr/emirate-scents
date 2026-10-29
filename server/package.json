@@ -18,6 +18,8 @@
     "db:studio": "prisma studio",
     "postinstall": "prisma generate",
     "catalog:import": "tsx --env-file-if-exists=.env scripts/importCatalog.ts",
+    "fotos:descargar": "tsx scripts/productPhotos.ts",
+    "fotos:equivalencias": "tsx scripts/equivalenceArt.ts",
     "admin:crear": "tsx --env-file-if-exists=.env scripts/createAdmin.ts"
   },
   "devDependencies": {
