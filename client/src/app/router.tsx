@@ -1,4 +1,4 @@
-import { createBrowserRouter, type RouteObject } from 'react-router'
+import { createBrowserRouter, Navigate, type RouteObject } from 'react-router'
 import { CartPage } from '../pages/CartPage'
 import { FavoritesPage } from '../pages/FavoritesPage'
 import { HomePage } from '../pages/HomePage'
@@ -32,6 +32,9 @@ export const router = createBrowserRouter(
     {
       path: '/',
       Component: RootLayout,
+      // Mientras se descarga una página `lazy` en la primera visita no se muestra nada (como
+      // antes); declararlo evita un aviso en la consola en cada carga.
+      HydrateFallback: () => null,
       children: [
         { index: true, Component: HomePage },
         {
@@ -44,10 +47,16 @@ export const router = createBrowserRouter(
         },
         { path: 'favoritos', Component: FavoritesPage },
         { path: 'carrito', Component: CartPage },
-        {
-          path: 'pedido',
-          lazy: async () => ({ Component: (await import('../pages/CheckoutPage')).CheckoutPage }),
-        },
+        // En la vista previa de GitHub Pages no hay servidor que registre pedidos: el pedido se
+        // envía por WhatsApp desde el carrito. Un enlace viejo a /pedido lleva al carrito.
+        import.meta.env.VITE_PREVIEW === 'true'
+          ? { path: 'pedido', element: <Navigate to="/carrito" replace /> }
+          : {
+              path: 'pedido',
+              lazy: async () => ({
+                Component: (await import('../pages/CheckoutPage')).CheckoutPage,
+              }),
+            },
         {
           path: 'pedido/confirmacion',
           lazy: async () => ({

@@ -9,8 +9,8 @@ import type { Product } from '../../types/product'
 export const sortOptions = [
   { value: 'destacados', label: 'Destacados' },
   { value: 'novedades', label: 'Novedades' },
-  { value: 'precio-asc', label: 'Precio: menor a mayor' },
-  { value: 'precio-desc', label: 'Precio: mayor a menor' },
+  { value: 'precio-asc', label: 'Menor precio' },
+  { value: 'precio-desc', label: 'Mayor precio' },
   { value: 'nombre', label: 'Nombre: A–Z' },
 ] as const
 
