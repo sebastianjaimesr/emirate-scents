@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowRight } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { m, useReducedMotion, useScroll, useTransform } from 'motion/react'
 import { Fragment, useRef } from 'react'
 import { WhatsAppIcon } from '../../components/brand/BrandIcons'
@@ -6,14 +6,14 @@ import { ButtonLink } from '../../components/ui/ButtonLink'
 import { Container } from '../../components/ui/Container'
 import { heroContent } from '../../content/home'
 import { buildWhatsAppUrl, whatsappMessages } from '../../lib/whatsapp'
-import { HeroVisual } from '../hero3d/HeroVisual'
+import { HeroShowcase } from './HeroShowcase'
 
 const ease = [0.22, 1, 0.36, 1] as const
 
 /**
- * Hero de la página de inicio: un escenario oscuro con un frasco 3D dentro del arco
- * dorado de la marca (ver features/hero3d). El texto y los botones se muestran al instante
- * y nunca dependen del 3D: si la escena no carga, la página funciona igual.
+ * Portada de la página de inicio: una campaña sobre negro profundo con perfumes reales del
+ * catálogo (ver HeroShowcase). Las fotos se cargan con prioridad alta y el texto y los botones
+ * se muestran al instante.
  */
 export function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -32,20 +32,20 @@ export function HeroSection() {
     <section
       ref={sectionRef}
       aria-labelledby="hero-title"
-      className="relative isolate overflow-hidden bg-ink-950 text-ivory-50"
+      className="relative isolate overflow-hidden bg-noir text-ivory-50"
     >
-      {/* Luz cálida detrás del frasco y un piso que se pierde en la penumbra */}
+      {/* Luz cálida detrás de los frascos y un piso que se pierde en la penumbra */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_60%_45%_at_50%_28%,rgb(201_165_78/0.18),transparent_70%)] lg:bg-[radial-gradient(ellipse_38%_58%_at_72%_46%,rgb(201_165_78/0.2),transparent_70%)]"
+        className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_70%_50%_at_50%_30%,rgb(201_164_92/0.10),transparent_70%)] lg:bg-[radial-gradient(ellipse_45%_65%_at_72%_50%,rgb(201_164_92/0.12),transparent_70%)]"
       />
       <div
         aria-hidden="true"
         className="absolute inset-x-0 bottom-0 -z-10 h-1/3 bg-gradient-to-t from-black/50 to-transparent"
       />
 
-      <Container className="grid items-center gap-10 pt-10 pb-20 sm:pt-14 lg:min-h-[calc(100svh-5.5rem)] lg:grid-cols-[1.05fr_1fr] lg:gap-16 lg:py-16">
-        <HeroVisual progress={scrollYProgress} />
+      <Container className="grid items-center gap-10 pt-10 pb-20 sm:pt-14 lg:min-h-[calc(100svh-5.5rem)] lg:grid-cols-[1fr_1.15fr] lg:gap-12 lg:py-16">
+        <HeroShowcase progress={scrollYProgress} />
 
         <m.div
           style={{ y: textY, opacity: textOpacity }}
@@ -63,7 +63,7 @@ export function HeroSection() {
           {/* El título aparece palabra por palabra, como una frase que se revela */}
           <h1
             id="hero-title"
-            className="mt-5 text-5xl leading-[0.98] sm:text-6xl lg:text-7xl xl:text-8xl"
+            className="mt-5 text-5xl leading-[0.98] tracking-[0.01em] uppercase sm:text-6xl lg:text-7xl xl:text-[5.5rem]"
           >
             {titleWords.map((word, index) => (
               <Fragment key={index}>
@@ -105,13 +105,8 @@ export function HeroSection() {
                 strokeWidth={1.5}
               />
             </ButtonLink>
-            <ButtonLink to="#coleccion" variant="outline-dark">
+            <ButtonLink to={heroContent.secondaryCtaLink} variant="outline-dark">
               {heroContent.secondaryCta}
-              <ArrowDown
-                aria-hidden="true"
-                className="size-4 transition-transform duration-300 group-hover:translate-y-0.5"
-                strokeWidth={1.5}
-              />
             </ButtonLink>
           </m.div>
 

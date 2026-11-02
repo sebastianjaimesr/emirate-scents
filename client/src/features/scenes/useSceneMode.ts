@@ -1,6 +1,6 @@
 import { useReducedMotion } from 'motion/react'
 import { useCallback, useState } from 'react'
-import { supportsWebGL } from '../hero3d/webgl'
+import { supportsWebGL } from './webgl'
 import { isLowPower } from './lowPower'
 
 /**

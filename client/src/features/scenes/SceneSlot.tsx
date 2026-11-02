@@ -1,6 +1,6 @@
 import { m } from 'motion/react'
 import { Suspense, useRef, useState, type ReactNode } from 'react'
-import { SceneErrorBoundary } from '../hero3d/SceneErrorBoundary'
+import { SceneErrorBoundary } from './SceneErrorBoundary'
 import { markLowPower, useLowPower } from './lowPower'
 import { useNearViewport } from './useNearViewport'
 

@@ -175,5 +175,4 @@ test('si el dispositivo no da abasto, apaga las escenas y deja el texto en su si
   // Se recuerda durante la visita: al volver al inicio, las secciones ya son estáticas
   await page.reload()
   await expect(page.locator('[data-scene="galeria-estatica"]')).toHaveCount(1)
-  await expect(page.locator('[data-hero-visual]')).toHaveAttribute('data-hero-visual', 'reserva')
 })

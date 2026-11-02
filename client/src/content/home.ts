@@ -6,11 +6,13 @@
  * que el negocio no haya confirmado.
  */
 export const heroContent = {
-  eyebrow: 'Perfumería árabe · Diseñador · Nicho',
-  title: 'Fragancias que dejan huella',
-  lead: 'Perfumes seleccionados para quienes entienden el aroma como una firma personal. Descubre la colección y pide con asesoría directa por WhatsApp.',
-  primaryCta: 'Explorar la colección',
-  secondaryCta: 'Descubrir perfumes',
+  eyebrow: 'Alta perfumería árabe',
+  title: 'El arte de dejar huella',
+  lead: 'Descubre fragancias que definen tu esencia. Perfumes árabes seleccionados uno a uno, con asesoría directa por WhatsApp.',
+  primaryCta: 'Explorar fragancias',
+  /* "Más vendidos" necesita datos reales de ventas, que aún no hay: por ahora lleva a los árabes */
+  secondaryCta: 'Ver perfumes árabes',
+  secondaryCtaLink: '/catalogo/perfumes-arabes',
   advice: '¿Necesitas ayuda para elegir? Te asesoramos por WhatsApp',
 }
 
