@@ -21,7 +21,7 @@ export function HomePage() {
     <>
       <PageMeta description="Perfumes árabes, de diseñador, de nicho y equivalencias. Asesoría y pedidos por WhatsApp con pago contra entrega sujeto a confirmación." />
       <HeroSection />
-      {/* Destino del botón "Descubrir perfumes": las secciones 3D, o las colecciones si no hay productos */}
+      {/* Ancla de la colección: las secciones 3D, o las colecciones si no hay productos */}
       <div id="coleccion">
         <PedestalGallery />
         <CategoriesSection />

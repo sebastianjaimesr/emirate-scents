@@ -5,6 +5,10 @@
  *   npm run fotos:equivalencias     → crea las ilustraciones que falten
  *   npm run fotos:descargar         → después: las optimiza y las conecta al catálogo
  *
+ * Fondo negro, como el escenario de las fotos de la tienda (.photo-stage en client/src/index.css).
+ * Para volver a dibujarlas, borra los PNG de docs/catalogo/ilustraciones-equivalencias/ y ejecuta
+ * después `npm run fotos:descargar -- --reemplazar`.
+ *
  * Es una ilustración propia con el logo de la tienda: nunca imita el frasco ni la marca
  * del perfume original. Si una equivalencia ya tiene otra fuente (por ejemplo, una foto
  * propia), no se toca.
@@ -31,9 +35,9 @@ const bottle = (
  <linearGradient id="top" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6ecd8" stop-opacity=".9"/><stop offset="1" stop-color="#e9d3a6" stop-opacity=".6"/></linearGradient>
  <linearGradient id="gold" x1="0" x2="1"><stop offset="0" stop-color="#8a6420"/><stop offset=".3" stop-color="#e8cf8a"/><stop offset=".55" stop-color="#b8892f"/><stop offset="1" stop-color="#7a5518"/></linearGradient>
  <linearGradient id="cap" x1="0" x2="1"><stop offset="0" stop-color="#0c0c0c"/><stop offset=".35" stop-color="#3a3a3a"/><stop offset=".6" stop-color="#151515"/><stop offset="1" stop-color="#050505"/></linearGradient>
- <radialGradient id="shadow"><stop offset="0" stop-color="#000" stop-opacity=".28"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+ <radialGradient id="shadow"><stop offset="0" stop-color="#c9a45c" stop-opacity=".22"/><stop offset="1" stop-color="#c9a45c" stop-opacity="0"/></radialGradient>
 </defs>
-<rect width="800" height="1000" fill="#fff"/>
+<rect width="800" height="1000" fill="#000"/>
 <ellipse cx="400" cy="905" rx="230" ry="26" fill="url(#shadow)"/>
 <rect x="230" y="380" width="340" height="520" rx="34" fill="url(#glass)"/>
 <rect x="230" y="380" width="340" height="80" rx="34" fill="url(#top)"/>

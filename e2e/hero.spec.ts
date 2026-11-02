@@ -1,58 +1,52 @@
 import { expect, test } from '@playwright/test'
 
-/* Hero 3D: la escena aparece cuando se puede y la página funciona igual cuando no. */
+/*
+  Portada: una composición con fotos de perfumes originales del catálogo (sin 3D).
+  Las fotos cargan con prioridad, en AVIF/WebP, y los botones llevan a la tienda.
+*/
 
 const visual = '[data-hero-visual]'
 
-test('con WebGL, el frasco 3D reemplaza al logo dentro del arco', async ({ page }) => {
+test('la portada muestra los perfumes en escena y sus botones funcionan', async ({ page }) => {
   const errors: string[] = []
   page.on('pageerror', (error) => errors.push(error.message))
   await page.goto('/')
-  await expect(page.locator(visual)).toHaveAttribute('data-hero-visual', '3d', { timeout: 15_000 })
-  await expect(page.locator(`${visual} canvas`)).toHaveCount(1)
-  // La escena es decorativa: los lectores de pantalla la ignoran
-  await expect(page.locator(`${visual} [aria-hidden="true"]:has(canvas)`)).toHaveCount(1)
+
+  await expect(
+    page.getByRole('heading', { level: 1, name: 'El arte de dejar huella' }),
+  ).toBeVisible()
+  await expect(page.locator(visual)).toHaveAttribute('data-hero-visual', 'fotos')
+  // Tres frascos, cada uno con su reflejo; las fotos llegan completas (no rotas)
+  const photos = page.locator(`${visual} img`)
+  await expect(photos).toHaveCount(6)
+  await expect
+    .poll(() =>
+      photos.evaluateAll((imgs) => imgs.every((img) => (img as HTMLImageElement).naturalWidth > 0)),
+    )
+    .toBe(true)
+  // El protagonista se pide con prioridad alta y no espera al scroll
+  await expect(page.locator(`${visual} img[fetchpriority="high"]`)).toHaveCount(1)
+  // Sin 3D en la portada
+  await expect(page.locator(`${visual} canvas`)).toHaveCount(0)
+
+  await page.getByRole('link', { name: 'Ver Khamrah de Lattafa en el catálogo' }).click()
+  await expect(page).toHaveURL(/\/catalogo\?q=Khamrah$/)
+
+  await page.goto('/')
+  await page.getByRole('link', { name: 'Ver perfumes árabes' }).click()
+  await expect(page).toHaveURL(/\/catalogo\/perfumes-arabes$/)
+
+  await page.goto('/')
+  await page.getByRole('link', { name: 'Explorar fragancias' }).click()
+  await expect(page).toHaveURL(/\/catalogo$/)
   expect(errors).toEqual([])
 })
 
-test('sin WebGL, el hero muestra la composición de reserva y sus botones funcionan', async ({
-  page,
-}) => {
-  // Simula un navegador sin WebGL
-  await page.addInitScript(() => {
-    const original = HTMLCanvasElement.prototype.getContext
-    HTMLCanvasElement.prototype.getContext = function (
-      this: HTMLCanvasElement,
-      ...args: Parameters<typeof original>
-    ) {
-      if (args[0].startsWith('webgl')) return null
-      return original.apply(this, args)
-    } as typeof original
-  })
-  await page.goto('/')
-  await page.waitForTimeout(2000)
-  await expect(page.locator(visual)).toHaveAttribute('data-hero-visual', 'reserva')
-  await expect(page.locator(`${visual} canvas`)).toHaveCount(0)
-  await expect(page.locator(`${visual} img`)).toBeVisible()
-
-  await page.getByRole('link', { name: 'Descubrir perfumes' }).click()
-  // Lleva a la colección (sin WebGL, en su versión estática)
-  await expect(page.locator('#galeria-title')).toBeInViewport()
-
-  await page.getByRole('link', { name: 'Explorar la colección' }).click()
-  await expect(page).toHaveURL(/\/catalogo$/)
-})
-
-test('con "reducir movimiento" no se descarga la escena 3D', async ({ browser }) => {
+test('con "reducir movimiento" la portada se ve completa y quieta', async ({ browser }) => {
   const context = await browser.newContext({ reducedMotion: 'reduce' })
   const page = await context.newPage()
-  const sceneRequests: string[] = []
-  page.on('request', (request) => {
-    if (/HeroScene/.test(request.url())) sceneRequests.push(request.url())
-  })
   await page.goto('/')
-  await page.waitForTimeout(2000)
-  await expect(page.locator(visual)).toHaveAttribute('data-hero-visual', 'reserva')
-  expect(sceneRequests).toEqual([])
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+  await expect(page.locator(`${visual} img`).first()).toBeVisible()
   await context.close()
 })

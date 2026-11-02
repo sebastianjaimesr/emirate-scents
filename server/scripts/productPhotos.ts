@@ -112,7 +112,25 @@ async function readOrigin(origin: string): Promise<Buffer> {
   return readFileSync(file)
 }
 
-/** Fondo blanco, recorta los bordes vacíos y centra el frasco en un lienzo 4:5. */
+/**
+ * Color del fondo de la foto, leído en sus cuatro esquinas: negro si son oscuras (fotos de
+ * estudio sobre negro, como las del Canva) y blanco en los demás casos.
+ */
+async function backgroundOf(image: Buffer) {
+  const { data, info } = await sharp(image)
+    .resize(16, 16, { fit: 'fill' })
+    .removeAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true })
+  const corners = [0, 15, 15 * 16, 16 * 16 - 1].map((pixel) => {
+    const at = pixel * info.channels
+    return (data[at]! + data[at + 1]! + data[at + 2]!) / 3
+  })
+  const dark = corners.every((luma) => luma < 40)
+  return dark ? { r: 0, g: 0, b: 0, alpha: 1 } : { r: 255, g: 255, b: 255, alpha: 1 }
+}
+
+/** Recorta los bordes vacíos y centra el frasco en un lienzo 4:5 del color de su fondo. */
 async function optimize(
   original: Buffer,
 ): Promise<{ webp: Buffer; width: number; height: number }> {
@@ -126,11 +144,12 @@ async function optimize(
 
   const white = { r: 255, g: 255, b: 255, alpha: 1 }
   const flat = await sharp(original).rotate().flatten({ background: white }).toBuffer()
+  const background = await backgroundOf(flat)
   let trimmed = flat
   try {
-    trimmed = await sharp(flat).trim({ background: white, threshold: 12 }).toBuffer()
+    trimmed = await sharp(flat).trim({ background, threshold: 12 }).toBuffer()
   } catch {
-    // Sin bordes blancos que recortar: se usa entera
+    // Sin bordes vacíos que recortar: se usa entera
   }
   const fitted = await sharp(trimmed)
     .resize(INNER_WIDTH, INNER_HEIGHT, { fit: 'inside', withoutEnlargement: true })
@@ -143,7 +162,7 @@ async function optimize(
       right: WIDTH - fitted.info.width - left,
       top,
       bottom: HEIGHT - fitted.info.height - top,
-      background: white,
+      background,
     })
     // smartSubsample y calidad alta: las letras de la etiqueta no se emborronan
     .webp({ quality: 88, smartSubsample: true, effort: 6 })
@@ -169,7 +188,14 @@ for (const entry of sources) {
   }
   const current = records[entry.sku]
   const output = path.join(photosDir, entry.sku, `${entry.file}.webp`)
-  if (current?.origin === entry.origin && existsSync(output)) {
+  // Un archivo local con el mismo nombre pero contenido nuevo (p. ej. una ilustración que se
+  // volvió a dibujar) se procesa otra vez; una URL igual se da por hecha
+  const localOrigin = !/^https?:\/\//.test(entry.origin) && path.resolve(root, entry.origin)
+  const unchanged =
+    !localOrigin ||
+    !existsSync(localOrigin) ||
+    createHash('sha256').update(readFileSync(localOrigin)).digest('hex') === current?.sha256
+  if (current?.origin === entry.origin && existsSync(output) && unchanged) {
     skipped++
     continue
   }

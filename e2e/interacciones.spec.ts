@@ -41,6 +41,17 @@ test('el corazón de una tarjeta marca el favorito sin abrir el producto', async
   await expect(card.getByRole('button', { name: /quitar.*favoritos/i })).toBeVisible()
 })
 
+test('el botón "Agregar" de una tarjeta suma el producto sin abrir su ficha', async ({ page }) => {
+  await page.goto('/catalogo')
+  const card = page.locator('main article').filter({ hasText: 'Oud Rosa' })
+  // Muestra categoría y disponibilidad junto al precio
+  await expect(card).toContainText('Disponible')
+  await card.getByRole('button', { name: 'Agregar Oud Rosa al carrito' }).click()
+  await expect(page.getByRole('dialog')).toBeVisible()
+  await expect(page.getByRole('dialog')).toContainText('Oud Rosa')
+  await expect(page).toHaveURL(/\/catalogo$/)
+})
+
 test.describe('con ratón', () => {
   test.skip(({ isMobile }) => isMobile, 'En celular no hay cursor')
 

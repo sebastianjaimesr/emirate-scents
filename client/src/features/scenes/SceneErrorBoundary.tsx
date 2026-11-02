@@ -8,7 +8,7 @@ interface SceneErrorBoundaryProps {
 
 /**
  * Red de seguridad de la escena 3D: si algo falla (sin conexión al descargarla, una tarjeta
- * gráfica que no la soporta...), el error no rompe la página. El hero vuelve a su
+ * gráfica que no la soporta...), el error no rompe la página. La sección vuelve a su
  * composición de reserva y el resto de la tienda sigue funcionando.
  */
 export class SceneErrorBoundary extends Component<SceneErrorBoundaryProps, { failed: boolean }> {
