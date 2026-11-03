@@ -324,7 +324,8 @@
     "minLongSide": 480,
     "downloadedSize": "780×710",
     "verification": "revisar",
-    "note": "La foto más grande del sitio oficial de Dumont mide 780×710: se ve pequeña y poco nítida."
+    "note": "La foto más grande del sitio oficial de Dumont mide 780×710. El frasco se agranda 1,6× para que no se vea diminuto en la tarjeta; pierde algo de nitidez. Cambiar por foto propia o mejor fuente.",
+    "maxUpscale": 1.6
   },
   {
     "sku": "AR-0017",
@@ -442,7 +443,8 @@
     "minLongSide": 600,
     "downloadedSize": "1080×1080",
     "verification": "revisar",
-    "note": "Foto oficial de Armaf, pero el frasco ocupa poco espacio en la foto original (queda pequeño)."
+    "note": "Foto oficial de Armaf (1080×1080), pero el frasco ocupa poco de la foto. Se agranda 1,4× para igualar el tamaño de los demás; pierde algo de nitidez. Cambiar por foto propia o mejor fuente.",
+    "maxUpscale": 1.4
   },
   {
     "sku": "AR-0028",

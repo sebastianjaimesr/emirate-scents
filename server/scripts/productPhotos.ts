@@ -38,6 +38,12 @@ export interface PhotoSource {
    * Se acepta solo si es mejor que la que hay (anota el motivo en source).
    */
   minLongSide?: number
+  /**
+   * Excepción revisada a mano para fotos oficiales pequeñas: deja agrandar el frasco hasta este
+   * factor (máximo 1.8) para que no se vea diminuto junto a los demás. Pierde algo de nitidez;
+   * anótalo en note y cámbiala por una foto mejor en cuanto exista.
+   */
+  maxUpscale?: number
   /** Si origin es una copia local (p. ej. con el fondo recortado): la URL de la imagen original */
   imageUrl?: string
   /** Quién publica la foto: "Lattafa (sitio oficial)", "Foto propia"… */
@@ -87,6 +93,8 @@ const INNER_HEIGHT = 880
 const MIN_LONG_SIDE = 700
 /** Copias que se publican de cada foto (ancho en px; la de 800 es la principal) */
 const VARIANT_WIDTHS = [400, 800, 1200] as const
+/** Tope de maxUpscale: más que esto se vería borroso */
+const MAX_UPSCALE = 1.8
 const MAX_BYTES = 25 * 1024 * 1024
 const ATTEMPTS = 3
 
@@ -174,6 +182,7 @@ async function backgroundOf(image: Buffer) {
 async function optimize(
   original: Buffer,
   minLongSide = MIN_LONG_SIDE,
+  maxUpscale = 1,
 ): Promise<{ variants: { width: number; webp: Buffer }[]; width: number; height: number }> {
   // failOn 'error': un archivo dañado o que no es imagen se rechaza aquí
   const meta = await sharp(original, { failOn: 'error' }).metadata()
@@ -201,12 +210,18 @@ async function optimize(
   const trimmedMeta = await sharp(trimmed).metadata()
   // Cuánto habría que agrandar el frasco para llenar el espacio de la foto de 800 × 1000
   const fill = Math.min(INNER_WIDTH / trimmedMeta.width!, INNER_HEIGHT / trimmedMeta.height!)
+  // Tamaño del frasco en la foto de 800 × 1000: lo que quepa, sin agrandar salvo la excepción
+  const factor = Math.min(fill, Math.max(1, Math.min(maxUpscale, MAX_UPSCALE)))
+  const bottle = {
+    width: Math.round(trimmedMeta.width! * factor),
+    height: Math.round(trimmedMeta.height! * factor),
+  }
   const variants: { width: number; webp: Buffer }[] = []
   for (const target of VARIANT_WIDTHS) {
     const scale = target / WIDTH
     // La copia Retina solo se crea si sale de píxeles reales (nunca agrandando la foto)
     if (target > WIDTH && fill * scale > 1) continue
-    variants.push({ width: target, webp: await canvas(trimmed, background, scale) })
+    variants.push({ width: target, webp: await canvas(trimmed, bottle, background, scale) })
   }
   return { variants, width, height }
 }
@@ -214,17 +229,15 @@ async function optimize(
 /** Centra el frasco en un lienzo 4:5 (800 × 1000 por `scale`) del color de su fondo. */
 async function canvas(
   trimmed: Buffer,
+  bottle: { width: number; height: number },
   background: { r: number; g: number; b: number; alpha: number },
   scale: number,
 ) {
   const outWidth = Math.round(WIDTH * scale)
   const outHeight = Math.round(HEIGHT * scale)
   // El tamaño del frasco sale siempre de la medida 800 × 1000: así las tres copias son iguales
-  const base = await sharp(trimmed)
-    .resize(INNER_WIDTH, INNER_HEIGHT, { fit: 'inside', withoutEnlargement: true })
-    .toBuffer({ resolveWithObject: true })
   const fitted = await sharp(trimmed)
-    .resize(Math.round(base.info.width * scale), Math.round(base.info.height * scale), {
+    .resize(Math.round(bottle.width * scale), Math.round(bottle.height * scale), {
       fit: 'fill',
       kernel: 'lanczos3',
     })
@@ -292,7 +305,11 @@ for (const entry of sources) {
     const owner = hashes.get(sha256)
     if (owner && owner !== entry.sku)
       throw new Error(`es la misma imagen que ya usa ${owner}: revisa que sea el perfume correcto`)
-    const { variants, width, height } = await optimize(original, entry.minLongSide)
+    const { variants, width, height } = await optimize(
+      original,
+      entry.minLongSide,
+      entry.maxUpscale,
+    )
     const folder = path.dirname(output)
     mkdirSync(folder, { recursive: true })
     // Se borran las copias anteriores de este producto (otro nombre o tamaño)
