@@ -21,7 +21,7 @@ import type { DemoBrand, DemoProduct } from './products.demo.js'
 
 export type CatalogProduct = DemoProduct & {
   /** Ruta dentro de client/public, por ejemplo /images/products/AR-0009/lattafa-khamrah.webp */
-  images?: { url: string; alt: string }[]
+  images?: { url: string; alt: string; srcSet?: string; illustrative?: boolean }[]
 }
 
 /**
@@ -55,7 +55,20 @@ const slugify = (text: string) =>
     .replace(/^-|-$/g, '')
 
 /** Foto descargada con `npm run fotos:descargar` (server/scripts/productPhotos.ts), si la hay. */
-const photos: Partial<Record<string, { url: string; source: string }>> = productPhotos
+const photos: Partial<Record<string, { url: string; source: string; widths?: number[] }>> =
+  productPhotos
+
+/** srcset con las copias de 400, 800 y 1200 px que crea productPhotos.ts (la de 800 no lleva sufijo). */
+function srcSetOf(photo: { url: string; widths?: number[] }) {
+  if (!photo.widths || photo.widths.length < 2) return undefined
+  return photo.widths
+    .map((width) =>
+      width === 800
+        ? `${photo.url} 800w`
+        : `${photo.url.replace(/\.webp$/, `-${width}.webp`)} ${width}w`,
+    )
+    .join(', ')
+}
 
 const askMore = 'Escríbenos por WhatsApp para conocer el tamaño, las notas y la disponibilidad.'
 
@@ -73,7 +86,13 @@ function arabic(n: number, name: string, brand: DemoBrand, price: number): Catal
     price,
     // Sin foto: la tienda muestra "Imagen próximamente"
     images: photos[sku]
-      ? [{ url: photos[sku].url, alt: `Frasco de ${name}, de ${brand.name}` }]
+      ? [
+          {
+            url: photos[sku].url,
+            srcSet: srcSetOf(photos[sku]),
+            alt: `Frasco de ${name}, de ${brand.name}`,
+          },
+        ]
       : [],
     stock: PREVIEW_STOCK,
     publishedAt: PUBLISHED_AT,
@@ -100,6 +119,8 @@ function equivalence(n: number, original: string, reference: string, price: numb
       images: [
         {
           url: photo.url,
+          srcSet: srcSetOf(photo),
+          illustrative: photo.source.startsWith('Ilustración'),
           // Las ilustraciones las crea server/scripts/equivalenceArt.ts
           alt: photo.source.startsWith('Ilustración')
             ? `Ilustración del frasco Emirate Scents inspirado en ${original}`

@@ -4,198 +4,216 @@
     "file": "emirate-inspirado-en-erba-pura.webp",
     "origin": "docs/catalogo/ilustraciones-equivalencias/EQ-0001.png",
     "source": "Ilustración de Emirate Scents",
-    "sha256": "d7081d8902a2849d0504806ff85300a426a8b1b3ebf5677fccefc8aedcf794b9",
-    "originalWidth": 800,
-    "originalHeight": 1000,
-    "bytes": 13006,
-    "savedAt": "2026-11-02T20:21:20.291Z"
+    "sha256": "1bb582b0b9ae1b3c00af7d6c01ee5702faf41396240907d4ca7fe99d1dae6179",
+    "originalWidth": 1600,
+    "originalHeight": 2000,
+    "bytes": 14168,
+    "widths": [400, 800, 1200],
+    "savedAt": "2026-11-03T02:19:27.670Z"
   },
   "EQ-0002": {
     "url": "/images/products/EQ-0002/emirate-inspirado-en-le-male-le-parfum.webp",
     "file": "emirate-inspirado-en-le-male-le-parfum.webp",
     "origin": "docs/catalogo/ilustraciones-equivalencias/EQ-0002.png",
     "source": "Ilustración de Emirate Scents",
-    "sha256": "79224692617042d20818dd3e5e837c65f150a4e9f6000619ccd22268aca63601",
-    "originalWidth": 800,
-    "originalHeight": 1000,
-    "bytes": 12994,
-    "savedAt": "2026-11-02T20:21:20.612Z"
+    "sha256": "da31e6dc6e346091d8ad1e4ce39f681aa6411ec53c594dd6551e9bbffbd3f57b",
+    "originalWidth": 1600,
+    "originalHeight": 2000,
+    "bytes": 15324,
+    "widths": [400, 800, 1200],
+    "savedAt": "2026-11-03T02:19:28.799Z"
   },
   "EQ-0003": {
     "url": "/images/products/EQ-0003/emirate-inspirado-en-le-beau-le-parfum.webp",
     "file": "emirate-inspirado-en-le-beau-le-parfum.webp",
     "origin": "docs/catalogo/ilustraciones-equivalencias/EQ-0003.png",
     "source": "Ilustración de Emirate Scents",
-    "sha256": "0376921d8d6bac54dfa6ed54f644fb5d3b0e87c14324d3388baf2adf34bdb4e3",
-    "originalWidth": 800,
-    "originalHeight": 1000,
-    "bytes": 13004,
-    "savedAt": "2026-11-02T20:21:21.008Z"
+    "sha256": "dbe135a51a1e61d4aa5cd066071aca8416c7743f359c9249d571c82616db0d8d",
+    "originalWidth": 1600,
+    "originalHeight": 2000,
+    "bytes": 15282,
+    "widths": [400, 800, 1200],
+    "savedAt": "2026-11-03T02:19:29.920Z"
   },
   "EQ-0004": {
     "url": "/images/products/EQ-0004/emirate-inspirado-en-le-male-elixir.webp",
     "file": "emirate-inspirado-en-le-male-elixir.webp",
     "origin": "docs/catalogo/ilustraciones-equivalencias/EQ-0004.png",
     "source": "Ilustración de Emirate Scents",
-    "sha256": "abfe4f6ac220d2b42a75845c1667a4c9717c692965b74ffe043d72dca4f14520",
-    "originalWidth": 800,
-    "originalHeight": 1000,
-    "bytes": 12978,
-    "savedAt": "2026-11-02T20:21:21.340Z"
+    "sha256": "1628c1d3a5015f485140530d0995402c37def85c3d32c60abc5a74b50b670d58",
+    "originalWidth": 1600,
+    "originalHeight": 2000,
+    "bytes": 14702,
+    "widths": [400, 800, 1200],
+    "savedAt": "2026-11-03T02:19:31.013Z"
   },
   "EQ-0005": {
     "url": "/images/products/EQ-0005/emirate-inspirado-en-creed-silver.webp",
     "file": "emirate-inspirado-en-creed-silver.webp",
     "origin": "docs/catalogo/ilustraciones-equivalencias/EQ-0005.png",
     "source": "Ilustración de Emirate Scents",
-    "sha256": "7ffc000222195e5ef9ec2daef0e9d50d679270f9714d1a385813a095649d6ac5",
-    "originalWidth": 800,
-    "originalHeight": 1000,
-    "bytes": 13000,
-    "savedAt": "2026-11-02T20:21:21.643Z"
+    "sha256": "dec725208165841cabe434138b3932016b3381176753dd44b79b22a3297d8e2f",
+    "originalWidth": 1600,
+    "originalHeight": 2000,
+    "bytes": 14698,
+    "widths": [400, 800, 1200],
+    "savedAt": "2026-11-03T02:19:32.155Z"
   },
   "EQ-0006": {
     "url": "/images/products/EQ-0006/emirate-inspirado-en-bleu-de-chanel.webp",
     "file": "emirate-inspirado-en-bleu-de-chanel.webp",
     "origin": "docs/catalogo/ilustraciones-equivalencias/EQ-0006.png",
     "source": "Ilustración de Emirate Scents",
-    "sha256": "cea1cab327a24446b8a50d4baa4f42e08cad1b4b60c66432cb883ddad3f7f75f",
-    "originalWidth": 800,
-    "originalHeight": 1000,
-    "bytes": 12996,
-    "savedAt": "2026-11-02T20:21:21.947Z"
+    "sha256": "2b75c3c9736e89e0ec4bcb1f476d8cb47b85ac3e17f10dc98986776137d6365f",
+    "originalWidth": 1600,
+    "originalHeight": 2000,
+    "bytes": 14874,
+    "widths": [400, 800, 1200],
+    "savedAt": "2026-11-03T02:19:33.266Z"
   },
   "EQ-0007": {
     "url": "/images/products/EQ-0007/emirate-inspirado-en-lacoste-red.webp",
     "file": "emirate-inspirado-en-lacoste-red.webp",
     "origin": "docs/catalogo/ilustraciones-equivalencias/EQ-0007.png",
     "source": "Ilustración de Emirate Scents",
-    "sha256": "1be157a947a8fb25fc4a3ba393ac437ddbc89fabe5497797aa1947817451d999",
-    "originalWidth": 800,
-    "originalHeight": 1000,
-    "bytes": 12984,
-    "savedAt": "2026-11-02T20:21:22.255Z"
+    "sha256": "d6f299ad3ab60b92dc797cc00a525bb529b32e94b116a5cdcdf1114763be5dd7",
+    "originalWidth": 1600,
+    "originalHeight": 2000,
+    "bytes": 14452,
+    "widths": [400, 800, 1200],
+    "savedAt": "2026-11-03T02:19:34.376Z"
   },
   "EQ-0008": {
     "url": "/images/products/EQ-0008/emirate-inspirado-en-212-vip-black.webp",
     "file": "emirate-inspirado-en-212-vip-black.webp",
     "origin": "docs/catalogo/ilustraciones-equivalencias/EQ-0008.png",
     "source": "Ilustración de Emirate Scents",
-    "sha256": "85c15fdf4240315d3a6abc12eaeed8b152d845d63c4c5e34dee851f52efd69bf",
-    "originalWidth": 800,
-    "originalHeight": 1000,
-    "bytes": 12988,
-    "savedAt": "2026-11-02T20:21:22.596Z"
+    "sha256": "d5c4ca968f17bd3cbc8cdaad6f24eff05d6e31d3086b89c2d0c069bb43a9acf5",
+    "originalWidth": 1600,
+    "originalHeight": 2000,
+    "bytes": 14504,
+    "widths": [400, 800, 1200],
+    "savedAt": "2026-11-03T02:19:35.549Z"
   },
   "EQ-0009": {
     "url": "/images/products/EQ-0009/emirate-inspirado-en-santal-33.webp",
     "file": "emirate-inspirado-en-santal-33.webp",
     "origin": "docs/catalogo/ilustraciones-equivalencias/EQ-0009.png",
     "source": "Ilustración de Emirate Scents",
-    "sha256": "d2b72dba4513830f32c0d0aac345490b33334a06bbd46d18d720d60a1e64475c",
-    "originalWidth": 800,
-    "originalHeight": 1000,
-    "bytes": 12998,
-    "savedAt": "2026-11-02T20:21:22.897Z"
+    "sha256": "0de23dad0339652af0b8d0f4bb445de47b7b75c4232fbd4e862077c59781ea97",
+    "originalWidth": 1600,
+    "originalHeight": 2000,
+    "bytes": 14114,
+    "widths": [400, 800, 1200],
+    "savedAt": "2026-11-03T02:19:36.855Z"
   },
   "EQ-0010": {
     "url": "/images/products/EQ-0010/emirate-inspirado-en-sauvage.webp",
     "file": "emirate-inspirado-en-sauvage.webp",
     "origin": "docs/catalogo/ilustraciones-equivalencias/EQ-0010.png",
     "source": "Ilustración de Emirate Scents",
-    "sha256": "bbae871ef045cf5bad2b0fafee7800be8b90683d86edda52395c2a3edbd5aca4",
-    "originalWidth": 800,
-    "originalHeight": 1000,
-    "bytes": 12956,
-    "savedAt": "2026-11-02T20:21:23.191Z"
+    "sha256": "31475e02abd709d25f9a765344fb80292f2d06be45581fab327ad81846c9565e",
+    "originalWidth": 1600,
+    "originalHeight": 2000,
+    "bytes": 13892,
+    "widths": [400, 800, 1200],
+    "savedAt": "2026-11-03T02:19:38.128Z"
   },
   "EQ-0011": {
     "url": "/images/products/EQ-0011/emirate-inspirado-en-sauvage-elixir.webp",
     "file": "emirate-inspirado-en-sauvage-elixir.webp",
     "origin": "docs/catalogo/ilustraciones-equivalencias/EQ-0011.png",
     "source": "Ilustración de Emirate Scents",
-    "sha256": "0de61bb3f91bb8d8d131584a2c3fba6e55aab9172b98acca091cc708a7b75848",
-    "originalWidth": 800,
-    "originalHeight": 1000,
-    "bytes": 12942,
-    "savedAt": "2026-11-02T20:21:23.516Z"
+    "sha256": "bc03a111bfb0e7b26df19715e9db647b8cb7c354479bc4e5e6e0161fda31f2ce",
+    "originalWidth": 1600,
+    "originalHeight": 2000,
+    "bytes": 14798,
+    "widths": [400, 800, 1200],
+    "savedAt": "2026-11-03T02:19:39.466Z"
   },
   "EQ-0012": {
     "url": "/images/products/EQ-0012/emirate-inspirado-en-la-vie-est-belle.webp",
     "file": "emirate-inspirado-en-la-vie-est-belle.webp",
     "origin": "docs/catalogo/ilustraciones-equivalencias/EQ-0012.png",
     "source": "Ilustración de Emirate Scents",
-    "sha256": "2776d9ea53e061ff1539dd858ccfe1c0ba5f6de3158c8d345c48657508046d1d",
-    "originalWidth": 800,
-    "originalHeight": 1000,
-    "bytes": 12998,
-    "savedAt": "2026-11-02T20:21:23.833Z"
+    "sha256": "69c2cc75e9d3552c71d57a534482b67e8649f0cea9a74fe71c5da12155690262",
+    "originalWidth": 1600,
+    "originalHeight": 2000,
+    "bytes": 14762,
+    "widths": [400, 800, 1200],
+    "savedAt": "2026-11-03T02:19:40.759Z"
   },
   "EQ-0013": {
     "url": "/images/products/EQ-0013/emirate-inspirado-en-moschino-bubble-gum.webp",
     "file": "emirate-inspirado-en-moschino-bubble-gum.webp",
     "origin": "docs/catalogo/ilustraciones-equivalencias/EQ-0013.png",
     "source": "Ilustración de Emirate Scents",
-    "sha256": "0ebb2df6e72eafc781c2baaf93a61c2658e99a85ef9d3e58b50d006670e8c0cc",
-    "originalWidth": 800,
-    "originalHeight": 1000,
-    "bytes": 12992,
-    "savedAt": "2026-11-02T20:21:24.158Z"
+    "sha256": "311da56ce60b810dce4fb45823a39a015789467fce7bdbfdcd4927965abd4db6",
+    "originalWidth": 1600,
+    "originalHeight": 2000,
+    "bytes": 15884,
+    "widths": [400, 800, 1200],
+    "savedAt": "2026-11-03T02:19:41.980Z"
   },
   "EQ-0014": {
     "url": "/images/products/EQ-0014/emirate-inspirado-en-la-bomba.webp",
     "file": "emirate-inspirado-en-la-bomba.webp",
     "origin": "docs/catalogo/ilustraciones-equivalencias/EQ-0014.png",
     "source": "Ilustración de Emirate Scents",
-    "sha256": "032094166d8ed5d20d2de0bbf63ca5a555b3103f5621fbee0500406e3cb367a8",
-    "originalWidth": 800,
-    "originalHeight": 1000,
-    "bytes": 12990,
-    "savedAt": "2026-11-02T20:21:24.489Z"
+    "sha256": "11611506737649ac30eba1c1ff994cfeed3d85da2161cd3af209909bb3cbb09f",
+    "originalWidth": 1600,
+    "originalHeight": 2000,
+    "bytes": 14042,
+    "widths": [400, 800, 1200],
+    "savedAt": "2026-11-03T02:19:43.146Z"
   },
   "EQ-0015": {
     "url": "/images/products/EQ-0015/emirate-inspirado-en-cloud.webp",
     "file": "emirate-inspirado-en-cloud.webp",
     "origin": "docs/catalogo/ilustraciones-equivalencias/EQ-0015.png",
     "source": "Ilustración de Emirate Scents",
-    "sha256": "afbe0b0c8800de084f69cd760cc3a0b9024673e138c22c4667ccd16fa37ec241",
-    "originalWidth": 800,
-    "originalHeight": 1000,
-    "bytes": 12996,
-    "savedAt": "2026-11-02T20:21:24.790Z"
+    "sha256": "77143c84da8181e10eafa6cf4dd21d8e4821f0574fc1c59b71268d9dc9f9f6c3",
+    "originalWidth": 1600,
+    "originalHeight": 2000,
+    "bytes": 13554,
+    "widths": [400, 800, 1200],
+    "savedAt": "2026-11-03T02:19:44.399Z"
   },
   "EQ-0016": {
     "url": "/images/products/EQ-0016/emirate-inspirado-en-thank-u-next.webp",
     "file": "emirate-inspirado-en-thank-u-next.webp",
     "origin": "docs/catalogo/ilustraciones-equivalencias/EQ-0016.png",
     "source": "Ilustración de Emirate Scents",
-    "sha256": "679df635a3c9d18b0a56619e5799612854c19c0cf192e15f9a0580f8ecb9bb23",
-    "originalWidth": 800,
-    "originalHeight": 1000,
-    "bytes": 13000,
-    "savedAt": "2026-11-02T20:21:25.081Z"
+    "sha256": "f55c605c57774cafc02909c058ae0e5367a4c9ef7bff57a78d756a41c647e5d1",
+    "originalWidth": 1600,
+    "originalHeight": 2000,
+    "bytes": 14670,
+    "widths": [400, 800, 1200],
+    "savedAt": "2026-11-03T02:19:45.594Z"
   },
   "EQ-0017": {
     "url": "/images/products/EQ-0017/emirate-inspirado-en-good-girl.webp",
     "file": "emirate-inspirado-en-good-girl.webp",
     "origin": "docs/catalogo/ilustraciones-equivalencias/EQ-0017.png",
     "source": "Ilustración de Emirate Scents",
-    "sha256": "4f658fd301e679f0a46c80792ed290fed09eb1a469ae9ce84769fb58a86ed3f3",
-    "originalWidth": 800,
-    "originalHeight": 1000,
-    "bytes": 12994,
-    "savedAt": "2026-11-02T20:21:25.427Z"
+    "sha256": "c072af762720a43d1dd9a6450be50c16deb1521752782ac52a7c0dc06f8177b9",
+    "originalWidth": 1600,
+    "originalHeight": 2000,
+    "bytes": 14002,
+    "widths": [400, 800, 1200],
+    "savedAt": "2026-11-03T02:19:46.784Z"
   },
   "EQ-0018": {
     "url": "/images/products/EQ-0018/emirate-inspirado-en-good-girl-blush.webp",
     "file": "emirate-inspirado-en-good-girl-blush.webp",
     "origin": "docs/catalogo/ilustraciones-equivalencias/EQ-0018.png",
     "source": "Ilustración de Emirate Scents",
-    "sha256": "33f2e1192677b2daa74e783784ee999d444538f4a47875409693b8e37cf38f30",
-    "originalWidth": 800,
-    "originalHeight": 1000,
-    "bytes": 13000,
-    "savedAt": "2026-11-02T20:21:25.737Z"
+    "sha256": "31c817203c5a6080f9ab1762828a41b623363743c4bc04d3d147d8caa5d43d9c",
+    "originalWidth": 1600,
+    "originalHeight": 2000,
+    "bytes": 14922,
+    "widths": [400, 800, 1200],
+    "savedAt": "2026-11-03T02:19:48.034Z"
   },
   "AR-0001": {
     "url": "/images/products/AR-0001/french-avenue-vulcan-feu.webp",
@@ -208,7 +226,8 @@
     "originalWidth": 336,
     "originalHeight": 880,
     "bytes": 42032,
-    "savedAt": "2026-11-03T01:31:12.103Z"
+    "widths": [400, 800],
+    "savedAt": "2026-11-03T02:18:37.471Z"
   },
   "AR-0002": {
     "url": "/images/products/AR-0002/lattafa-sehr.webp",
@@ -221,7 +240,8 @@
     "originalWidth": 376,
     "originalHeight": 938,
     "bytes": 51440,
-    "savedAt": "2026-11-03T01:31:12.559Z"
+    "widths": [400, 800],
+    "savedAt": "2026-11-03T02:18:38.144Z"
   },
   "AR-0003": {
     "url": "/images/products/AR-0003/lattafa-fakhar-black.webp",
@@ -234,7 +254,8 @@
     "originalWidth": 569,
     "originalHeight": 948,
     "bytes": 38162,
-    "savedAt": "2026-11-03T01:31:13.106Z"
+    "widths": [400, 800],
+    "savedAt": "2026-11-03T02:18:38.852Z"
   },
   "AR-0004": {
     "url": "/images/products/AR-0004/orientica-noble.webp",
@@ -247,7 +268,8 @@
     "originalWidth": 622,
     "originalHeight": 1390,
     "bytes": 101870,
-    "savedAt": "2026-11-03T01:31:13.991Z"
+    "widths": [400, 800, 1200],
+    "savedAt": "2026-11-03T02:18:40.991Z"
   },
   "AR-0005": {
     "url": "/images/products/AR-0005/lattafa-asad-bourbon.webp",
@@ -260,7 +282,8 @@
     "originalWidth": 590,
     "originalHeight": 1277,
     "bytes": 23864,
-    "savedAt": "2026-11-03T01:31:14.560Z"
+    "widths": [400, 800],
+    "savedAt": "2026-11-03T02:18:41.848Z"
   },
   "AR-0006": {
     "url": "/images/products/AR-0006/lattafa-asad-clasico.webp",
@@ -273,7 +296,8 @@
     "originalWidth": 416,
     "originalHeight": 952,
     "bytes": 27338,
-    "savedAt": "2026-11-03T01:31:15.023Z"
+    "widths": [400, 800],
+    "savedAt": "2026-11-03T02:18:42.548Z"
   },
   "AR-0007": {
     "url": "/images/products/AR-0007/lattafa-asad-elixir.webp",
@@ -286,7 +310,8 @@
     "originalWidth": 521,
     "originalHeight": 1210,
     "bytes": 15520,
-    "savedAt": "2026-11-03T01:31:15.552Z"
+    "widths": [400, 800],
+    "savedAt": "2026-11-03T02:18:43.322Z"
   },
   "AR-0008": {
     "url": "/images/products/AR-0008/lattafa-khamrah-dukhan.webp",
@@ -299,7 +324,8 @@
     "originalWidth": 712,
     "originalHeight": 948,
     "bytes": 94104,
-    "savedAt": "2026-11-03T01:31:16.341Z"
+    "widths": [400, 800],
+    "savedAt": "2026-11-03T02:18:44.711Z"
   },
   "AR-0009": {
     "url": "/images/products/AR-0009/lattafa-khamrah.webp",
@@ -312,7 +338,8 @@
     "originalWidth": 713,
     "originalHeight": 928,
     "bytes": 89054,
-    "savedAt": "2026-11-03T01:31:17.140Z"
+    "widths": [400, 800],
+    "savedAt": "2026-11-03T02:18:45.939Z"
   },
   "AR-0010": {
     "url": "/images/products/AR-0010/lattafa-khamrah-qahwa.webp",
@@ -325,7 +352,8 @@
     "originalWidth": 698,
     "originalHeight": 938,
     "bytes": 108242,
-    "savedAt": "2026-11-03T01:31:18.016Z"
+    "widths": [400, 800],
+    "savedAt": "2026-11-03T02:18:47.225Z"
   },
   "AR-0011": {
     "url": "/images/products/AR-0011/lattafa-khamrah-waha.webp",
@@ -338,7 +366,8 @@
     "originalWidth": 1045,
     "originalHeight": 1400,
     "bytes": 49406,
-    "savedAt": "2026-11-03T01:31:19.041Z"
+    "widths": [400, 800, 1200],
+    "savedAt": "2026-11-03T02:18:49.330Z"
   },
   "AR-0012": {
     "url": "/images/products/AR-0012/afnan-9pm-rebel.webp",
@@ -351,7 +380,8 @@
     "originalWidth": 358,
     "originalHeight": 823,
     "bytes": 12802,
-    "savedAt": "2026-11-03T01:31:19.415Z"
+    "widths": [400, 800],
+    "savedAt": "2026-11-03T02:18:49.817Z"
   },
   "AR-0013": {
     "url": "/images/products/AR-0013/afnan-9pm-night-out.webp",
@@ -363,8 +393,9 @@
     "sha256": "0bb7219ccdd0dda5233aaba5683787ad11185ab854af4ae5a808e0a694bf8cd2",
     "originalWidth": 591,
     "originalHeight": 1400,
-    "bytes": 108512,
-    "savedAt": "2026-11-03T01:31:20.376Z"
+    "bytes": 106870,
+    "widths": [400, 800, 1200],
+    "savedAt": "2026-11-03T02:18:52.137Z"
   },
   "AR-0014": {
     "url": "/images/products/AR-0014/afnan-9am.webp",
@@ -377,7 +408,8 @@
     "originalWidth": 339,
     "originalHeight": 816,
     "bytes": 14770,
-    "savedAt": "2026-11-03T01:31:20.731Z"
+    "widths": [400, 800],
+    "savedAt": "2026-11-03T02:18:52.674Z"
   },
   "AR-0015": {
     "url": "/images/products/AR-0015/afnan-9pm.webp",
@@ -390,7 +422,8 @@
     "originalWidth": 341,
     "originalHeight": 813,
     "bytes": 16254,
-    "savedAt": "2026-11-03T01:31:21.057Z"
+    "widths": [400, 800],
+    "savedAt": "2026-11-03T02:18:53.230Z"
   },
   "AR-0016": {
     "url": "/images/products/AR-0016/dumont-nitro-red.webp",
@@ -403,7 +436,8 @@
     "originalWidth": 314,
     "originalHeight": 498,
     "bytes": 29582,
-    "savedAt": "2026-11-03T01:31:21.443Z"
+    "widths": [400, 800],
+    "savedAt": "2026-11-03T02:18:53.760Z"
   },
   "AR-0017": {
     "url": "/images/products/AR-0017/al-haramain-amber-oud-dubai-night.webp",
@@ -416,7 +450,8 @@
     "originalWidth": 465,
     "originalHeight": 863,
     "bytes": 50996,
-    "savedAt": "2026-11-03T01:31:21.962Z"
+    "widths": [400, 800],
+    "savedAt": "2026-11-03T02:18:54.553Z"
   },
   "AR-0018": {
     "url": "/images/products/AR-0018/al-haramain-amber-oud.webp",
@@ -428,8 +463,9 @@
     "sha256": "62c81fc7fcaca8306faa47162d6af2c46e5f4fc29061ce88ea145f6a7d4e03d7",
     "originalWidth": 537,
     "originalHeight": 1012,
-    "bytes": 36424,
-    "savedAt": "2026-11-03T01:31:22.567Z"
+    "bytes": 36756,
+    "widths": [400, 800],
+    "savedAt": "2026-11-03T02:18:55.347Z"
   },
   "AR-0019": {
     "url": "/images/products/AR-0019/al-haramain-amber-oud-aqua-dubai.webp",
@@ -442,7 +478,8 @@
     "originalWidth": 478,
     "originalHeight": 880,
     "bytes": 39146,
-    "savedAt": "2026-11-03T01:31:23.027Z"
+    "widths": [400, 800],
+    "savedAt": "2026-11-03T02:18:56.098Z"
   },
   "AR-0020": {
     "url": "/images/products/AR-0020/armaf-club-de-nuit.webp",
@@ -455,7 +492,8 @@
     "originalWidth": 808,
     "originalHeight": 1400,
     "bytes": 14780,
-    "savedAt": "2026-11-03T01:31:23.732Z"
+    "widths": [400, 800, 1200],
+    "savedAt": "2026-11-03T02:18:57.759Z"
   },
   "AR-0021": {
     "url": "/images/products/AR-0021/armaf-club-de-nuit-sillage.webp",
@@ -468,7 +506,8 @@
     "originalWidth": 820,
     "originalHeight": 1400,
     "bytes": 36192,
-    "savedAt": "2026-11-03T01:31:24.524Z"
+    "widths": [400, 800, 1200],
+    "savedAt": "2026-11-03T02:18:59.538Z"
   },
   "AR-0022": {
     "url": "/images/products/AR-0022/armaf-odyssey-aqua.webp",
@@ -481,7 +520,8 @@
     "originalWidth": 622,
     "originalHeight": 902,
     "bytes": 36882,
-    "savedAt": "2026-11-03T01:31:25.062Z"
+    "widths": [400, 800],
+    "savedAt": "2026-11-03T02:19:00.401Z"
   },
   "AR-0023": {
     "url": "/images/products/AR-0023/lattafa-shaheen-gold.webp",
@@ -494,7 +534,8 @@
     "originalWidth": 434,
     "originalHeight": 960,
     "bytes": 34146,
-    "savedAt": "2026-11-03T01:31:25.536Z"
+    "widths": [400, 800],
+    "savedAt": "2026-11-03T02:19:01.076Z"
   },
   "AR-0024": {
     "url": "/images/products/AR-0024/rasasi-hawas-for-him.webp",
@@ -507,7 +548,8 @@
     "originalWidth": 528,
     "originalHeight": 1012,
     "bytes": 25694,
-    "savedAt": "2026-11-03T01:31:26.035Z"
+    "widths": [400, 800],
+    "savedAt": "2026-11-03T02:19:01.743Z"
   },
   "AR-0025": {
     "url": "/images/products/AR-0025/lattafa-honor-glory.webp",
@@ -520,7 +562,8 @@
     "originalWidth": 584,
     "originalHeight": 943,
     "bytes": 72386,
-    "savedAt": "2026-11-03T01:31:26.662Z"
+    "widths": [400, 800],
+    "savedAt": "2026-11-03T02:19:02.634Z"
   },
   "AR-0026": {
     "url": "/images/products/AR-0026/lattafa-amethyst.webp",
@@ -533,7 +576,8 @@
     "originalWidth": 567,
     "originalHeight": 926,
     "bytes": 72376,
-    "savedAt": "2026-11-03T01:31:27.248Z"
+    "widths": [400, 800],
+    "savedAt": "2026-11-03T02:19:03.521Z"
   },
   "AR-0027": {
     "url": "/images/products/AR-0027/armaf-yum-yum.webp",
@@ -546,7 +590,8 @@
     "originalWidth": 242,
     "originalHeight": 628,
     "bytes": 15058,
-    "savedAt": "2026-11-03T01:31:27.550Z"
+    "widths": [400, 800],
+    "savedAt": "2026-11-03T02:19:03.956Z"
   },
   "AR-0028": {
     "url": "/images/products/AR-0028/lattafa-yara-candy.webp",
@@ -559,7 +604,8 @@
     "originalWidth": 423,
     "originalHeight": 954,
     "bytes": 25014,
-    "savedAt": "2026-11-03T01:31:27.973Z"
+    "widths": [400, 800],
+    "savedAt": "2026-11-03T02:19:04.587Z"
   },
   "AR-0029": {
     "url": "/images/products/AR-0029/lattafa-yara.webp",
@@ -572,7 +618,8 @@
     "originalWidth": 417,
     "originalHeight": 954,
     "bytes": 17742,
-    "savedAt": "2026-11-03T01:31:28.369Z"
+    "widths": [400, 800],
+    "savedAt": "2026-11-03T02:19:05.193Z"
   },
   "AR-0030": {
     "url": "/images/products/AR-0030/lattafa-yara-elixir.webp",
@@ -584,8 +631,9 @@
     "sha256": "2c7390ebadb2ba94e226db1a0eff8863892399a34c42bc05c5d21c9b844183e4",
     "originalWidth": 513,
     "originalHeight": 1155,
-    "bytes": 21224,
-    "savedAt": "2026-11-03T01:31:28.880Z"
+    "bytes": 20762,
+    "widths": [400, 800],
+    "savedAt": "2026-11-03T02:19:05.908Z"
   },
   "AR-0031": {
     "url": "/images/products/AR-0031/lattafa-mayar.webp",
@@ -598,7 +646,8 @@
     "originalWidth": 556,
     "originalHeight": 1400,
     "bytes": 25990,
-    "savedAt": "2026-11-03T01:31:29.464Z"
+    "widths": [400, 800, 1200],
+    "savedAt": "2026-11-03T02:19:07.231Z"
   },
   "AR-0032": {
     "url": "/images/products/AR-0032/bharara-rose.webp",
@@ -611,7 +660,8 @@
     "originalWidth": 553,
     "originalHeight": 1400,
     "bytes": 17734,
-    "savedAt": "2026-11-03T01:31:30.054Z"
+    "widths": [400, 800, 1200],
+    "savedAt": "2026-11-03T02:19:08.565Z"
   },
   "AR-0033": {
     "url": "/images/products/AR-0033/lattafa-cookie-crave.webp",
@@ -623,8 +673,9 @@
     "sha256": "823ef85f27ae367d7a5d05978716a57f47f67b160217261bbf2d2acdfe1d821a",
     "originalWidth": 700,
     "originalHeight": 1151,
-    "bytes": 25196,
-    "savedAt": "2026-11-03T01:31:30.671Z"
+    "bytes": 25380,
+    "widths": [400, 800],
+    "savedAt": "2026-11-03T02:19:09.413Z"
   },
   "AR-0034": {
     "url": "/images/products/AR-0034/lattafa-berry-on-top.webp",
@@ -637,7 +688,8 @@
     "originalWidth": 677,
     "originalHeight": 1160,
     "bytes": 26542,
-    "savedAt": "2026-11-03T01:31:31.347Z"
+    "widths": [400, 800],
+    "savedAt": "2026-11-03T02:19:10.262Z"
   },
   "AR-0035": {
     "url": "/images/products/AR-0035/lattafa-vanilla-freak.webp",
@@ -650,7 +702,8 @@
     "originalWidth": 690,
     "originalHeight": 1187,
     "bytes": 30674,
-    "savedAt": "2026-11-03T01:31:31.922Z"
+    "widths": [400, 800],
+    "savedAt": "2026-11-03T02:19:11.148Z"
   },
   "AR-0036": {
     "url": "/images/products/AR-0036/orientica-royal-amber.webp",
@@ -663,7 +716,8 @@
     "originalWidth": 403,
     "originalHeight": 806,
     "bytes": 74016,
-    "savedAt": "2026-11-03T01:31:32.430Z"
+    "widths": [400, 800],
+    "savedAt": "2026-11-03T02:19:11.912Z"
   },
   "AR-0037": {
     "url": "/images/products/AR-0037/orientica-amber-rouge.webp",
@@ -675,8 +729,9 @@
     "sha256": "d83f68838cfc8e79a9e62e816e70c954a5f13278ef6f4fa5d78b0a6ef23d16b3",
     "originalWidth": 692,
     "originalHeight": 1400,
-    "bytes": 90924,
-    "savedAt": "2026-11-03T01:31:33.351Z"
+    "bytes": 90238,
+    "widths": [400, 800, 1200],
+    "savedAt": "2026-11-03T02:19:13.853Z"
   },
   "AR-0038": {
     "url": "/images/products/AR-0038/lattafa-eclaire.webp",
@@ -689,7 +744,8 @@
     "originalWidth": 345,
     "originalHeight": 950,
     "bytes": 20544,
-    "savedAt": "2026-11-03T01:31:33.806Z"
+    "widths": [400, 800],
+    "savedAt": "2026-11-03T02:19:14.441Z"
   },
   "AR-0039": {
     "url": "/images/products/AR-0039/rave-now-women.webp",
@@ -702,6 +758,7 @@
     "originalWidth": 951,
     "originalHeight": 915,
     "bytes": 50816,
-    "savedAt": "2026-11-03T01:31:34.510Z"
+    "widths": [400, 800],
+    "savedAt": "2026-11-03T02:19:15.636Z"
   }
 }

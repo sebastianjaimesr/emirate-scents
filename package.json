@@ -24,6 +24,7 @@
     "fotos:descargar": "npm run fotos:descargar --workspace server --",
     "fotos:equivalencias": "npm run fotos:equivalencias --workspace server",
     "fotos:portada": "npm run fotos:portada --workspace server",
+    "fotos:inventario": "npm run fotos:inventario --workspace server",
     "admin:crear": "npm run admin:crear --workspace server --",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
