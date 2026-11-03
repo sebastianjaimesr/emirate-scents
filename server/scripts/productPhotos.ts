@@ -29,6 +29,13 @@ export interface PhotoSource {
   origin: string
   /** Página donde se ve el producto (para comprobar que es el perfume exacto) */
   sourcePage?: string
+  /**
+   * Excepción revisada a mano: la foto más grande que existe del frasco es menor que 700 px.
+   * Se acepta solo si es mejor que la que hay (anota el motivo en source).
+   */
+  minLongSide?: number
+  /** Si origin es una copia local (p. ej. con el fondo recortado): la URL de la imagen original */
+  imageUrl?: string
   /** Quién publica la foto: "Lattafa (sitio oficial)", "Foto propia"… */
   source: string
 }
@@ -38,6 +45,7 @@ export interface PhotoRecord {
   file: string
   origin: string
   sourcePage?: string
+  imageUrl?: string
   source: string
   /** Huella del archivo original: si dos productos la comparten, uno tiene la foto equivocada */
   sha256: string
@@ -112,6 +120,14 @@ async function readOrigin(origin: string): Promise<Buffer> {
   return readFileSync(file)
 }
 
+/** ¿Tiene zonas transparentes alrededor del frasco? Entonces es un frasco ya recortado. */
+async function isCutOut(image: Buffer) {
+  const meta = await sharp(image).metadata()
+  if (!meta.hasAlpha) return false
+  const alpha = (await sharp(image).stats()).channels[3]
+  return alpha !== undefined && alpha.min < 10 && alpha.mean < 245
+}
+
 /**
  * Color del fondo de la foto, leído en sus cuatro esquinas: negro si son oscuras (fotos de
  * estudio sobre negro, como las del Canva) y blanco en los demás casos.
@@ -133,18 +149,25 @@ async function backgroundOf(image: Buffer) {
 /** Recorta los bordes vacíos y centra el frasco en un lienzo 4:5 del color de su fondo. */
 async function optimize(
   original: Buffer,
+  minLongSide = MIN_LONG_SIDE,
 ): Promise<{ webp: Buffer; width: number; height: number }> {
   // failOn 'error': un archivo dañado o que no es imagen se rechaza aquí
   const meta = await sharp(original, { failOn: 'error' }).metadata()
   const width = meta.autoOrient?.width ?? meta.width
   const height = meta.autoOrient?.height ?? meta.height
   if (!width || !height) throw new Error('no se pudo leer el tamaño de la imagen')
-  if (Math.max(width, height) < MIN_LONG_SIDE)
-    throw new Error(`es muy pequeña (${width}×${height}; mínimo ${MIN_LONG_SIDE} px de lado mayor)`)
+  if (Math.max(width, height) < minLongSide)
+    throw new Error(`es muy pequeña (${width}×${height}; mínimo ${minLongSide} px de lado mayor)`)
 
+  // Frasco recortado (fondo transparente): va sobre el negro del escenario de la tienda
+  const black = { r: 0, g: 0, b: 0, alpha: 1 }
   const white = { r: 255, g: 255, b: 255, alpha: 1 }
-  const flat = await sharp(original).rotate().flatten({ background: white }).toBuffer()
-  const background = await backgroundOf(flat)
+  const cutOut = await isCutOut(original)
+  const flat = await sharp(original)
+    .rotate()
+    .flatten({ background: cutOut ? black : white })
+    .toBuffer()
+  const background = cutOut ? black : await backgroundOf(flat)
   let trimmed = flat
   try {
     trimmed = await sharp(flat).trim({ background, threshold: 12 }).toBuffer()
@@ -216,7 +239,7 @@ for (const entry of sources) {
     const owner = hashes.get(sha256)
     if (owner && owner !== entry.sku)
       throw new Error(`es la misma imagen que ya usa ${owner}: revisa que sea el perfume correcto`)
-    const { webp, width, height } = await optimize(original)
+    const { webp, width, height } = await optimize(original, entry.minLongSide)
     mkdirSync(path.dirname(output), { recursive: true })
     writeFileSync(output, webp)
     records[entry.sku] = {
@@ -224,6 +247,7 @@ for (const entry of sources) {
       file: `${entry.file}.webp`,
       origin: entry.origin,
       sourcePage: entry.sourcePage,
+      imageUrl: entry.imageUrl,
       source: entry.source,
       sha256,
       originalWidth: width,

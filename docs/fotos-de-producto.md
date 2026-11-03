@@ -77,3 +77,21 @@ npm run fotos:descargar       # las optimiza y las conecta
 Para cambiar una por una foto propia, edita su entrada en `product-photos.sources.json`
 (`origin` = tu foto, `source` = "Foto propia de Emirate Scents") y ejecuta
 `npm run fotos:descargar -- --reemplazar --solo EQ-0010`.
+
+## Fotos oficiales con el fondo recortado (nov-2026)
+
+Las 39 lociones árabes usan la foto oficial de la marca (o de un distribuidor autorizado
+cuando la marca no la publica), con el fondo recortado para que el frasco quede sobre el
+escenario negro de la tienda:
+
+- Los recortes están en `docs/catalogo/fotos-oficiales/<SKU>.webp` (fondo transparente).
+- En `product-photos.sources.json`, `origin` apunta al recorte, `imageUrl` a la imagen
+  original y `sourcePage` a la página del producto.
+- El script detecta que la foto es un recorte (tiene fondo transparente) y la pone sobre
+  negro; las fotos con fondo blanco siguen sobre blanco.
+- `minLongSide` permite, revisado a mano, una foto menor de 700 px cuando es la más grande
+  que existe (Nitro Red y Yum Yum).
+- Después de cambiar fotos, ejecuta `npm run fotos:portada` para actualizar la portada.
+
+Para recortar una foto nueva puedes usar cualquier herramienta que quite el fondo
+(Photoshop, remove.bg, `rembg`) y guardar el resultado como PNG o WebP con transparencia.
