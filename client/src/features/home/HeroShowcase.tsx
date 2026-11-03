@@ -23,12 +23,10 @@ const WIDTHS = [480, 800]
  */
 const stage = [
   { style: { left: '-3%', width: '40%', bottom: '19%' }, depth: 0.5, dim: true, z: 1 },
-  { style: { left: '25%', width: '50%', bottom: '12%' }, depth: 1, dim: false, z: 3 },
+  { style: { left: '28%', width: '44%', bottom: '12%' }, depth: 1, dim: false, z: 3 },
   { style: { right: '-3%', width: '40%', bottom: '19%' }, depth: 0.5, dim: true, z: 1 },
 ] satisfies { style: CSSProperties; depth: number; dim: boolean; z: number }[]
 
-/** Bordes difuminados: la foto se funde con el fondo negro en lugar de verse "pegada". */
-const featherMask = 'radial-gradient(ellipse 47% 50% at 50% 48%, black 58%, transparent 100%)'
 // La máscara se aplica antes de voltear la imagen: por eso va "hacia arriba"
 const reflectionMask = 'linear-gradient(to top, rgb(0 0 0 / 0.6), transparent 40%)'
 
@@ -163,7 +161,6 @@ export function HeroShowcase({ progress }: { progress: MotionValue<number> }) {
                         ? 'brightness-[0.72] group-hover/bottle:brightness-100'
                         : 'group-hover/bottle:brightness-110')
                     }
-                    style={{ maskImage: featherMask, WebkitMaskImage: featherMask }}
                   />
                   {/* Reflejo en el piso brillante */}
                   <BottlePhoto

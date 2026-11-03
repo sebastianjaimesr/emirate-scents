@@ -7,9 +7,9 @@
  * - Las lociones que evocan marcas de diseñador o nicho (Dior, Chanel, Creed…) se publican
  *   como EQUIVALENCIAS: "Inspirado en …", nunca con la marca como si fuera la original.
  * - La marca de las lociones árabes es la que aparece en el nombre o en la etiqueta del frasco.
- * - Fotos: las lociones árabes usan la foto del frasco recortada del Canva (el dueño lo
- *   autorizó el 23-oct-2026), salvo las que ya tienen una foto profesional descargada con
- *   `npm run fotos:descargar` (product-photos.json). Las equivalencias solo llevan foto
+ * - Fotos: las lociones árabes usan la foto oficial de la marca o de un distribuidor autorizado
+ *   (nov-2026), con el fondo recortado para el escenario negro de la tienda; fuentes en
+ *   product-photos.sources.json (`npm run fotos:descargar`). Las equivalencias solo llevan foto
  *   propia de Emirate Scents: la del frasco original haría creer que es el perfume de esa marca.
  * - Sin mililitros, concentración, notas ni público: el Canva no los trae.
  *
@@ -20,7 +20,7 @@ import productPhotos from './product-photos.json' with { type: 'json' }
 import type { DemoBrand, DemoProduct } from './products.demo.js'
 
 export type CatalogProduct = DemoProduct & {
-  /** Ruta dentro de client/public, por ejemplo /images/products/AR-0001/AR-0001-1.webp */
+  /** Ruta dentro de client/public, por ejemplo /images/products/AR-0009/lattafa-khamrah.webp */
   images?: { url: string; alt: string }[]
 }
 
@@ -71,12 +71,10 @@ function arabic(n: number, name: string, brand: DemoBrand, price: number): Catal
     shortDescription: `${name}, de ${brand.name}.`,
     description: `${name}, de ${brand.name}. ${askMore}`,
     price,
-    images: [
-      {
-        url: photos[sku]?.url ?? `/images/products/${sku}/${sku}-1.webp`,
-        alt: `Frasco de ${name}, de ${brand.name}`,
-      },
-    ],
+    // Sin foto: la tienda muestra "Imagen próximamente"
+    images: photos[sku]
+      ? [{ url: photos[sku].url, alt: `Frasco de ${name}, de ${brand.name}` }]
+      : [],
     stock: PREVIEW_STOCK,
     publishedAt: PUBLISHED_AT,
   }
