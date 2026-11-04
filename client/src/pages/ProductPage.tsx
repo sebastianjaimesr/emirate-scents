@@ -154,6 +154,13 @@ export function ProductPage() {
                   <>Inspirada en: {product.inspirationReference}. </>
                 )}
                 No es el perfume original ni está asociada a la marca que evoca.
+                {product.images[0]?.referenceOfOriginal && (
+                  <>
+                    {' '}
+                    La foto muestra el perfume original solo como referencia del aroma: recibes
+                    la loción en el frasco de Emirate Scents.
+                  </>
+                )}
               </p>
             )}
 
