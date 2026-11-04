@@ -6,6 +6,7 @@
   Tailwind v4 convierte cada variable de @theme en clases: --color-gold-500 → bg-gold-500, text-gold-500...
 */
 @theme {
+  --color-noir: #080808; /* negro profundo: portada y escenario de las fotos */
   --color-ink-950: #0e0c0a; /* negro cálido: fondos oscuros */
   --color-ink-900: #1a1612; /* carbón: paneles oscuros y texto sobre claro */
   --color-ink-800: #2a241e;
@@ -66,5 +67,46 @@
   /* Etiqueta pequeña en mayúsculas espaciadas, eco del "S C E N T S" del logo */
   .eyebrow {
     @apply text-xs font-semibold tracking-label uppercase;
+  }
+}
+
+@layer components {
+  /* Botón dorado: un brillo cruza el botón al pasar el cursor (nada con "reducir movimiento") */
+  .btn-sheen {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .btn-sheen::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(
+      105deg,
+      transparent 35%,
+      rgb(255 255 255 / 0.45) 50%,
+      transparent 65%
+    );
+    transform: translateX(-110%);
+    pointer-events: none;
+  }
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .btn-sheen:hover:not(:disabled)::after {
+      transform: translateX(110%);
+      transition: transform 0.9s var(--ease-luxe);
+    }
+  }
+
+  /*
+    Escenario de las fotos de producto: negro profundo con una luz dorada detrás del frasco.
+    Las fotos tienen fondo negro y se dibujan con "lighten": el negro deja ver la luz y el
+    frasco queda iluminado, igual en todas las tarjetas.
+  */
+  .photo-stage {
+    background:
+      radial-gradient(ellipse 60% 45% at 50% 46%, rgb(201 164 92 / 0.2), transparent 70%),
+      radial-gradient(ellipse 55% 9% at 50% 93%, rgb(201 164 92 / 0.14), transparent 70%),
+      var(--color-noir);
   }
 }

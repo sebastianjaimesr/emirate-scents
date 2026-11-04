@@ -23,7 +23,7 @@ export function ProductGallery({ product }: { product: Product }) {
       <div
         onMouseMove={activeImage ? handleZoomMove : undefined}
         className={cx(
-          'group relative aspect-[4/5] overflow-hidden bg-cream-100',
+          'group relative aspect-[4/5] overflow-hidden bg-noir',
           activeImage && '[@media(hover:hover)]:cursor-zoom-in',
         )}
       >
@@ -39,7 +39,7 @@ export function ProductGallery({ product }: { product: Product }) {
             <div
               style={{ transformOrigin: zoomOrigin }}
               className={cx(
-                'size-full transition-transform duration-500 ease-luxe',
+                'photo-stage size-full transition-transform duration-500 ease-luxe',
                 // Lupa: la foto se amplía hacia donde apunta el cursor
                 activeImage && '[@media(hover:hover)]:group-hover:scale-[1.8]',
               )}
@@ -48,6 +48,7 @@ export function ProductGallery({ product }: { product: Product }) {
                 image={activeImage}
                 fallbackLabel={product.name}
                 priority
+                onStage
                 sizes="(min-width: 1024px) 50vw, 100vw"
               />
             </div>

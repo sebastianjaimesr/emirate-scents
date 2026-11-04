@@ -17,7 +17,16 @@ interface ProductImageProps {
   sizes?: string
   /** Miniatura pequeña (carrito): el estado de reserva muestra solo el monograma. */
   compact?: boolean
+  /**
+   * La foto va sobre el escenario negro (.photo-stage): se funde con él ("lighten") para que
+   * el fondo negro de la foto deje ver la luz dorada.
+   */
+  onStage?: boolean
 }
+
+/** Las fotos de producto se guardan en 800 × 1000 (4:5): ver server/scripts/productPhotos.ts. */
+const PHOTO_WIDTH = 800
+const PHOTO_HEIGHT = 1000
 
 /**
  * Imagen de producto con un estado de reserva elegante cuando la foto falta o no carga.
@@ -30,8 +39,10 @@ export function ProductImage({
   priority = false,
   sizes,
   compact = false,
+  onStage = false,
 }: ProductImageProps) {
   const [hasError, setHasError] = useState(false)
+  const [loaded, setLoaded] = useState(false)
 
   if (!image || hasError) {
     return (
@@ -63,15 +74,61 @@ export function ProductImage({
   }
 
   return (
-    <img
-      src={mediaUrl(image.url)}
-      alt={image.alt}
-      sizes={sizes}
-      loading={priority ? 'eager' : 'lazy'}
-      fetchPriority={priority ? 'high' : 'auto'}
-      decoding="async"
-      onError={() => setHasError(true)}
-      className={cx('size-full object-cover', className)}
-    />
+    <span className="relative block size-full">
+      {/* Mientras la foto llega: brillo dorado suave con el monograma, del tamaño de la foto */}
+      {!loaded && (
+        <span
+          aria-hidden="true"
+          className={cx(
+            'absolute inset-0 flex animate-pulse items-center justify-center font-display',
+            onStage ? 'text-gold-500/25' : 'bg-cream-100 text-gold-700/30',
+            compact ? 'text-xl' : 'text-5xl',
+          )}
+        >
+          ES
+        </span>
+      )}
+      <img
+        ref={(element) => {
+          // Una foto que ya estaba en la caché del navegador llega antes que onLoad
+          if (element?.complete && element.naturalWidth > 0) setLoaded(true)
+        }}
+        src={mediaUrl(image.url)}
+        srcSet={image.srcSet && responsiveSrcSet(image.srcSet)}
+        alt={image.alt}
+        sizes={sizes}
+        // Medidas reales: el navegador reserva el espacio y la página no "salta" al cargar
+        width={PHOTO_WIDTH}
+        height={PHOTO_HEIGHT}
+        loading={priority ? 'eager' : 'lazy'}
+        fetchPriority={priority ? 'high' : 'auto'}
+        decoding="async"
+        onLoad={() => setLoaded(true)}
+        onError={() => setHasError(true)}
+        // contain: la foto se ve completa y con sus proporciones, nunca recortada ni estirada
+        className={cx(
+          'relative size-full object-contain transition-opacity duration-500 ease-luxe',
+          loaded ? 'opacity-100' : 'opacity-0',
+          onStage && 'mix-blend-lighten',
+          className,
+        )}
+      />
+      {image.illustrative && !compact && (
+        <span className="absolute bottom-1.5 left-1/2 -translate-x-1/2 bg-noir/80 px-2 py-0.5 text-[0.55rem] font-semibold tracking-[0.2em] whitespace-nowrap text-gold-300/80 uppercase">
+          Imagen ilustrativa
+        </span>
+      )}
+    </span>
   )
+}
+
+/** Cada dirección del srcset pasa por mediaUrl (en GitHub Pages la tienda vive en una subcarpeta). */
+function responsiveSrcSet(srcSet: string) {
+  return srcSet
+    .split(',')
+    .map((entry) => {
+      const [url = '', descriptor = ''] = entry.trim().split(/\s+/)
+      return `${mediaUrl(url)} ${descriptor}`.trim()
+    })
+    .join(', ')
 }

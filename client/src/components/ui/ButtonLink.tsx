@@ -9,7 +9,7 @@ type Variant = 'primary' | 'outline-dark' | 'outline-light'
 
 const variants: Record<Variant, string> = {
   // Oro sobre texto negro: contraste 8.3:1
-  primary: 'bg-gold-500 text-ink-950 hover:bg-gold-300',
+  primary: 'btn-sheen bg-gold-500 text-ink-950 hover:bg-gold-300',
   // Para fondos oscuros
   'outline-dark':
     'border border-gold-500/70 text-gold-300 hover:border-gold-300 hover:bg-gold-500/10',

@@ -8,7 +8,7 @@ Guía para entender, explicar y sustentar la tienda. Complementa el `README.md` 
 
 Una **tienda online de perfumes** completa (full-stack):
 
-- **Tienda pública:** inicio con un frasco 3D, catálogo con filtros, ficha de producto, favoritos, carrito y formulario de compra. El pedido se confirma con el negocio por **WhatsApp**.
+- **Tienda pública:** inicio con fotos reales de los perfumes, galería y pirámide olfativa en 3D, catálogo con filtros, ficha de producto, favoritos, carrito y formulario de compra. El pedido se confirma con el negocio por **WhatsApp**.
 - **Panel de administración (`/admin`):** productos y fotos, categorías y marcas, inventario, pedidos y un resumen con cifras reales.
 - **API propia** que guarda todo en **PostgreSQL**.
 
@@ -23,7 +23,7 @@ Una **tienda online de perfumes** completa (full-stack):
 |                      | **Zustand**                                       | Estado global: carrito, favoritos, sesión del panel.                  |
 |                      | **React Hook Form + Zod**                         | Formulario de compra y sus validaciones.                              |
 |                      | **Motion**                                        | Animaciones.                                                          |
-|                      | **Three.js + React Three Fiber**                  | El frasco 3D del inicio.                                              |
+|                      | **Three.js + React Three Fiber**                  | Galería y pirámide 3D.                                                |
 | Backend (`server/`)  | **Node.js + Express 5**                           | La API REST (`/api/...`).                                             |
 |                      | **Prisma** + **PostgreSQL**                       | Base de datos y acceso a ella con tipos.                              |
 |                      | **Zod**                                           | Validación de todo lo que llega a la API.                             |
@@ -41,7 +41,7 @@ emirate-scents/
 │   └── src/
 │       ├── app/          Rutas y estructura común (RootLayout)
 │       ├── pages/        Una página por ruta (CatalogPage, ProductPage, CartPage…)
-│       ├── features/     Lógica por funcionalidad: cart, catalog, checkout, favorites, hero3d…
+│       ├── features/     Lógica por funcionalidad: cart, catalog, checkout, favorites, gallery, notesPyramid…
 │       ├── components/   Piezas reutilizables (layout, products, ui, brand)
 │       ├── services/     Llamadas a la API (apiClient, productService, orderService)
 │       ├── admin/        Panel de administración completo (se descarga solo al entrar)
@@ -130,7 +130,7 @@ emirate-scents/
 
 **Lazy loading.** El panel, la escena 3D y las páginas se descargan solo cuando se necesitan.
 
-**Modo vista previa.** Con `VITE_PREVIEW=true` la tienda funciona sin servidor, con productos DEMO filtrados en el navegador (`services/preview`).
+**Modo vista previa.** Con `VITE_PREVIEW=true` la tienda funciona sin servidor, con el catálogo real filtrado en el navegador (`services/preview`).
 
 ## 7. Cómo ejecutarlo
 

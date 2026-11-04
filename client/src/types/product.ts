@@ -21,6 +21,14 @@ export interface ProductImage {
   url: string
   /** Texto alternativo descriptivo para lectores de pantalla. */
   alt: string
+  /**
+   * Copias de la misma foto en otros tamaños, en formato srcset
+   * ("/a-400.webp 400w, /a.webp 800w, /a-1200.webp 1200w"): el navegador baja la que
+   * necesita la pantalla (celular o Retina).
+   */
+  srcSet?: string
+  /** true = ilustración de la tienda, no una foto del frasco real (se avisa en la tarjeta). */
+  illustrative?: boolean
 }
 
 /** Notas olfativas: de salida, de corazón y de fondo. */

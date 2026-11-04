@@ -70,11 +70,14 @@ export function createApp() {
 
   // Fotos subidas desde el panel. Nunca cambian (cada foto nueva tiene otra dirección), así
   // que se guardan en caché un año. Cross-Origin-Resource-Policy: la tienda en GitHub Pages
-  // está en otro dominio y debe poder mostrarlas.
+  // está en otro dominio y debe poder mostrarlas. Access-Control-Allow-Origin: la galería 3D
+  // las usa como textura, y WebGL solo acepta fotos de otro dominio con este permiso. Son
+  // fotos públicas que se piden sin cookies, así que se permite a cualquier origen.
   app.use(
     UPLOADS_URL_PREFIX,
     (_req, res, next) => {
       res.set('Cross-Origin-Resource-Policy', 'cross-origin')
+      res.set('Access-Control-Allow-Origin', '*')
       next()
     },
     express.static(uploadsRoot, {

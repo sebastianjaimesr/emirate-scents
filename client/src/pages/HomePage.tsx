@@ -6,7 +6,8 @@ import { ManifestoSection } from '../features/home/ManifestoSection'
 import { OlfactoryFamiliesSection } from '../features/home/OlfactoryFamiliesSection'
 import { OrderStepsSection } from '../features/home/OrderStepsSection'
 import { ProductHighlightSection } from '../features/home/ProductHighlightSection'
-import { FragranceShowcase } from '../features/showcase/FragranceShowcase'
+import { PedestalGallery } from '../features/gallery/PedestalGallery'
+import { NotesPyramid } from '../features/notesPyramid/NotesPyramid'
 
 /*
   Las secciones de productos solo aparecen si hay productos que las respalden:
@@ -20,9 +21,9 @@ export function HomePage() {
     <>
       <PageMeta description="Perfumes árabes, de diseñador, de nicho y equivalencias. Asesoría y pedidos por WhatsApp con pago contra entrega sujeto a confirmación." />
       <HeroSection />
-      {/* Destino del botón "Descubrir perfumes": la vitrina, o las colecciones si no hay productos */}
+      {/* Ancla de la colección: las secciones 3D, o las colecciones si no hay productos */}
       <div id="coleccion">
-        <FragranceShowcase />
+        <PedestalGallery />
         <CategoriesSection />
       </div>
       <ProductHighlightSection
@@ -49,6 +50,7 @@ export function HomePage() {
         catalogLink="/catalogo"
         background="bg-cream-100"
       />
+      <NotesPyramid />
       <OlfactoryFamiliesSection />
       <OrderStepsSection />
       <FaqSection />
