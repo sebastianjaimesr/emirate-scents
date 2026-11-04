@@ -1,5 +1,9 @@
 [
-  { "key": "amber-oud", "sku": "AR-0018", "name": "Amber Oud", "brand": "Al Haramain" },
-  { "key": "khamrah", "sku": "AR-0009", "name": "Khamrah", "brand": "Lattafa" },
-  { "key": "shaheen-gold", "sku": "AR-0023", "name": "Shaheen Gold", "brand": "Lattafa" }
+  {
+    "key": "khamrah",
+    "sku": "AR-0009",
+    "slug": "khamrah-lattafa",
+    "name": "Khamrah",
+    "brand": "Lattafa"
+  }
 ]

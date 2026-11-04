@@ -67,7 +67,7 @@ export function createPlaqueTexture({ brand, name, details, isDemo }: PlaqueText
     spacedText(context, 'DEMO', width / 2, 114, 5)
   }
 
-  context.fillStyle = '#c9a54e'
+  context.fillStyle = '#c6a15b'
   context.font = `600 28px ${SANS}`
   spacedText(context, brand.toUpperCase(), width / 2, top, 7)
 

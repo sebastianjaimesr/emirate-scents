@@ -42,7 +42,7 @@ const SPACING = 3.4
 /** El suelo está en y = -1; la cara superior del pedestal, en y = 0. */
 const FLOOR_Y = -1
 const WALL_Z = -2.3
-const INK = '#0e0c0a'
+const INK = '#111111'
 
 /**
  * "Galería con pedestales": una sala oscura con nichos en arco (el motivo de la marca) y un

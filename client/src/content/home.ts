@@ -8,11 +8,11 @@
 export const heroContent = {
   eyebrow: 'Alta perfumería árabe',
   title: 'El arte de dejar huella',
-  lead: 'Descubre fragancias que definen tu esencia. Perfumes árabes seleccionados uno a uno, con asesoría directa por WhatsApp.',
-  primaryCta: 'Explorar fragancias',
-  /* "Más vendidos" necesita datos reales de ventas, que aún no hay: por ahora lleva a los árabes */
-  secondaryCta: 'Ver perfumes árabes',
-  secondaryCtaLink: '/catalogo/perfumes-arabes',
+  lead: 'Perfumes árabes seleccionados uno a uno, con asesoría personal por WhatsApp.',
+  primaryCta: 'Explorar colección',
+  /* Baja a la galería de la página de inicio, donde se recorren los perfumes uno a uno */
+  secondaryCta: 'Descubrir perfumes',
+  secondaryCtaLink: '#coleccion',
   advice: '¿Necesitas ayuda para elegir? Te asesoramos por WhatsApp',
 }
 

@@ -243,7 +243,7 @@ type Tone = 'neutral' | 'success' | 'warning' | 'danger' | 'info'
 const tones: Record<Tone, string> = {
   neutral: 'bg-ink-900/8 text-ink-900',
   success: 'bg-emerald-700/10 text-emerald-800',
-  warning: 'bg-amber-600/15 text-oud-800',
+  warning: 'bg-amber-600/15 text-ink-900',
   danger: 'bg-ruby-600/10 text-ruby-600',
   info: 'bg-gold-500/20 text-gold-700',
 }

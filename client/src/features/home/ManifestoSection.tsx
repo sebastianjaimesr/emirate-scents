@@ -8,7 +8,7 @@ export function ManifestoSection() {
   return (
     <section
       aria-labelledby="manifiesto-title"
-      className="relative overflow-hidden bg-oud-800 py-24 text-ivory-50 sm:py-32"
+      className="relative overflow-hidden bg-ink-800 py-24 text-ivory-50 sm:py-32"
     >
       <Container className="relative text-center">
         <Reveal>
