@@ -63,6 +63,29 @@ describe('GET /api/products', () => {
     expect(await get('precioMin=250000&precioMax=300000&orden=precio-desc')).toEqual(['p2', 'p4'])
   })
 
+  it('filtra por género y por colecciones que dependen de datos reales', async () => {
+    const get = async (query: string) =>
+      slugs((await request(app).get(`/api/products?${query}`)).body)
+    expect(await get('genero=masculino')).toEqual(['p1'])
+    expect(await get('genero=masculino,unisex&orden=nombre')).toEqual(['p1', 'p2'])
+    expect(await get('coleccion=nuevos')).toEqual(['p3'])
+    // Solo p4 tiene un precio anterior mayor que el actual
+    expect(await get('coleccion=ofertas')).toEqual(['p4'])
+    expect(await get('coleccion=mas-vendidos')).toEqual([])
+    expect((await request(app).get('/api/products?genero=nino')).status).toBe(400)
+  })
+
+  it('ordena por relevancia: primero lo que coincide con el nombre', async () => {
+    const get = async (query: string) =>
+      slugs((await request(app).get(`/api/products?${query}`)).body)
+    // "rosa" está en el nombre de p2; "ambar" en el de p1 y p4 (p4 es más reciente)
+    expect(await get('q=ambar%20real&orden=relevancia')).toEqual(['p1'])
+    expect(await get('q=ambar&orden=relevancia')).toEqual(['p4', 'p1'])
+    expect(await get('q=marca&orden=relevancia&porPagina=2&pagina=2')).toHaveLength(2)
+    // Sin búsqueda, relevancia equivale a destacados
+    expect((await get('orden=relevancia'))[0]).toBe('p2')
+  })
+
   it('pagina y corrige una página fuera de rango', async () => {
     const res = await request(app).get('/api/products?orden=precio-asc&porPagina=3&pagina=9')
     expect(res.body).toMatchObject({ total: 4, page: 2, totalPages: 2 })
@@ -124,6 +147,11 @@ describe('catálogo auxiliar', () => {
         { value: 'Amaderada', count: 1 },
         { value: 'Oriental', count: 2 },
       ],
+      audiences: [
+        { value: 'masculino', count: 1 },
+        { value: 'unisex', count: 1 },
+      ],
+      collections: [{ value: 'ofertas', count: 1 }],
       priceRange: { min: 200000, max: 300000 },
     })
   })

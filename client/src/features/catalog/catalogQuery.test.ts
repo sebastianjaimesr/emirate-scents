@@ -43,4 +43,18 @@ describe('parseCatalogQuery / toSearchParams', () => {
       'marca=marca-a&orden=nombre',
     )
   })
+  it('lee género y colección, y descarta valores desconocidos', () => {
+    const query = parse('genero=masculino,nino,unisex&coleccion=ofertas')
+    expect(query.audiences).toEqual(['masculino', 'unisex'])
+    expect(query.collection).toBe('ofertas')
+    expect(parse('coleccion=gratis').collection).toBeUndefined()
+    expect(toSearchParams(query).toString()).toBe('genero=masculino%2Cunisex&coleccion=ofertas')
+  })
+
+  it('al buscar ordena por relevancia por defecto; sin búsqueda, relevancia no aplica', () => {
+    expect(parse('q=khamrah').sort).toBe('relevancia')
+    expect(toSearchParams(parse('q=khamrah')).toString()).toBe('q=khamrah')
+    expect(parse('q=khamrah&orden=precio-asc').sort).toBe('precio-asc')
+    expect(parse('orden=relevancia').sort).toBe('destacados')
+  })
 })

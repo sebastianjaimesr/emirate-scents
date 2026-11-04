@@ -88,11 +88,13 @@ export function CatalogToolbar({
             onChange={(event) => onChange({ sort: event.target.value as SortOption })}
             className="min-h-11 min-w-0 flex-1 cursor-pointer border border-ink-900/25 bg-transparent px-3 text-xs font-semibold tracking-[0.06em] focus:border-ink-900 focus:outline-none sm:flex-none"
           >
-            {sortOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
+            {sortOptions
+              .filter((option) => option.value !== 'relevancia' || query.search)
+              .map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
           </select>
         </div>
       </div>

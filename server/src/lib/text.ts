@@ -40,3 +40,27 @@ export function buildSearchText(product: SearchableProduct) {
     ].join(' '),
   )
 }
+
+/**
+ * Puntaje de relevancia de un producto para una búsqueda (orden "Relevancia").
+ * Pesa más que la búsqueda coincida con el NOMBRE (exacto > empieza igual > lo contiene)
+ * que con la marca; las notas y la familia solo sirven para encontrar, no para ordenar.
+ * Lo usan la API y la vista previa de GitHub Pages, así ordenan igual.
+ */
+export function relevanceScore(product: { name: string; brandName: string }, words: string[]) {
+  if (words.length === 0) return 0
+  const name = normalizeText(product.name)
+  const brand = normalizeText(product.brandName)
+  const phrase = words.join(' ')
+  const nameWords = name.split(' ')
+  let score = 0
+  if (name === phrase) score += 100
+  else if (name.startsWith(phrase)) score += 60
+  else if (name.includes(phrase)) score += 40
+  for (const word of words) {
+    if (nameWords.includes(word)) score += 10
+    else if (name.includes(word)) score += 5
+    if (brand.includes(word)) score += 3
+  }
+  return score
+}

@@ -26,6 +26,8 @@ export async function getProducts(query: CatalogQuery): Promise<CatalogPage> {
   // Los parámetros de la API son los mismos que los de la URL de la tienda
   const params = toSearchParams(query)
   if (query.category) params.set('categoria', query.category)
+  // El orden se envía siempre: el de por defecto depende de si hay búsqueda
+  params.set('orden', query.sort)
   params.set('porPagina', String(PAGE_SIZE))
   return apiGet<CatalogPage>('/products', params)
 }
