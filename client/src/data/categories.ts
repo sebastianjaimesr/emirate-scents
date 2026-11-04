@@ -19,7 +19,7 @@ export const categories: readonly Category[] = [
     name: 'Perfumes árabes',
     shortName: 'Árabes',
     description: 'Fragancias de casas árabes y orientales: oud, ámbar, especias y resinas.',
-    tone: 'bg-oud-800',
+    tone: 'bg-ink-800',
   },
   {
     slug: 'disenador',
@@ -33,7 +33,7 @@ export const categories: readonly Category[] = [
     name: 'Perfumería de nicho',
     shortName: 'Nicho',
     description: 'Propuestas olfativas de autor, de marcas especializadas y exclusivas.',
-    tone: 'bg-amber-600',
+    tone: 'bg-gold-700',
   },
   {
     slug: 'equivalencias',

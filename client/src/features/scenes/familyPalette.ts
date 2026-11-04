@@ -18,7 +18,7 @@ const palette: Record<string, string> = {
   frutal: '#e0a070',
 }
 
-export const BRAND_GOLD = '#c9a54e'
+export const BRAND_GOLD = '#c6a15b'
 
 /** "Cítrica" → "citrica": sin tildes ni mayúsculas, para que coincida lo que escriba el panel. */
 function normalize(family: string) {

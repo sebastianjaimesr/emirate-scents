@@ -40,14 +40,14 @@ export function HeroSection() {
       {/* Luz cálida detrás de los frascos y un piso que se pierde en la penumbra */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_70%_50%_at_50%_30%,rgb(201_164_92/0.10),transparent_70%)] lg:bg-[radial-gradient(ellipse_45%_65%_at_72%_50%,rgb(201_164_92/0.12),transparent_70%)]"
+        className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_70%_50%_at_50%_30%,rgb(198_161_91/0.08),transparent_70%)] lg:bg-[radial-gradient(ellipse_45%_65%_at_72%_50%,rgb(198_161_91/0.12),transparent_70%)]"
       />
       <div
         aria-hidden="true"
         className="absolute inset-x-0 bottom-0 -z-10 h-1/3 bg-gradient-to-t from-black/50 to-transparent"
       />
 
-      <Container className="grid items-center gap-10 pt-10 pb-20 sm:pt-14 lg:min-h-[calc(100svh-5.5rem)] lg:grid-cols-[1fr_1.15fr] lg:gap-12 lg:py-16">
+      <Container className="grid items-center gap-6 pt-8 pb-16 sm:gap-10 sm:pt-12 lg:min-h-[calc(100svh-5.5rem)] lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 lg:py-16">
         <HeroShowcase progress={scrollYProgress} />
 
         <m.div
@@ -66,7 +66,7 @@ export function HeroSection() {
           {/* El título aparece palabra por palabra, como una frase que se revela */}
           <h1
             id="hero-title"
-            className="mt-5 text-5xl leading-[0.98] tracking-[0.01em] uppercase sm:text-6xl lg:text-7xl xl:text-[5.5rem]"
+            className="mt-4 text-[2.6rem] leading-[0.98] tracking-[0.01em] uppercase sm:mt-5 sm:text-6xl lg:text-7xl xl:text-[5.5rem]"
           >
             {titleWords.map((word, index) => (
               <Fragment key={index}>
@@ -86,7 +86,7 @@ export function HeroSection() {
           </h1>
 
           <m.p
-            className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-smoke-300 sm:text-lg lg:mx-0"
+            className="mx-auto mt-5 max-w-md text-base leading-relaxed text-smoke-300 sm:mt-6 sm:text-lg lg:mx-0"
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.8, ease }}
@@ -95,7 +95,7 @@ export function HeroSection() {
           </m.p>
 
           <m.div
-            className="mt-10 flex flex-col justify-center gap-3 sm:flex-row lg:justify-start"
+            className="mx-auto mt-8 flex max-w-sm flex-col justify-center gap-3 sm:mt-10 sm:max-w-none sm:flex-row lg:justify-start"
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 1, ease }}

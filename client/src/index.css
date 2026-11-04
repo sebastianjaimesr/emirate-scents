@@ -6,21 +6,24 @@
   Tailwind v4 convierte cada variable de @theme en clases: --color-gold-500 → bg-gold-500, text-gold-500...
 */
 @theme {
-  --color-noir: #080808; /* negro profundo: portada y escenario de las fotos */
-  --color-ink-950: #0e0c0a; /* negro cálido: fondos oscuros */
-  --color-ink-900: #1a1612; /* carbón: paneles oscuros y texto sobre claro */
-  --color-ink-800: #2a241e;
-  --color-gold-300: #e3c77d; /* oro brillo: hover sobre negro */
-  --color-gold-500: #c9a54e; /* oro metálico: detalles y texto sobre negro */
-  --color-gold-700: #6f5420; /* oro profundo: texto dorado sobre crema */
-  --color-ivory-50: #f7f1e6; /* fondo claro principal */
-  --color-cream-100: #efe4d0; /* secciones claras alternas */
-  --color-sand-300: #d9c4a0; /* bordes en secciones claras */
-  --color-amber-600: #b8762e;
-  --color-oud-800: #4a3020; /* madera de oud: bloques editoriales */
-  --color-smoke-500: #5e554a; /* texto secundario sobre claro */
-  --color-smoke-300: #b8b0a2; /* texto secundario sobre oscuro */
-  --color-ruby-600: #8c1c2b; /* acento puntual (el rubí de la corona) */
+  /*
+    Paleta de la tienda premium (nov-2026): negro profundo, oro como acento, crema y grafito.
+    El oro se usa poco (detalles, botón principal, foco): si todo es dorado, nada destaca.
+  */
+  --color-noir: #111111; /* negro profundo: portada y escenario de las fotos */
+  --color-ink-950: #111111; /* negro profundo: fondos oscuros y texto principal */
+  --color-ink-900: #1d1d1d; /* carbón: paneles oscuros y texto sobre claro */
+  --color-ink-800: #292929; /* grafito: bloques editoriales y superficies oscuras */
+  --color-gold-300: #dcc08a; /* oro brillo: hover sobre negro */
+  --color-gold-500: #c6a15b; /* oro elegante: acentos y texto sobre negro */
+  --color-gold-700: #6e5420; /* oro profundo: texto dorado sobre crema (contraste AA) */
+  --color-ivory-50: #f5f0e6; /* crema: fondo claro principal */
+  --color-cream-100: #ebe3d3; /* crema oscura: secciones claras alternas */
+  --color-sand-300: #d6c6a6; /* bordes en secciones claras */
+  --color-amber-600: #a8661f; /* solo estado: "quedan pocas unidades" */
+  --color-smoke-500: #5c574f; /* texto secundario sobre claro */
+  --color-smoke-300: #b5afa5; /* texto secundario sobre oscuro */
+  --color-ruby-600: #8c1c2b; /* solo estados: errores, favoritos y avisos importantes */
 
   --font-display: 'Cormorant Garamond', 'Times New Roman', serif;
   --font-sans: 'Manrope Variable', 'Segoe UI', system-ui, sans-serif;
@@ -105,8 +108,8 @@
   */
   .photo-stage {
     background:
-      radial-gradient(ellipse 60% 45% at 50% 46%, rgb(201 164 92 / 0.2), transparent 70%),
-      radial-gradient(ellipse 55% 9% at 50% 93%, rgb(201 164 92 / 0.14), transparent 70%),
+      radial-gradient(ellipse 60% 45% at 50% 46%, rgb(198 161 91 / 0.2), transparent 70%),
+      radial-gradient(ellipse 55% 9% at 50% 93%, rgb(198 161 91 / 0.14), transparent 70%),
       var(--color-noir);
   }
 }

@@ -1,6 +1,6 @@
 import { MeshLambertMaterial, MeshStandardMaterial, type Material } from 'three'
 
-export const GOLD = '#c9a54e'
+export const GOLD = '#c6a15b'
 
 /**
  * Material dorado de los hilos, filos y arcos.
