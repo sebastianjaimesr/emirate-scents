@@ -8,9 +8,11 @@ import {
   catalogProducts,
   type CatalogProduct,
 } from '../../../../server/prisma/data/products.catalog'
-import { buildSearchText, searchWords } from '../../../../server/src/lib/text'
+import { buildSearchText, relevanceScore, searchWords } from '../../../../server/src/lib/text'
 import {
   PAGE_SIZE,
+  type AudienceSlug,
+  type CollectionSlug,
   type CatalogFacets,
   type CatalogPage,
   type CatalogQuery,
@@ -47,12 +49,31 @@ const products = catalogProducts.map((entry) => ({
 const byNewest = (a: Product, b: Product) =>
   b.publishedAt.localeCompare(a.publishedAt) || a.id.localeCompare(b.id)
 
+const featuredFirst = (a: Product, b: Product) =>
+  Number(!!b.isFeatured) - Number(!!a.isFeatured) || byNewest(a, b)
+
 const comparators: Record<SortOption, (a: Product, b: Product) => number> = {
-  destacados: (a, b) => Number(!!b.isFeatured) - Number(!!a.isFeatured) || byNewest(a, b),
+  destacados: featuredFirst,
+  // Con búsqueda, getProducts ordena primero por puntaje; esto solo desempata
+  relevancia: featuredFirst,
   novedades: byNewest,
   'precio-asc': (a, b) => a.price - b.price || a.id.localeCompare(b.id),
   'precio-desc': (a, b) => b.price - a.price || a.id.localeCompare(b.id),
   nombre: (a, b) => collator.compare(a.name, b.name) || a.id.localeCompare(b.id),
+}
+
+/** Igual que collectionWhere de catalogService.ts: cada colección depende de un dato real. */
+const inCollection: Record<CollectionSlug, (product: Product) => boolean> = {
+  nuevos: (product) => !!product.isNew,
+  'mas-vendidos': (product) => !!product.isBestSeller,
+  ofertas: (product) =>
+    product.compareAtPrice !== undefined && product.compareAtPrice > product.price,
+}
+
+const audienceBySlug: Record<AudienceSlug, Product['audience']> = {
+  masculino: 'MASCULINO',
+  femenino: 'FEMENINO',
+  unisex: 'UNISEX',
 }
 
 /** Productos de una categoría (o todos si no se indica). */
@@ -73,12 +94,22 @@ export async function getProducts(query: CatalogQuery): Promise<CatalogPage> {
         (query.families.length === 0 ||
           (product.olfactoryFamily !== undefined &&
             query.families.includes(product.olfactoryFamily))) &&
+        (query.audiences.length === 0 ||
+          query.audiences.some((slug) => audienceBySlug[slug] === product.audience)) &&
+        (!query.collection || inCollection[query.collection](product)) &&
         (query.minPrice === undefined || product.price >= query.minPrice) &&
         (query.maxPrice === undefined || product.price <= query.maxPrice) &&
         words.every((word) => searchText.includes(word)),
     )
+    .map(({ product }) => ({
+      product,
+      score:
+        query.sort === 'relevancia'
+          ? relevanceScore({ name: product.name, brandName: product.brand.name }, words)
+          : 0,
+    }))
+    .sort((a, b) => b.score - a.score || comparators[query.sort](a.product, b.product))
     .map(({ product }) => product)
-    .sort(comparators[query.sort])
 
   const totalPages = Math.max(1, Math.ceil(matches.length / PAGE_SIZE))
   const page = Math.min(query.page, totalPages)
@@ -112,6 +143,15 @@ export async function getCatalogFilters(category?: string): Promise<CatalogFacet
     families: [...countBy(items.flatMap((product) => product.olfactoryFamily ?? []))]
       .map(([value, count]) => ({ value, count }))
       .sort((a, b) => collator.compare(a.value, b.value)),
+    audiences: (Object.keys(audienceBySlug) as AudienceSlug[])
+      .map((value) => ({
+        value,
+        count: items.filter((product) => product.audience === audienceBySlug[value]).length,
+      }))
+      .filter((audience) => audience.count > 0),
+    collections: (Object.keys(inCollection) as CollectionSlug[])
+      .map((value) => ({ value, count: items.filter(inCollection[value]).length }))
+      .filter((collection) => collection.count > 0),
     priceRange: prices.length > 0 ? { min: Math.min(...prices), max: Math.max(...prices) } : null,
   }
 }

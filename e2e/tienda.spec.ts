@@ -50,3 +50,50 @@ test('los favoritos se guardan al recargar', async ({ page }) => {
   await page.goto('/favoritos')
   await expect(page.locator('main article').filter({ hasText: 'Oud Rosa' })).toHaveCount(1)
 })
+
+test('el filtro de género y los accesos especiales solo aparecen con datos reales', async ({
+  page,
+}) => {
+  // En los datos de prueba solo p1 es masculino, p2 unisex y p4 tiene un precio anterior mayor
+  await page.goto('/catalogo')
+  // En el celular los filtros están en un panel que se abre con el botón "Filtros"
+  const isNarrow = (page.viewportSize()?.width ?? 1280) < 1024
+  if (isNarrow) await page.getByRole('button', { name: 'Filtros' }).click()
+  const filters = isNarrow
+    ? page.getByRole('dialog')
+    : page.getByRole('complementary', { name: 'Filtros' })
+  await expect(filters.getByRole('group', { name: 'Género' })).toBeVisible()
+  await expect(filters.getByText('Mujeres')).toHaveCount(0)
+  await filters.getByText('Hombres').click()
+  await expect(page).toHaveURL(/genero=masculino/)
+  if (isNarrow) await page.keyboard.press('Escape')
+  await expect(page.locator('main article')).toHaveCount(1)
+  await expect(page.locator('main article').first()).toContainText('Ámbar Real')
+
+  // El pie de página lleva a "Ofertas", pero no a "Más vendidos" (no hay datos de ventas)
+  const footer = page.getByRole('contentinfo')
+  await expect(footer.getByRole('link', { name: 'Ofertas' })).toBeVisible()
+  await expect(footer.getByRole('link', { name: 'Más vendidos' })).toHaveCount(0)
+  await footer.getByRole('link', { name: 'Ofertas' }).click()
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Ofertas')
+  await expect(page.locator('main article')).toHaveCount(1)
+})
+
+test('al buscar, el orden por defecto es por relevancia', async ({ page }) => {
+  await page.goto('/catalogo?q=ambar%20real')
+  await expect(page.locator('#catalog-sort')).toHaveValue('relevancia')
+  await expect(page.locator('main article').first()).toContainText('Ámbar Real')
+})
+
+for (const [path, title] of [
+  ['/envios', 'Envíos'],
+  ['/cambios-y-devoluciones', 'Cambios y devoluciones'],
+  ['/autenticidad', 'Autenticidad y equivalencias'],
+  ['/contacto', 'Contacto'],
+]) {
+  test(`la página "${title}" carga con su contacto`, async ({ page }) => {
+    await page.goto(path!)
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(title!)
+    await expect(page.locator('main a[href^="https://wa.me/573174096898"]')).toHaveCount(1)
+  })
+}

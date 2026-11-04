@@ -6,9 +6,11 @@ import { InstagramIcon, WhatsAppIcon } from '../brand/BrandIcons'
 import { Wordmark } from '../brand/Wordmark'
 import { Drawer } from '../ui/Drawer'
 import { mainNavigation } from './navigation'
+import { useShopShortcuts } from './useShopShortcuts'
 
 /** Menú lateral para móviles y tablets. */
 export function MobileMenu({ onClose }: { onClose: () => void }) {
+  const shortcuts = useShopShortcuts()
   return (
     <Drawer
       side="left"
@@ -60,6 +62,21 @@ export function MobileMenu({ onClose }: { onClose: () => void }) {
             </m.li>
           ))}
         </ul>
+        {shortcuts.length > 0 && (
+          <ul aria-label="Comprar por" className="mt-6 flex flex-wrap gap-2">
+            {shortcuts.map((item) => (
+              <li key={item.to}>
+                <NavLink
+                  to={item.to}
+                  onClick={onClose}
+                  className="inline-flex min-h-11 items-center border border-ivory-50/20 px-4 text-xs font-semibold tracking-[0.12em] uppercase transition-colors hover:border-gold-300 hover:text-gold-300"
+                >
+                  {item.label}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+        )}
         <ul className="mt-8 space-y-1 text-sm text-smoke-300">
           <li>
             <NavLink

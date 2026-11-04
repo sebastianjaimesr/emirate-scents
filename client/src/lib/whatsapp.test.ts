@@ -85,6 +85,19 @@ describe('buildProductInquiryMessage', () => {
 })
 
 describe('buildCartInquiryMessage', () => {
+  it('incluye el nombre del cliente si lo escribe, en una sola línea', () => {
+    const [a] = products as [Product, Product]
+    const { lines, subtotal } = buildCartLines([{ productId: a.id, quantity: 2 }], products)
+    const message = buildCartInquiryMessage(lines, subtotal, '  Ana\n  María ')
+    expect(message.split('\n')[0]).toBe(
+      'Hola, Emirate Scents. Soy Ana María y quiero consultar el siguiente pedido:',
+    )
+    expect(message).toMatch(/· Total: \$\s570\.000/)
+    expect(buildCartInquiryMessage(lines, subtotal, '   ')).toMatch(
+      /^Hola, Emirate Scents\. Quiero/,
+    )
+  })
+
   it('lista cada producto con cantidad y precio, y el subtotal estimado', () => {
     const [a, b] = products as [Product, Product]
     const { lines, subtotal } = buildCartLines(

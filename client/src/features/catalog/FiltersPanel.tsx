@@ -6,7 +6,12 @@ import { useState, type FormEvent, type ReactNode } from 'react'
 import { NavLink } from 'react-router'
 import { categories } from '../../data/categories'
 import { formatCOP } from '../../lib/formatCOP'
-import type { CatalogFacets, CatalogQuery } from './catalogQuery'
+import {
+  audienceOptions,
+  collectionOptions,
+  type CatalogFacets,
+  type CatalogQuery,
+} from './catalogQuery'
 import { toggleValue } from './useCatalogQuery'
 
 interface FiltersPanelProps {
@@ -138,6 +143,39 @@ export function FiltersPanel({ query, facets, onChange }: FiltersPanelProps) {
           ))}
         </ul>
       </FilterGroup>
+
+      {/* Colecciones y género solo aparecen cuando hay productos con ese dato real */}
+      {facets && facets.collections.length > 0 && (
+        <FilterGroup title="Colecciones">
+          {facets.collections.map((collection) => (
+            <CheckboxOption
+              key={collection.value}
+              label={collectionOptions.find((option) => option.value === collection.value)!.label}
+              count={collection.count}
+              checked={query.collection === collection.value}
+              onToggle={() =>
+                onChange({
+                  collection: query.collection === collection.value ? undefined : collection.value,
+                })
+              }
+            />
+          ))}
+        </FilterGroup>
+      )}
+
+      {facets && facets.audiences.length > 0 && (
+        <FilterGroup title="Género">
+          {facets.audiences.map((audience) => (
+            <CheckboxOption
+              key={audience.value}
+              label={audienceOptions.find((option) => option.value === audience.value)!.label}
+              count={audience.count}
+              checked={query.audiences.includes(audience.value)}
+              onToggle={() => onChange({ audiences: toggleValue(query.audiences, audience.value) })}
+            />
+          ))}
+        </FilterGroup>
+      )}
 
       {facets && facets.brands.length > 0 && (
         <FilterGroup title="Marca">

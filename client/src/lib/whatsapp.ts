@@ -24,6 +24,11 @@ export function buildWhatsAppUrl(message?: string, phoneNumber: string = brand.w
   return text ? `${baseUrl}?text=${encodeURIComponent(text)}` : baseUrl
 }
 
+/** Nombre escrito por el cliente, en una sola línea y sin espacios de sobra (máx. 60). */
+export function cleanCustomerName(name: string | undefined) {
+  return (name ?? '').replace(/\s+/g, ' ').trim().slice(0, 60)
+}
+
 /** Mensajes de inicio de conversación que se reutilizan en varios botones. */
 export const whatsappMessages = {
   general: `Hola, ${brand.name}. Quiero recibir asesoría sobre sus perfumes.`,
@@ -53,16 +58,25 @@ export function buildProductInquiryMessage(product: Product, quantity: number) {
 /**
  * Consulta con el contenido del carrito. El total es ESTIMADO: el envío se cotiza
  * y el negocio confirma precios y disponibilidad antes de despachar.
+ * El nombre del cliente es opcional: si lo escribe, el mensaje se presenta con él.
+ * Abrir WhatsApp NO confirma ni paga el pedido: por eso el texto dice "consultar".
  */
-export function buildCartInquiryMessage(lines: CartLine[], subtotal: number) {
+export function buildCartInquiryMessage(
+  lines: CartLine[],
+  subtotal: number,
+  customerName?: string,
+) {
+  const name = cleanCustomerName(customerName)
   const items = lines
     .filter((line) => line.quantity > 0)
     .flatMap((line) => [
       `• ${line.product.name} (${line.product.brand.name}${line.product.sizeMl ? `, ${line.product.sizeMl} ml` : ''})`,
-      `  Cantidad: ${line.quantity} · Precio unitario: ${formatCOP(line.product.price)}`,
+      `  Cantidad: ${line.quantity} · Precio unitario: ${formatCOP(line.product.price)}${line.quantity > 1 ? ` · Total: ${formatCOP(line.product.price * line.quantity)}` : ''}`,
     ])
   return [
-    `Hola, ${brand.name}. Quiero consultar el siguiente pedido:`,
+    name
+      ? `Hola, ${brand.name}. Soy ${name} y quiero consultar el siguiente pedido:`
+      : `Hola, ${brand.name}. Quiero consultar el siguiente pedido:`,
     '',
     ...items,
     '',

@@ -4,6 +4,7 @@ import { FavoritesPage } from '../pages/FavoritesPage'
 import { HomePage } from '../pages/HomePage'
 import { NotFoundPage } from '../pages/NotFoundPage'
 import { RootLayout } from './RootLayout'
+import { infoPages } from '../content/infoPages'
 
 /**
  * Mapa de URLs de la tienda. Todas las rutas comparten RootLayout (header y footer).
@@ -72,6 +73,14 @@ export const router = createBrowserRouter(
             Component: (await import('../pages/PrivacyPolicyPage')).PrivacyPolicyPage,
           }),
         },
+        // Envíos, cambios y devoluciones, autenticidad y contacto (content/infoPages.ts)
+        ...infoPages.map((page) => ({
+          path: page.slug,
+          lazy: async () => {
+            const { InfoPage } = await import('../pages/InfoPage')
+            return { Component: () => <InfoPage slug={page.slug} /> }
+          },
+        })),
         { path: '*', Component: NotFoundPage },
       ],
     },

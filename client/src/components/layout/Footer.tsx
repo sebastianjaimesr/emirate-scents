@@ -8,7 +8,9 @@ import { InstagramIcon, WhatsAppIcon } from '../brand/BrandIcons'
 import { Logo } from '../brand/Logo'
 import { Container } from '../ui/Container'
 import { Ornament } from '../ui/Ornament'
+import { infoPages } from '../../content/infoPages'
 import { mainNavigation } from './navigation'
+import { useShopShortcuts } from './useShopShortcuts'
 
 /** Año actual para el aviso de derechos. */
 const currentYear = new Date().getFullYear()
@@ -18,6 +20,7 @@ const linkClass =
 
 /** Pie de página: marca, enlaces de navegación, contacto y redes. */
 export function Footer() {
+  const shortcuts = useShopShortcuts()
   return (
     <footer className="bg-ink-950 text-ivory-50">
       <Container className="pt-20 pb-10">
@@ -32,7 +35,7 @@ export function Footer() {
           <nav aria-label="Tienda">
             <h2 className="eyebrow font-sans text-gold-500">Tienda</h2>
             <ul className="mt-5 space-y-1 text-sm">
-              {mainNavigation.map((item) => (
+              {[...mainNavigation, ...shortcuts].map((item) => (
                 <li key={item.to}>
                   <Link to={item.to} className={linkClass}>
                     {item.label}
@@ -60,6 +63,13 @@ export function Footer() {
                   Favoritos
                 </Link>
               </li>
+              {infoPages.map((page) => (
+                <li key={page.slug}>
+                  <Link to={`/${page.slug}`} className={linkClass}>
+                    {page.navLabel}
+                  </Link>
+                </li>
+              ))}
               <li>
                 <Link to="/politica-de-datos" className={linkClass}>
                   Tratamiento de datos

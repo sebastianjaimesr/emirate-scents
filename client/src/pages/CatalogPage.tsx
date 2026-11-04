@@ -18,7 +18,12 @@ import { PageMeta } from '../components/ui/PageMeta'
 import { findCategory } from '../data/categories'
 import { ActiveFilters } from '../features/catalog/ActiveFilters'
 import { CatalogToolbar } from '../features/catalog/CatalogToolbar'
-import { countActiveFilters, toSearchParams } from '../features/catalog/catalogQuery'
+import {
+  audienceOptions,
+  collectionOptions,
+  countActiveFilters,
+  toSearchParams,
+} from '../features/catalog/catalogQuery'
 import { FiltersPanel } from '../features/catalog/FiltersPanel'
 import { Pagination } from '../features/catalog/Pagination'
 import { useCatalogQuery } from '../features/catalog/useCatalogQuery'
@@ -46,7 +51,13 @@ export function CatalogPage() {
   // Mientras llegan los nuevos resultados se mantienen los anteriores (sin parpadeos)
   const page = results.data ?? results.previousData
   const activeFilterCount = countActiveFilters(query)
-  const title = category?.name ?? 'Catálogo'
+  // Si se entra desde un acceso como "Ofertas" o "Hombres", el título lo dice
+  const shortcutTitle =
+    collectionOptions.find((option) => option.value === query.collection)?.label ??
+    (query.audiences.length === 1
+      ? audienceOptions.find((option) => option.value === query.audiences[0])?.label
+      : undefined)
+  const title = category?.name ?? shortcutTitle ?? 'Catálogo'
   const hasDemoProducts = page?.items.some((product) => product.isDemo) ?? false
 
   function goToPage(pageNumber: number) {

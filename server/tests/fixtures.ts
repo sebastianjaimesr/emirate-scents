@@ -17,6 +17,8 @@ interface FixtureProduct {
   notesHeart?: string[]
   isFeatured?: boolean
   isNew?: boolean
+  audience?: 'FEMENINO' | 'MASCULINO' | 'UNISEX'
+  compareAtPrice?: number
   status?: 'BORRADOR' | 'PUBLICADO' | 'ARCHIVADO'
   publishedAt: string
 }
@@ -28,8 +30,11 @@ export const fixtureProducts: FixtureProduct[] = [
     brand: 'marca-a',
     category: 'perfumes-arabes',
     price: 200000,
+    // Precio anterior MENOR que el actual: no cuenta como oferta
+    compareAtPrice: 150000,
     sizeMl: 100,
     olfactoryFamily: 'Oriental',
+    audience: 'MASCULINO',
     publishedAt: '2026-03-01',
   },
   {
@@ -41,6 +46,7 @@ export const fixtureProducts: FixtureProduct[] = [
     sizeMl: 50,
     olfactoryFamily: 'Amaderada',
     notesHeart: ['Rosa'],
+    audience: 'UNISEX',
     isFeatured: true,
     publishedAt: '2026-01-01',
   },
@@ -62,6 +68,7 @@ export const fixtureProducts: FixtureProduct[] = [
     brand: 'marca-b',
     category: 'perfumes-arabes',
     price: 250000,
+    compareAtPrice: 320000,
     sizeMl: 100,
     olfactoryFamily: 'Oriental',
     publishedAt: '2026-04-01',
@@ -125,6 +132,8 @@ export async function resetCatalog() {
         shortDescription: '',
         description: '',
         price: product.price,
+        compareAtPrice: product.compareAtPrice,
+        audience: product.audience,
         sizeMl: product.sizeMl,
         olfactoryFamily: product.olfactoryFamily,
         notesHeart: product.notesHeart ?? [],

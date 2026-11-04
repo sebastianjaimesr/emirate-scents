@@ -1,6 +1,18 @@
 import express, { type Router } from 'express'
 import { prisma } from '../lib/prisma.js'
 
+/**
+ * Páginas fijas de información. Deben coincidir con client/src/content/infoPages.ts
+ * (más la política de datos): si se agrega una página allá, se agrega aquí.
+ */
+const infoPaths = [
+  '/envios',
+  '/cambios-y-devoluciones',
+  '/autenticidad',
+  '/contacto',
+  '/politica-de-datos',
+]
+
 /** Páginas que no tiene sentido que Google muestre (son de cada visitante). */
 const privatePaths = ['/carrito', '/favoritos', '/pedido']
 
@@ -48,6 +60,7 @@ export function seo(publicUrl: string, { adminOnly = false } = {}): Router {
         path: `/producto/${product.slug}`,
         lastmod: product.updatedAt.toISOString().slice(0, 10),
       })),
+      ...infoPaths.map((path) => ({ path })),
     ]
     const urls = entries
       .map(

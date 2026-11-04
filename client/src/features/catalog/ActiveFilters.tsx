@@ -3,7 +3,13 @@
  */
 import { X } from 'lucide-react'
 import { formatCOP } from '../../lib/formatCOP'
-import { countActiveFilters, type CatalogFacets, type CatalogQuery } from './catalogQuery'
+import {
+  audienceOptions,
+  collectionOptions,
+  countActiveFilters,
+  type CatalogFacets,
+  type CatalogQuery,
+} from './catalogQuery'
 
 interface ActiveFiltersProps {
   query: CatalogQuery
@@ -20,6 +26,14 @@ export function ActiveFilters({ query, facets, onChange, onClear }: ActiveFilter
     facets?.brands.find((brand) => brand.slug === slug)?.name ?? slug
   const chips = [
     query.search && { label: `"${query.search}"`, remove: () => onChange({ search: '' }) },
+    query.collection && {
+      label: collectionOptions.find((option) => option.value === query.collection)!.label,
+      remove: () => onChange({ collection: undefined }),
+    },
+    ...query.audiences.map((slug) => ({
+      label: audienceOptions.find((option) => option.value === slug)!.label,
+      remove: () => onChange({ audiences: query.audiences.filter((item) => item !== slug) }),
+    })),
     ...query.brands.map((slug) => ({
       label: brandName(slug),
       remove: () => onChange({ brands: query.brands.filter((item) => item !== slug) }),
@@ -40,7 +54,7 @@ export function ActiveFilters({ query, facets, onChange, onClear }: ActiveFilter
       label: `Hasta ${formatCOP(query.maxPrice)}`,
       remove: () => onChange({ maxPrice: undefined }),
     },
-  ].filter((chip) => chip !== false && chip !== '')
+  ].filter((chip) => chip !== false && chip !== '' && chip !== undefined)
 
   return (
     <div className="flex flex-wrap items-center gap-2">

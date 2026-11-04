@@ -8,6 +8,7 @@ import { z } from 'zod'
 
 export const sortValues = [
   'destacados',
+  'relevancia',
   'novedades',
   'precio-asc',
   'precio-desc',
@@ -44,6 +45,22 @@ const csvList = <T extends z.ZodType>(item: T, max = 20) =>
     z.array(item).max(max, `Máximo ${max} valores`),
   )
 
+/** Género en la URL (?genero=masculino) → valor de la base de datos (Audience). */
+export const audienceBySlug = {
+  femenino: 'FEMENINO',
+  masculino: 'MASCULINO',
+  unisex: 'UNISEX',
+} as const
+export type AudienceSlug = keyof typeof audienceBySlug
+
+/**
+ * Colecciones especiales (?coleccion=nuevos). Cada una depende de un dato REAL del producto:
+ * nuevos = marcado como nuevo, mas-vendidos = marcado con datos de ventas,
+ * ofertas = precio anterior mayor que el actual. Sin datos, quedan vacías y no se muestran.
+ */
+export const collectionValues = ['nuevos', 'mas-vendidos', 'ofertas'] as const
+export type CollectionSlug = (typeof collectionValues)[number]
+
 /** Número entero entre 0 y mil millones (para precios). */
 const wholeNumber = z.coerce.number().int().min(0).max(1_000_000_000)
 
@@ -55,6 +72,8 @@ export const catalogQuerySchema = z
     marca: csvList(slug),
     tamano: csvList(z.coerce.number().int().positive().max(10_000)),
     familia: csvList(z.string().max(60)),
+    genero: csvList(z.enum(['femenino', 'masculino', 'unisex']), 3),
+    coleccion: z.enum(collectionValues).optional(),
     precioMin: wholeNumber.optional(),
     precioMax: wholeNumber.optional(),
     orden: z.enum(sortValues).default('destacados'),

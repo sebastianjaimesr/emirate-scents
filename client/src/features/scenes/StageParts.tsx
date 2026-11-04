@@ -77,7 +77,7 @@ export function StageDetails({
         />
         <Link
           to={`/producto/${product.slug}`}
-          className="group mt-2 inline-flex items-center gap-2 border-b border-gold-500/60 pb-1 text-xs font-semibold tracking-[0.18em] text-gold-300 uppercase transition-colors hover:border-gold-300 hover:text-ivory-50"
+          className="group mt-2 inline-flex min-h-11 items-center gap-2 border-b border-gold-500/60 pb-1 text-xs font-semibold tracking-[0.18em] text-gold-300 uppercase transition-colors hover:border-gold-300 hover:text-ivory-50"
         >
           Ver perfume<span className="sr-only">: {product.name}</span>
           <ArrowRight
