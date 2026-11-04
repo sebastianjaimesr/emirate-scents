@@ -1,3 +1,6 @@
+/**
+ * Enlace con apariencia de botón, en las variantes de color de la marca.
+ */
 import type { ReactNode } from 'react'
 import { Link } from 'react-router'
 import { cx } from '../../lib/cx'

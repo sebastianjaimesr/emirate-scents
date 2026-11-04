@@ -1,3 +1,6 @@
+/**
+ * Panel lateral del carrito de compras.
+ */
 import { ShoppingBag } from 'lucide-react'
 import { AnimatePresence, m } from 'motion/react'
 import { Link } from 'react-router'
@@ -8,6 +11,7 @@ import { useCartStore } from './cartStore'
 import { CartSummary } from './CartSummary'
 import { useCartDetails } from './useCartDetails'
 
+/** Contenido del carrito: líneas, avisos (DEMO, agotados), subtotal y botón para finalizar la compra. */
 function CartDrawerContent() {
   const closeDrawer = useCartStore((state) => state.closeDrawer)
   const { lines, subtotal, hasDemoProducts, hasSoldOut, isLoading, loadError, isEmpty } =

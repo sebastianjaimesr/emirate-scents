@@ -14,10 +14,12 @@ export const sortOptions = [
   { value: 'nombre', label: 'Nombre: A–Z' },
 ] as const
 
+/** Valores posibles de orden del catálogo. */
 export type SortOption = (typeof sortOptions)[number]['value']
 
 export const PAGE_SIZE = 12
 
+/** Filtros y orden del catálogo, leídos de la URL. */
 export interface CatalogQuery {
   search: string
   /** Viene de la ruta (/catalogo/:categorySlug), no de los parámetros. */
@@ -31,6 +33,7 @@ export interface CatalogQuery {
   page: number
 }
 
+/** Una página de resultados del catálogo. */
 export interface CatalogPage {
   items: Product[]
   total: number
@@ -38,6 +41,7 @@ export interface CatalogPage {
   totalPages: number
 }
 
+/** Opciones disponibles para filtrar (con cuántos productos tiene cada una) y el rango de precios. */
 export interface CatalogFacets {
   brands: { slug: string; name: string; count: number }[]
   sizes: { value: number; count: number }[]
@@ -51,6 +55,7 @@ const MAX_SEARCH_LENGTH = 100
 const MAX_PAGE = 10_000
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
 
+/** Convierte "a,b,c" en una lista sin repetidos ni vacíos, con un máximo de elementos. */
 function parseList(value: string | null) {
   return value
     ? [
@@ -64,12 +69,14 @@ function parseList(value: string | null) {
     : []
 }
 
+/** Convierte un texto en entero no negativo; undefined si no es válido. */
 function parsePositiveInt(value: string | null) {
   if (!value) return undefined
   const number = Number(value)
   return Number.isInteger(number) && number >= 0 && number <= 1_000_000_000 ? number : undefined
 }
 
+/** Indica si el texto es una opción de orden válida. */
 function isSortOption(value: string | null): value is SortOption {
   return sortOptions.some((option) => option.value === value)
 }
@@ -112,6 +119,7 @@ export function toSearchParams(query: CatalogQuery) {
   return params
 }
 
+/** Cuenta cuántos filtros están activos (para el número en el botón de filtros). */
 export function countActiveFilters(query: CatalogQuery) {
   return (
     query.brands.length +

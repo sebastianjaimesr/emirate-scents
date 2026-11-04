@@ -1,3 +1,6 @@
+/**
+ * Validación de los pedidos que envía la tienda (Zod).
+ */
 import { z } from 'zod'
 import { colombianDepartments } from '../data/colombia.js'
 
@@ -29,6 +32,10 @@ export const colombianMobile = z
   })
   .pipe(z.string().regex(/^3\d{9}$/, 'Escribe un celular colombiano de 10 dígitos (empieza por 3)'))
 
+/**
+ * Validación del pedido: datos del cliente, celular colombiano, departamento válido, método de pago,
+ * líneas sin productos repetidos, autorización de datos y campo trampa contra bots.
+ */
 export const createOrderSchema = z.object({
   customer: z.object({
     name: text(3, 80),
@@ -63,4 +70,5 @@ export const createOrderSchema = z.object({
   website: z.string().max(0).optional(),
 })
 
+/** Pedido ya validado. */
 export type CreateOrderInput = z.infer<typeof createOrderSchema>

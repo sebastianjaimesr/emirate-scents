@@ -1,3 +1,6 @@
+/**
+ * Estado global de favoritos con Zustand, guardado en el navegador.
+ */
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 

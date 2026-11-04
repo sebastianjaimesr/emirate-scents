@@ -28,10 +28,13 @@ export const catalogColumns = [
   'fotos',
 ] as const
 
+/** Convierte una celda vacía en undefined (para que cuente como "no escrita"). */
 const emptyToUndefined = (value: unknown) =>
   typeof value === 'string' && value.trim() === '' ? undefined : value
 
+/** Texto sin espacios a los lados con un máximo de caracteres. */
 const text = (max: number) => z.string().trim().max(max, `Máximo ${max} caracteres`)
+/** Texto opcional (celda vacía = sin valor). */
 const optionalText = (max: number) => z.preprocess(emptyToUndefined, text(max).optional())
 
 /** "285.000", "$ 285000" o "285000" → 285000 (pesos enteros). */
@@ -44,6 +47,7 @@ const pesos = z.preprocess(
     .pipe(z.number().int().min(1000, 'El precio parece demasiado bajo').max(100_000_000)),
 )
 
+/** Lista separada por punto y coma (máximo 12 elementos). */
 const list = z.preprocess(
   (value) =>
     typeof value === 'string'
@@ -55,6 +59,7 @@ const list = z.preprocess(
   z.array(text(60)).max(12, 'Máximo 12 elementos'),
 )
 
+/** Celda "si"/"sí" o vacía convertida a true/false. */
 const yesNo = z.preprocess(
   (value) => (typeof value === 'string' ? value.trim().toLowerCase() : value),
   z
@@ -62,9 +67,11 @@ const yesNo = z.preprocess(
     .transform((value) => value === 'si' || value === 'sí'),
 )
 
+/** Texto en mayúsculas; vacío = sin valor. */
 const upper = (value: unknown) =>
   typeof value === 'string' ? emptyToUndefined(value.trim().toUpperCase()) : value
 
+/** Validación de una fila de la hoja de cálculo del catálogo con Zod. */
 export const catalogRowSchema = z
   .object({
     sku: z
@@ -144,4 +151,5 @@ const skuPrefix = {
   equivalencias: 'EQ-',
 } as const
 
+/** Fila del catálogo ya validada. */
 export type CatalogRow = z.output<typeof catalogRowSchema>

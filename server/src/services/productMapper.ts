@@ -7,6 +7,7 @@ export const productInclude = {
   images: { select: { url: true, alt: true }, orderBy: { position: 'asc' } },
 } satisfies Prisma.ProductInclude
 
+/** Producto de Prisma con sus relaciones (marca, categoría, fotos). */
 export type ProductWithRelations = Prisma.ProductGetPayload<{ include: typeof productInclude }>
 
 /**
@@ -45,6 +46,7 @@ export function toCOP(value: Prisma.Decimal) {
   return value.toDecimalPlaces(0).toNumber()
 }
 
+/** Convierte un producto de la base (Prisma) en el objeto que recibe la tienda (DTO). */
 export function toProductDto(product: ProductWithRelations): ProductDto {
   const hasNotes =
     product.notesTop.length + product.notesHeart.length + product.notesBase.length > 0

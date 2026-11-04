@@ -6,6 +6,7 @@ interface IconProps {
   className?: string
 }
 
+/** Ícono de WhatsApp. */
 export function WhatsAppIcon({ className }: IconProps) {
   return (
     <svg
@@ -24,6 +25,7 @@ export function WhatsAppIcon({ className }: IconProps) {
   )
 }
 
+/** Ícono de Instagram. */
 export function InstagramIcon({ className }: IconProps) {
   return (
     <svg

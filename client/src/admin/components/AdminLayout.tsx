@@ -1,3 +1,6 @@
+/**
+ * Estructura del panel de administración: menú lateral con las secciones y área de contenido.
+ */
 import {
   Boxes,
   ExternalLink,

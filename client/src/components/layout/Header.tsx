@@ -33,6 +33,7 @@ function CountBadge({ count }: { count: number }) {
 const iconButton =
   'relative grid size-11 place-items-center text-ivory-50/85 transition-colors duration-300 hover:text-gold-300'
 
+/** Encabezado fijo de la tienda: logo, navegación, buscador, favoritos, carrito y menú en celulares. */
 export function Header() {
   const { pathname } = useLocation()
   // Guardamos en qué página se abrió cada panel: si la página cambia

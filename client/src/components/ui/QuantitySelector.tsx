@@ -1,3 +1,6 @@
+/**
+ * Selector de cantidad con botones − y +.
+ */
 import { Minus, Plus } from 'lucide-react'
 
 interface QuantitySelectorProps {

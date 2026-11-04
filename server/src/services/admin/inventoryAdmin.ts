@@ -24,6 +24,10 @@ export async function changeStock(tx: Prisma.TransactionClient, productId: strin
   return rows[0]?.stock ?? null
 }
 
+/**
+ * Registra una entrada o un ajuste de inventario en una transacción: actualiza el stock
+ * (sin dejarlo negativo) y guarda el movimiento con el stock resultante.
+ */
 export async function recordMovement(input: InventoryMovementInput, adminId: string) {
   const movementId = await prisma.$transaction(async (tx) => {
     const product = await tx.product.findUnique({
@@ -68,6 +72,7 @@ const movementInclude = {
 
 type MovementRecord = Prisma.InventoryMovementGetPayload<{ include: typeof movementInclude }>
 
+/** Convierte un movimiento de la base en el objeto que devuelve la API. */
 export function toMovementDto(movement: MovementRecord) {
   return {
     id: movement.id,
@@ -83,6 +88,7 @@ export function toMovementDto(movement: MovementRecord) {
   }
 }
 
+/** Lista los movimientos de inventario con filtros por producto y tipo, paginados. */
 export async function listMovements(query: MovementsQuery) {
   const where: Prisma.InventoryMovementWhereInput = {
     ...(query.producto && { productId: query.producto }),

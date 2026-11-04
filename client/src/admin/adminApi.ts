@@ -29,6 +29,10 @@ export class AdminApiError extends ApiError {
   }
 }
 
+/**
+ * Hace una petición a /api/admin con la cookie de sesión. Envía JSON (o FormData para fotos)
+ * y convierte las respuestas de error en {@link AdminApiError} con los mensajes por campo.
+ */
 async function request<T>(method: string, path: string, body?: unknown): Promise<T> {
   const isForm = body instanceof FormData
   let response: Response

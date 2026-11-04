@@ -1,10 +1,15 @@
+/**
+ * Pruebas de la API pública del catálogo.
+ */
 import request from 'supertest'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { createApp } from '../src/app.js'
 import { prisma } from '../src/lib/prisma.js'
 import { resetCatalog } from './fixtures.js'
 
+/** Aplicación Express para las pruebas (sin abrir un puerto). */
 const app = createApp()
+/** Extrae los slugs de una respuesta de lista. */
 const slugs = (body: { items: { slug: string }[] }) => body.items.map((item) => item.slug)
 
 beforeAll(resetCatalog)

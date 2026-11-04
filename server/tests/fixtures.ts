@@ -90,6 +90,9 @@ export async function purgeInventory() {
   ])
 }
 
+/**
+ * Deja la base de pruebas en un estado conocido: borra todo y crea categorías, marcas y productos de prueba.
+ */
 export async function resetCatalog() {
   await purgeInventory()
   await prisma.adminSession.deleteMany()

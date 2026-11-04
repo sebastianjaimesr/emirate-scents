@@ -1,3 +1,6 @@
+/**
+ * Pruebas de la importación del catálogo desde CSV.
+ */
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
@@ -8,10 +11,12 @@ import { catalogColumns } from '../src/catalogImport/rowSchema.js'
 import { prisma } from '../src/lib/prisma.js'
 import { resetCatalog } from './fixtures.js'
 
+/** Carpeta temporal con fotos falsas para la prueba. */
 const photosDir = mkdtempSync(path.join(tmpdir(), 'fotos-'))
 mkdirSync(path.join(photosDir, 'AR-0001'))
 writeFileSync(path.join(photosDir, 'AR-0001', 'frente.webp'), '')
 
+/** Fila de títulos del CSV. */
 const header = catalogColumns.join(',')
 const baseRow: Record<string, string> = {
   sku: 'AR-0001',
@@ -28,8 +33,10 @@ const baseRow: Record<string, string> = {
   nuevo: 'si',
   fotos: 'frente.webp',
 }
+/** Convierte una fila en una línea CSV con comillas. */
 const csvLine = (row: Record<string, string>) =>
   catalogColumns.map((column) => `"${(row[column] ?? '').replaceAll('"', '""')}"`).join(',')
+/** Arma un CSV completo con la fila de títulos y las filas indicadas. */
 const csv = (...rows: Record<string, string>[]) => [header, ...rows.map(csvLine)].join('\r\n')
 
 afterAll(async () => {

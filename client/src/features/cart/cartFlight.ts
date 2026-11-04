@@ -16,6 +16,7 @@ interface FlightState {
   land: (id: number) => void
 }
 
+/** Estado global de las animaciones de "producto volando al carrito". */
 export const useFlightStore = create<FlightState>()((set) => ({
   flights: [],
   launch: (flight) => set((state) => ({ flights: [...state.flights, flight] })),
@@ -24,6 +25,7 @@ export const useFlightStore = create<FlightState>()((set) => ({
 
 let nextId = 0
 
+/** Centro de un rectángulo de la pantalla. */
 const center = (rect: DOMRect) => ({ x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 })
 
 /**

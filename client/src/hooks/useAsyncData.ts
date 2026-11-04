@@ -1,3 +1,6 @@
+/**
+ * Hook para cargar datos asíncronos con estado de carga, error y reintento.
+ */
 import { useEffect, useState } from 'react'
 
 interface AsyncState<T> {

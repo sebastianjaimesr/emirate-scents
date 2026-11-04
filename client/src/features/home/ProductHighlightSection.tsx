@@ -1,3 +1,6 @@
+/**
+ * Sección de productos destacados de la página de inicio.
+ */
 import { ArrowRight } from 'lucide-react'
 import { ProductGrid } from '../../components/products/ProductGrid'
 import { ButtonLink } from '../../components/ui/ButtonLink'

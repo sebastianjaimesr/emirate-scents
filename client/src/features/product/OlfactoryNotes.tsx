@@ -1,3 +1,6 @@
+/**
+ * Pirámide olfativa del producto: notas de salida, corazón y fondo.
+ */
 import type { OlfactoryNotes as Notes } from '../../types/product'
 
 const layers = [

@@ -1,3 +1,6 @@
+/**
+ * Página con la lista de productos del panel.
+ */
 import { ImageOff } from 'lucide-react'
 import { useState, type FormEvent } from 'react'
 import { Link, useSearchParams } from 'react-router'

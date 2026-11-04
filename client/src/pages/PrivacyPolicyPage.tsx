@@ -11,6 +11,7 @@ import { buildWhatsAppUrl } from '../lib/whatsapp'
  */
 export const PRIVACY_POLICY_VERSION = '2026-10-12-borrador'
 
+/** Sección de la política de privacidad con su título. */
 function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section className="space-y-3">

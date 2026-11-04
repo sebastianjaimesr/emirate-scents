@@ -1,3 +1,6 @@
+/**
+ * Mensaje para cuando una lista no tiene resultados.
+ */
 import type { ReactNode } from 'react'
 import { Reveal } from './Reveal'
 

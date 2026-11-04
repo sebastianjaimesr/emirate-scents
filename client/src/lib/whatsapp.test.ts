@@ -1,3 +1,6 @@
+/**
+ * Pruebas de los mensajes y enlaces de WhatsApp.
+ */
 import { describe, expect, it } from 'vitest'
 import type { Product } from '../types/product'
 import { buildCartLines } from '../features/cart/cartItems'
@@ -10,6 +13,7 @@ import {
   whatsappMessages,
 } from './whatsapp'
 
+/** Crea un producto de prueba; los campos no indicados toman valores por defecto. */
 const product = (
   overrides: Partial<Product> & Pick<Product, 'id' | 'name' | 'price'>,
 ): Product => ({

@@ -1,3 +1,6 @@
+/**
+ * Pruebas de la tienda servida por la API (archivos estáticos, rutas y SEO).
+ */
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'

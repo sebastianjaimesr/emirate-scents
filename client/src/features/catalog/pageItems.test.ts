@@ -1,3 +1,6 @@
+/**
+ * Pruebas del cálculo de los números de página que se muestran.
+ */
 import { describe, expect, it } from 'vitest'
 import { getPageItems } from './pageItems'
 

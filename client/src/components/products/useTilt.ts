@@ -12,6 +12,7 @@ const MAX_TILT = 6
 
 const spring = { stiffness: 220, damping: 22 }
 
+/** Lo que devuelve useTilt: propiedades para el marco de la foto y el brillo que sigue al puntero. */
 export interface Tilt {
   /** Se conectan al marco de la foto. */
   frameProps: {

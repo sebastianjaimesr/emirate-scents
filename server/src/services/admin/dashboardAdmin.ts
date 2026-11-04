@@ -1,3 +1,6 @@
+/**
+ * Datos del resumen del panel de administración.
+ */
 import { prisma } from '../../lib/prisma.js'
 import { formatOrderNumber } from '../orderService.js'
 import { toCOP } from '../productMapper.js'

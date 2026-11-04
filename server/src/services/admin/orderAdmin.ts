@@ -36,6 +36,9 @@ const SHIPPING_EDITABLE: OrderStatus[] = [
   'ENVIADO',
 ]
 
+/**
+ * Error 409 cuando el pedido cambió mientras el administrador lo editaba (por ejemplo, desde otra pestaña).
+ */
 const orderChanged = () =>
   new HttpError(
     409,
@@ -51,6 +54,9 @@ function parseOrderNumber(q: string) {
   return match ? Number(match[1]) : null
 }
 
+/**
+ * Lista los pedidos del panel: búsqueda por número, nombre o teléfono, filtro por estado y paginación.
+ */
 export async function listAdminOrders(query: OrdersQuery) {
   const q = query.q
   const number = q ? parseOrderNumber(q) : null
@@ -206,6 +212,11 @@ export class OrderStockShortageError extends HttpError {
   }
 }
 
+/**
+ * Cambia el estado de un pedido en una transacción: verifica que el cambio esté permitido,
+ * descuenta el stock al confirmarlo, lo devuelve si se cancela un pedido ya descontado
+ * y guarda el cambio en el historial.
+ */
 export async function changeOrderStatus(
   id: string,
   input: { status: OrderStatus; note: string },

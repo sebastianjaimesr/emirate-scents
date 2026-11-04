@@ -1,3 +1,6 @@
+/**
+ * Pie de página de la tienda.
+ */
 import { Link } from 'react-router'
 import { brand } from '../../config/brand'
 import { buildWhatsAppUrl, whatsappMessages } from '../../lib/whatsapp'
@@ -7,11 +10,13 @@ import { Container } from '../ui/Container'
 import { Ornament } from '../ui/Ornament'
 import { mainNavigation } from './navigation'
 
+/** Año actual para el aviso de derechos. */
 const currentYear = new Date().getFullYear()
 
 const linkClass =
   'inline-flex min-h-10 items-center text-smoke-300 transition-colors hover:text-gold-300'
 
+/** Pie de página: marca, enlaces de navegación, contacto y redes. */
 export function Footer() {
   return (
     <footer className="bg-ink-950 text-ivory-50">

@@ -1,3 +1,6 @@
+/**
+ * Pruebas de las funciones puras del carrito (agregar, cambiar cantidad, quitar y calcular líneas).
+ */
 import { describe, expect, it } from 'vitest'
 import type { Product } from '../../types/product'
 import {
@@ -10,6 +13,7 @@ import {
   setItemQuantity,
 } from './cartItems'
 
+/** Crea un producto de prueba con el precio y el stock indicados. */
 const product = (id: string, price: number, stock: number): Product => ({
   id,
   sku: id,

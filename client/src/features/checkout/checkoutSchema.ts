@@ -15,11 +15,16 @@ export function normalizeColombianMobile(value: string) {
   return digits.length === 12 && digits.startsWith('57') ? digits.slice(2) : digits
 }
 
+/** Regla de texto obligatorio: quita espacios y valida largo mínimo y máximo. */
 const requiredText = (min: number, max: number, message: string) =>
   z
     .string()
     .check(z.trim(), z.minLength(min, message), z.maxLength(max, `Máximo ${max} caracteres`))
 
+/**
+ * Validaciones del formulario de compra con Zod: nombre, celular colombiano, ubicación, dirección,
+ * método de pago, autorización de datos y un campo trampa (website) contra bots.
+ */
 export const checkoutSchema = z.object({
   name: requiredText(3, 80, 'Escribe tu nombre completo'),
   phone: z.string().check(
@@ -38,5 +43,7 @@ export const checkoutSchema = z.object({
   website: z.string().check(z.maxLength(0)),
 })
 
+/** Valores tal como los escribe el usuario (antes de validar). */
 export type CheckoutValues = z.input<typeof checkoutSchema>
+/** Datos ya validados y limpios (después de validar). */
 export type CheckoutData = z.output<typeof checkoutSchema>

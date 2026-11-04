@@ -1,5 +1,9 @@
+/**
+ * Prueba de extremo a extremo (Playwright) del flujo de compra: carrito, formulario y confirmación.
+ */
 import { expect, test, type Page } from '@playwright/test'
 
+/** Abre la ficha de un producto y lo agrega al carrito. */
 async function addToCart(page: Page, slug: string) {
   await page.goto(`/producto/${slug}`)
   await page.getByRole('button', { name: 'Agregar al carrito' }).click()

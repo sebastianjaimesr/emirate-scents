@@ -68,6 +68,7 @@ export function seo(publicUrl: string, { adminOnly = false } = {}): Router {
   return router
 }
 
+/** Escapa los caracteres especiales de XML (para el sitemap). */
 function escapeXml(value: string) {
   return value.replace(/[<>&'"]/g, (char) => `&#${char.charCodeAt(0)};`)
 }

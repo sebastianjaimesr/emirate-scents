@@ -15,9 +15,13 @@ import { fileURLToPath } from 'node:url'
 import { applyCatalog, validateCatalog } from '../src/catalogImport/importCatalog.js'
 import { prisma } from '../src/lib/prisma.js'
 
+/** Argumentos de la línea de comandos. */
 const args = process.argv.slice(2)
+/** Ruta del archivo a importar (el primer argumento que no empieza con --). */
 const file = args.find((arg) => !arg.startsWith('--'))
+/** --aplicar guarda los cambios; sin él solo se muestra qué pasaría (simulación). */
 const apply = args.includes('--aplicar')
+/** --retirar-demo archiva los productos DEMO al importar el catálogo real. */
 const retireDemo = args.includes('--retirar-demo')
 
 if (!file) {
@@ -27,6 +31,7 @@ if (!file) {
 
 // npm ejecuta el script dentro de server/: la ruta se resuelve desde donde lo escribiste
 const csvPath = path.resolve(process.env.INIT_CWD ?? process.cwd(), file)
+/** Carpeta donde están las fotos de los productos. */
 const photosDir = fileURLToPath(new URL('../../client/public/images/products', import.meta.url))
 
 const { rows, problems } = validateCatalog(readFileSync(csvPath, 'utf8'), photosDir)

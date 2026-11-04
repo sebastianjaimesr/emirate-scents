@@ -28,6 +28,7 @@ const multiLine = (max: number) =>
     .transform((value) => value.replace(/[^\P{Cc}\n]/gu, '').trim())
     .pipe(z.string().max(max, `Máximo ${max} caracteres`))
 
+/** Validación de un slug: minúsculas, números y guiones. */
 export const slugSchema = z
   .string()
   .trim()
@@ -36,6 +37,7 @@ export const slugSchema = z
   .max(120)
   .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'Solo minúsculas, números y guiones (ejemplo: oud-rosa)')
 
+/** Validación del parámetro :id de la URL. */
 export const idParam = z.object({ id: z.string().min(1).max(64) })
 
 // ── Acceso ─────────────────────────────────────────────────────────────────────────────
@@ -53,6 +55,7 @@ const pesos = z
   .min(0, 'No puede ser negativo')
   .max(100_000_000, 'Precio demasiado alto')
 
+/** Lista de notas olfativas (máximo 12). */
 const notes = z.array(singleLine(1, 60)).max(12, 'Máximo 12 notas')
 
 /** Campos de un producto, sin valores por defecto (al editar, un campo ausente no se toca). */
@@ -84,6 +87,7 @@ const productFields = z.object({
   isDemo: z.boolean(),
 })
 
+/** Verifica que el precio "antes" (compareAtPrice) sea mayor que el precio actual. */
 function checkCompareAtPrice(
   product: { price?: number; compareAtPrice?: number | null },
   ctx: z.RefinementCtx,
@@ -134,10 +138,12 @@ export const updateProductSchema = productFields
   .strict()
   .refine((value) => Object.keys(value).length > 0, 'No hay cambios')
 
+/** Validación del cambio de estado de un producto. */
 export const productStatusSchema = z.object({
   status: z.enum(['BORRADOR', 'PUBLICADO', 'ARCHIVADO']),
 })
 
+/** Validación de los filtros de la lista de productos del panel. */
 export const adminProductsQuerySchema = z.object({
   q: z.string().trim().max(100).default(''),
   estado: z.enum(['BORRADOR', 'PUBLICADO', 'ARCHIVADO']).optional(),
@@ -156,8 +162,10 @@ export const imageParams = z.object({
   imageId: z.string().min(1).max(64),
 })
 
+/** Validación del texto alternativo de una foto. */
 export const imageAltSchema = z.object({ alt: singleLine(3, 200) }).strict()
 
+/** Validación del nuevo orden de las fotos (sin repetidos). */
 export const imageOrderSchema = z
   .object({ imageIds: z.array(z.string().min(1).max(64)).min(1).max(30) })
   .strict()
@@ -183,6 +191,7 @@ export const inventoryMovementSchema = z
     message: 'Una entrada suma unidades: la cantidad debe ser positiva',
   })
 
+/** Validación de los filtros de movimientos de inventario. */
 export const movementsQuerySchema = z.object({
   producto: z.string().max(64).optional(),
   tipo: z.enum(['ENTRADA', 'AJUSTE', 'VENTA', 'DEVOLUCION']).optional(),
@@ -199,20 +208,29 @@ export const categorySchema = z
     position: z.number().int().min(0).max(1000).default(0),
   })
   .strict()
+/** Validación de los cambios de una categoría (al menos un campo). */
 export const updateCategorySchema = categorySchema
   .partial()
   .refine((value) => Object.keys(value).length > 0, 'No hay cambios')
 
+/** Validación de una marca nueva. */
 export const brandSchema = z.object({ name: singleLine(2, 60), slug: slugSchema }).strict()
+/** Validación de los cambios de una marca (al menos un campo). */
 export const updateBrandSchema = brandSchema
   .partial()
   .refine((value) => Object.keys(value).length > 0, 'No hay cambios')
 
+/** Datos validados para crear un producto. */
 export type CreateProductInput = z.infer<typeof createProductSchema>
+/** Datos validados para actualizar un producto. */
 export type UpdateProductInput = z.infer<typeof updateProductSchema>
+/** Filtros validados de la lista de productos del panel. */
 export type AdminProductsQuery = z.infer<typeof adminProductsQuerySchema>
+/** Datos validados de un movimiento de inventario. */
 export type InventoryMovementInput = z.infer<typeof inventoryMovementSchema>
+/** Filtros validados de los movimientos de inventario. */
 export type MovementsQuery = z.infer<typeof movementsQuerySchema>
+/** Filtros validados de la lista de pedidos. */
 export type OrdersQuery = z.infer<typeof ordersQuerySchema>
 
 // ── Pedidos ────────────────────────────────────────────────────────────────────────────
@@ -226,6 +244,7 @@ const orderStatuses = [
   'CANCELADO',
 ] as const
 
+/** Validación de los filtros de la lista de pedidos. */
 export const ordersQuerySchema = z.object({
   q: z.string().trim().max(100).default(''),
   estado: z.enum(orderStatuses).optional(),
@@ -233,6 +252,7 @@ export const ordersQuerySchema = z.object({
   porPagina: z.coerce.number().int().min(1).max(100).default(25),
 })
 
+/** Validación del cambio de estado de un pedido; cancelar exige escribir el motivo. */
 export const orderStatusChangeSchema = z
   .object({
     status: z.enum(orderStatuses, 'Elige un estado'),
@@ -244,6 +264,7 @@ export const orderStatusChangeSchema = z
     message: 'Escribe el motivo de la cancelación',
   })
 
+/** Validación del costo de envío de un pedido. */
 export const orderShippingSchema = z
   .object({ shippingCost: pesos.max(5_000_000, 'Costo de envío demasiado alto').nullable() })
   .strict()

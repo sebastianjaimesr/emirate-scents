@@ -17,7 +17,9 @@ beforeAll(async () => {
 })
 afterAll(() => prisma.$disconnect())
 
+/** PATCH con el origen del panel. */
 const patch = (url: string) => agent.patch(url).set('Origin', PANEL_ORIGIN)
+/** Cambia el estado de un pedido desde la API del panel. */
 const setStatus = (id: string, status: string, note?: string) =>
   patch(`/api/admin/orders/${id}/status`).send({ status, ...(note !== undefined && { note }) })
 
@@ -64,9 +66,11 @@ async function createOrder(
   })
 }
 
+/** Lee el stock actual de un producto. */
 const stockOf = async (id: string) =>
   (await prisma.product.findUniqueOrThrow({ where: { id }, select: { stock: true } })).stock
 
+/** Borra los pedidos y deja todos los productos de prueba con 5 unidades. */
 async function resetOrders() {
   await purgeInventory()
   await prisma.order.deleteMany()

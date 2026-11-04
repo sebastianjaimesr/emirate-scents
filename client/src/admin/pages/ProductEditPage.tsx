@@ -1,3 +1,6 @@
+/**
+ * Página para crear o editar un producto (datos, fotos, inventario y estado).
+ */
 import { ArrowLeft, ExternalLink } from 'lucide-react'
 import { useState } from 'react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router'

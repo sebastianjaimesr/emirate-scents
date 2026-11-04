@@ -26,6 +26,9 @@ const adminRoutes: RouteObject[] = ADMIN_ENABLED
     ]
   : []
 
+/**
+ * Rutas de la aplicación. Las páginas, salvo el inicio, se cargan bajo demanda (lazy) para que la primera carga sea más liviana.
+ */
 export const router = createBrowserRouter(
   [
     ...adminRoutes,

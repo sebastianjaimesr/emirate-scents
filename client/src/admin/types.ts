@@ -2,13 +2,19 @@
 
 import type { PaymentMethod } from '../types/order'
 
+/** Estado de publicación de un producto. */
 export type ProductStatus = 'BORRADOR' | 'PUBLICADO' | 'ARCHIVADO'
+/** Tipo de movimiento de inventario. */
 export type MovementType = 'ENTRADA' | 'AJUSTE' | 'VENTA' | 'DEVOLUCION'
+/** Estados por los que pasa un pedido, desde que se crea hasta que se entrega o cancela. */
 export type OrderStatus =
   'PENDIENTE_CONFIRMACION' | 'CONFIRMADO' | 'EN_PREPARACION' | 'ENVIADO' | 'ENTREGADO' | 'CANCELADO'
+/** Concentración del perfume (Extrait, Parfum, EDP, EDT, EDC, aceite u otra). */
 export type Concentration = 'EXTRAIT' | 'PARFUM' | 'EDP' | 'EDT' | 'EDC' | 'ACEITE' | 'OTRA'
+/** Público al que va dirigido el perfume. */
 export type Audience = 'FEMENINO' | 'MASCULINO' | 'UNISEX'
 
+/** Foto de un producto con sus anchos disponibles (para imágenes responsive). */
 export interface AdminImage {
   id: string
   url: string
@@ -17,6 +23,7 @@ export interface AdminImage {
   widths: number[]
 }
 
+/** Producto completo tal como lo devuelve la API del panel. */
 export interface AdminProduct {
   id: string
   sku: string
@@ -52,6 +59,7 @@ export interface AdminProduct {
   updatedAt: string
 }
 
+/** Respuesta paginada genérica de la API. */
 export interface Page<T> {
   items: T[]
   total: number
@@ -60,6 +68,7 @@ export interface Page<T> {
   totalPages: number
 }
 
+/** Movimiento de inventario (entrada, ajuste, venta o devolución) con el stock resultante. */
 export interface Movement {
   id: string
   product: { id: string; sku: string; name: string }
@@ -73,6 +82,7 @@ export interface Movement {
   createdAt: string
 }
 
+/** Categoría con la cantidad de productos que tiene. */
 export interface Category {
   id: string
   slug: string
@@ -81,6 +91,7 @@ export interface Category {
   productCount: number
 }
 
+/** Marca con la cantidad de productos que tiene. */
 export interface Brand {
   id: string
   slug: string
@@ -88,6 +99,7 @@ export interface Brand {
   productCount: number
 }
 
+/** Datos del resumen del panel: productos por estado, stock bajo, pedidos y ventas. */
 export interface Dashboard {
   generatedAt: string
   products: {
@@ -113,6 +125,7 @@ export interface Dashboard {
   recentMovements: Movement[]
 }
 
+/** Pedido resumido para la lista de pedidos. */
 export interface OrderSummary {
   id: string
   orderNumber: string
@@ -129,10 +142,12 @@ export interface OrderSummary {
   createdAt: string
 }
 
+/** Página de pedidos con el conteo por estado (para las pestañas). */
 export interface OrdersPage extends Page<OrderSummary> {
   countsByStatus: Partial<Record<OrderStatus, number>>
 }
 
+/** Pedido completo con cliente, líneas, totales e historial; incluye a qué estados puede pasar. */
 export interface AdminOrder {
   id: string
   orderNumber: string

@@ -1,3 +1,6 @@
+/**
+ * Pruebas de la construcción de direcciones de imágenes (mismo dominio o dominio aparte).
+ */
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { mediaUrl } from './mediaUrl'
 

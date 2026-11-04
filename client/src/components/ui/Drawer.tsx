@@ -1,3 +1,6 @@
+/**
+ * Panel lateral deslizable (carrito, menú, filtros) con fondo oscuro y cierre con Escape.
+ */
 import { X } from 'lucide-react'
 import { m } from 'motion/react'
 import { useRef, type ReactNode } from 'react'

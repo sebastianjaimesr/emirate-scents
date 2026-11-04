@@ -1,8 +1,12 @@
+/**
+ * Punto de entrada del servidor: arranca la API y la cierra de forma ordenada.
+ */
 import { createApp } from './app.js'
 import { env } from './config/env.js'
 import { logger } from './lib/logger.js'
 import { prisma } from './lib/prisma.js'
 
+/** Arranca el servidor HTTP en el puerto configurado. */
 const server = createApp().listen(env.PORT, () => {
   logger.info(`API de Emirate Scents lista en http://localhost:${env.PORT}/api`)
 })

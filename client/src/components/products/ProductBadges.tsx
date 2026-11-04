@@ -1,3 +1,6 @@
+/**
+ * Etiquetas que se muestran sobre los productos (DEMO, agotado, oferta…).
+ */
 import { cx } from '../../lib/cx'
 import type { Product } from '../../types/product'
 

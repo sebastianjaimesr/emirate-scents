@@ -1,3 +1,6 @@
+/**
+ * Hook con el comportamiento accesible de los paneles superpuestos (Escape, foco y scroll).
+ */
 import { useEffect, type RefObject } from 'react'
 
 const FOCUSABLE =

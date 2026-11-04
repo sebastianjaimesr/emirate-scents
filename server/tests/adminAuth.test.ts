@@ -18,6 +18,7 @@ beforeEach(async () => {
 })
 afterAll(() => prisma.$disconnect())
 
+/** Envía un intento de inicio de sesión con el origen del panel. */
 const login = (body: object, origin = PANEL_ORIGIN) =>
   request(app).post('/api/admin/auth/login').set('Origin', origin).send(body)
 

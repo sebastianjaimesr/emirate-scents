@@ -1,3 +1,6 @@
+/**
+ * Sección principal (hero) de la página de inicio.
+ */
 import { ArrowRight } from 'lucide-react'
 import { m, useReducedMotion, useScroll, useTransform } from 'motion/react'
 import { Fragment, useRef } from 'react'

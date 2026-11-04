@@ -12,6 +12,7 @@ import { createInterface } from 'node:readline'
 import { createAdmin, resetAdminPassword } from '../src/admin/adminAccounts.js'
 import { prisma } from '../src/lib/prisma.js'
 
+/** true si se ejecutó con --cambiar-contrasena (cambia la contraseña de un administrador existente). */
 const resetMode = process.argv.includes('--cambiar-contrasena')
 
 if (!process.stdin.isTTY) {
@@ -19,6 +20,7 @@ if (!process.stdin.isTTY) {
   process.exit(1)
 }
 
+/** Hace una pregunta en la terminal; con hidden=true no muestra lo que se escribe (para contraseñas). */
 function ask(question: string, hidden = false) {
   return new Promise<string>((resolve) => {
     const rl = createInterface({ input: process.stdin, output: process.stdout, terminal: true })
@@ -37,6 +39,7 @@ function ask(question: string, hidden = false) {
   })
 }
 
+/** Pide la contraseña dos veces y verifica que coincidan y que sea segura. */
 async function askPassword() {
   const password = await ask('Contraseña (mínimo 12 caracteres): ', true)
   const repeated = await ask('Repite la contraseña: ', true)

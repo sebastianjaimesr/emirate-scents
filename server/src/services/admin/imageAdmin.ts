@@ -23,6 +23,10 @@ const ACCEPTED_FORMATS = new Set(['jpeg', 'png', 'webp'])
 
 const imageSelect = { id: true, url: true, alt: true, position: true, widths: true } as const
 
+/**
+ * Lee la foto subida, revisa que sea una imagen válida y de tamaño aceptable, y la convierte
+ * a WebP en varios anchos (para imágenes responsive) con sharp.
+ */
 async function processImage(data: Buffer) {
   let metadata: Metadata
   try {
@@ -70,6 +74,7 @@ async function processImage(data: Buffer) {
   return variants
 }
 
+/** Agrega una foto a un producto: la procesa, la guarda en disco y crea su registro en la base. */
 export async function addProductImage(productId: string, data: Buffer, alt?: string) {
   const product = await prisma.product.findUnique({
     where: { id: productId },
@@ -115,12 +120,14 @@ export async function addProductImage(productId: string, data: Buffer, alt?: str
   }
 }
 
+/** Busca la foto del producto o lanza un error 404. */
 async function findImage(productId: string, imageId: string) {
   const image = await prisma.productImage.findFirst({ where: { id: imageId, productId } })
   if (!image) throw notFound('Foto no encontrada')
   return image
 }
 
+/** Cambia el texto alternativo de una foto. */
 export async function updateImageAlt(productId: string, imageId: string, alt: string) {
   await findImage(productId, imageId)
   return prisma.productImage.update({ where: { id: imageId }, data: { alt }, select: imageSelect })
@@ -149,6 +156,7 @@ export async function reorderImages(productId: string, imageIds: string[]) {
   })
 }
 
+/** Borra una foto (y reordena las demás) en una transacción; luego borra los archivos del disco. */
 export async function deleteProductImage(productId: string, imageId: string) {
   const image = await findImage(productId, imageId)
   await prisma.$transaction(async (tx) => {

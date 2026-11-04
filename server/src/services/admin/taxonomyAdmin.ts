@@ -13,6 +13,7 @@ interface CategoryInput {
   position: number
 }
 
+/** Verifica que ninguna otra categoría use el mismo slug (error 409 si está repetido). */
 async function checkCategorySlug(slug: string | undefined, exceptId?: string) {
   if (!slug) return
   const other = await prisma.category.findUnique({ where: { slug } })
@@ -21,6 +22,7 @@ async function checkCategorySlug(slug: string | undefined, exceptId?: string) {
   }
 }
 
+/** Lista las categorías con la cantidad de productos de cada una. */
 export async function listCategories() {
   const categories = await prisma.category.findMany({
     orderBy: [{ position: 'asc' }, { name: 'asc' }],
@@ -35,6 +37,7 @@ export async function listCategories() {
   }))
 }
 
+/** Crea una categoría. */
 export async function createCategory(input: CategoryInput) {
   await checkCategorySlug(input.slug)
   return prisma.category.create({
@@ -43,6 +46,7 @@ export async function createCategory(input: CategoryInput) {
   })
 }
 
+/** Actualiza una categoría. */
 export async function updateCategory(id: string, input: Partial<CategoryInput>) {
   if (!(await prisma.category.findUnique({ where: { id } })))
     throw notFound('Categoría no encontrada')
@@ -54,6 +58,7 @@ export async function updateCategory(id: string, input: Partial<CategoryInput>) 
   })
 }
 
+/** Borra una categoría; no se permite si todavía tiene productos. */
 export async function deleteCategory(id: string) {
   const category = await prisma.category.findUnique({
     where: { id },
@@ -75,6 +80,7 @@ interface BrandInput {
   slug: string
 }
 
+/** Verifica que ninguna otra marca use el mismo slug (error 409 si está repetido). */
 async function checkBrandSlug(slug: string | undefined, exceptId?: string) {
   if (!slug) return
   const other = await prisma.brand.findUnique({ where: { slug } })
@@ -83,6 +89,7 @@ async function checkBrandSlug(slug: string | undefined, exceptId?: string) {
   }
 }
 
+/** Lista las marcas con la cantidad de productos de cada una. */
 export async function listBrands() {
   const brands = await prisma.brand.findMany({
     orderBy: { name: 'asc' },
@@ -96,6 +103,7 @@ export async function listBrands() {
   }))
 }
 
+/** Crea una marca. */
 export async function createBrand(input: BrandInput) {
   await checkBrandSlug(input.slug)
   return prisma.brand.create({ data: input, select: { id: true, slug: true, name: true } })
@@ -124,6 +132,7 @@ export async function updateBrand(id: string, input: Partial<BrandInput>) {
   })
 }
 
+/** Borra una marca; no se permite si todavía tiene productos. */
 export async function deleteBrand(id: string) {
   const brand = await prisma.brand.findUnique({
     where: { id },

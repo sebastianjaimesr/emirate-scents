@@ -1,3 +1,6 @@
+/**
+ * Ficha de producto (/producto/:slug).
+ */
 import { ChevronRight } from 'lucide-react'
 import { Link, useParams } from 'react-router'
 import { DemoNotice } from '../components/products/DemoNotice'
@@ -18,6 +21,7 @@ import { getProductBySlug, getRelatedProducts } from '../services/productService
 import { audienceLabels, concentrationLabels, type Product } from '../types/product'
 import { NotFoundPage } from './NotFoundPage'
 
+/** Esqueleto animado de la ficha mientras carga el producto. */
 function ProductPageSkeleton() {
   return (
     <Container
@@ -35,6 +39,7 @@ function ProductPageSkeleton() {
   )
 }
 
+/** Ruta de navegación (migas de pan): Inicio › Catálogo › Categoría › Producto. */
 function Breadcrumbs({ product }: { product: Product }) {
   const category = findCategory(product.categorySlug)
   const crumbs = [
@@ -61,6 +66,7 @@ function Breadcrumbs({ product }: { product: Product }) {
   )
 }
 
+/** Tabla de características del producto (marca, referencia, tamaño, concentración…). */
 function ProductSpecs({ product }: { product: Product }) {
   const specs = [
     { label: 'Marca', value: product.brand.name },
@@ -86,10 +92,14 @@ function ProductSpecs({ product }: { product: Product }) {
   )
 }
 
+/** Título de las secciones de la ficha. */
 function SectionTitle({ children }: { children: string }) {
   return <h2 className="text-3xl text-ink-950">{children}</h2>
 }
 
+/**
+ * Ficha de producto: fotos, precio, disponibilidad, cantidad, agregar al carrito, notas olfativas y productos relacionados.
+ */
 export function ProductPage() {
   const { slug = '' } = useParams()
   const productRequest = useAsyncData(`product:${slug}`, () => getProductBySlug(slug))

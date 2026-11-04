@@ -1,3 +1,6 @@
+/**
+ * Página con la lista de pedidos del panel.
+ */
 import { useState, type FormEvent } from 'react'
 import { Link, useSearchParams } from 'react-router'
 import { useAsyncData } from '../../hooks/useAsyncData'

@@ -10,4 +10,5 @@ export class HttpError extends Error {
   }
 }
 
+/** Atajo para crear un error 404. */
 export const notFound = (message = 'No encontrado') => new HttpError(404, 'NOT_FOUND', message)

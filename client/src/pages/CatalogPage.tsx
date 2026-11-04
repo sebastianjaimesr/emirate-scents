@@ -1,3 +1,6 @@
+/**
+ * Página del catálogo (/catalogo y /catalogo/:categoria).
+ */
 import { SearchX } from 'lucide-react'
 import { AnimatePresence } from 'motion/react'
 import { useRef, useState } from 'react'
@@ -24,6 +27,9 @@ import { buildWhatsAppUrl, whatsappMessages } from '../lib/whatsapp'
 import { getCatalogFilters, getProducts } from '../services/productService'
 import { NotFoundPage } from './NotFoundPage'
 
+/**
+ * Página del catálogo: lee los filtros de la URL, carga los productos y muestra filtros, orden y paginación.
+ */
 export function CatalogPage() {
   const { categorySlug } = useParams()
   const category = findCategory(categorySlug)

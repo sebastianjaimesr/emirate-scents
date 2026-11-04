@@ -1,3 +1,6 @@
+/**
+ * Formato de precios en pesos colombianos.
+ */
 const copFormatter = new Intl.NumberFormat('es-CO', {
   style: 'currency',
   currency: 'COP',
