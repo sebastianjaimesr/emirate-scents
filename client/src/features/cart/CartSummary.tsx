@@ -1,4 +1,5 @@
 import { ArrowRight, Info } from 'lucide-react'
+import { useId, useState } from 'react'
 import { Link } from 'react-router'
 import { WhatsAppIcon } from '../../components/brand/BrandIcons'
 import { formatCOP } from '../../lib/formatCOP'
@@ -46,11 +47,33 @@ export function CartSummary({
   onCheckout,
 }: CartSummaryProps) {
   const blockingReason = getCartBlockingReason(hasDemoProducts, hasSoldOut)
-  const whatsappUrl = buildWhatsAppUrl(buildCartInquiryMessage(lines, subtotal))
+  // El nombre solo vive en esta pantalla: no se guarda en el navegador ni se envía a la API
+  const [customerName, setCustomerName] = useState('')
+  const nameId = useId()
+  const whatsappUrl = buildWhatsAppUrl(buildCartInquiryMessage(lines, subtotal, customerName))
 
   return (
     <div className="space-y-4">
       <CartTotals subtotal={subtotal} />
+
+      {/* Solo cuando el pedido se hace por WhatsApp: en la tienda con API lo pide el formulario */}
+      {ordersByWhatsApp && !blockingReason && (
+        <div>
+          <label htmlFor={nameId} className="text-xs text-smoke-500">
+            Tu nombre (opcional)
+          </label>
+          <input
+            id={nameId}
+            type="text"
+            autoComplete="name"
+            maxLength={60}
+            value={customerName}
+            onChange={(event) => setCustomerName(event.target.value)}
+            placeholder="Para saludarte por tu nombre"
+            className="mt-1 min-h-12 w-full border border-ink-900/25 bg-transparent px-3 text-base placeholder:text-smoke-500/70 focus:border-ink-900 focus:outline-none"
+          />
+        </div>
+      )}
 
       {blockingReason ? (
         <>
