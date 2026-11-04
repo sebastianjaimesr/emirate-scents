@@ -1,4 +1,6 @@
-import { PageMeta } from '../components/ui/PageMeta'
+import { PageMeta, StructuredData } from '../components/ui/PageMeta'
+import { absoluteUrl } from '../lib/siteUrl'
+import { brand } from '../config/brand'
 import { CategoriesSection } from '../features/home/CategoriesSection'
 import { FaqSection } from '../features/home/FaqSection'
 import { HeroSection } from '../features/home/HeroSection'
@@ -20,6 +22,25 @@ export function HomePage() {
   return (
     <>
       <PageMeta description="Perfumes árabes, de diseñador, de nicho y equivalencias. Asesoría y pedidos por WhatsApp con pago contra entrega sujeto a confirmación." />
+      {/* Datos del negocio para buscadores: solo los confirmados (nombre, logo, contacto) */}
+      {import.meta.env.VITE_SITE_URL && (
+        <StructuredData
+          data={{
+            '@context': 'https://schema.org',
+            '@type': 'Organization',
+            name: brand.name,
+            url: absoluteUrl('/'),
+            logo: absoluteUrl('/images/brand/logo-emirate-scents.webp'),
+            sameAs: [brand.instagramUrl],
+            contactPoint: {
+              '@type': 'ContactPoint',
+              telephone: `+${brand.whatsappNumber}`,
+              contactType: 'customer service',
+              availableLanguage: 'es',
+            },
+          }}
+        />
+      )}
       <HeroSection />
       {/* Ancla de la colección: las secciones 3D, o las colecciones si no hay productos */}
       <div id="coleccion">

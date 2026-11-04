@@ -11,7 +11,11 @@ import { PageMeta } from '../components/ui/PageMeta'
 export function NotFoundPage() {
   return (
     <>
-      <PageMeta title="Página no encontrada" description="La página que buscas no existe." />
+      <PageMeta
+        title="Página no encontrada"
+        description="La página que buscas no existe."
+        noIndex
+      />
       <Container>
         <EmptyState
           icon={<Compass className="size-8" strokeWidth={1.25} />}

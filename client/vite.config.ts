@@ -58,6 +58,25 @@ function githubPages(mode: string, apiUrl: string | undefined): Plugin {
   }
 }
 
+/**
+ * Etiquetas para redes sociales y buscadores que necesitan la dirección COMPLETA del sitio
+ * (WhatsApp, Facebook o X no ejecutan JavaScript: leen solo el index.html).
+ * Sin dirección conocida (desarrollo), se dejan las relativas de index.html.
+ */
+function absoluteSeoTags(siteUrl: string): Plugin {
+  return {
+    name: 'seo-absoluto',
+    // Solo la imagen: la dirección canónica de cada página la pone PageMeta (React)
+    // Vite ya antepuso la subcarpeta (/emirate-scents/...): se resuelve contra el dominio
+    transformIndexHtml: (html) =>
+      html.replace(
+        /<meta property="og:image" content="(\/[^"]*)"/,
+        (_match, path: string) =>
+          `<meta property="og:image" content="${new URL(path, siteUrl).href}"`,
+      ),
+  }
+}
+
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   const isPages = mode === 'preview' || mode === 'pages'
@@ -67,11 +86,23 @@ export default defineConfig(({ mode }) => {
       'build:pages necesita VITE_API_URL con la dirección completa de la API, por ejemplo https://emirate-scents.up.railway.app/api',
     )
   }
+  const base = isPages ? (process.env.PAGES_BASE ?? '/emirate-scents/') : '/'
+  // Dirección pública de la tienda (termina en /). En GitHub Pages se conoce; en Railway se
+  // indica con VITE_SITE_URL al compilar (ver docs/premium/entrega.md)
+  const siteUrl =
+    loadEnv(mode, process.cwd(), 'VITE_').VITE_SITE_URL?.replace(/\/?$/, '/') ??
+    (isPages ? `https://sebastianjaimesr.github.io${base}` : '')
   return {
     // En GitHub Pages la tienda vive en una subcarpeta: sebastianjaimesr.github.io/emirate-scents/
     // (PAGES_BASE=/ si algún día usa un dominio propio)
-    base: isPages ? (process.env.PAGES_BASE ?? '/emirate-scents/') : '/',
-    plugins: [react(), tailwindcss(), ...(isPages ? [githubPages(mode, apiUrl)] : [])],
+    base,
+    plugins: [
+      react(),
+      tailwindcss(),
+      ...(isPages ? [githubPages(mode, apiUrl)] : []),
+      ...(siteUrl ? [absoluteSeoTags(siteUrl)] : []),
+    ],
+    define: { 'import.meta.env.VITE_SITE_URL': JSON.stringify(siteUrl) },
     server: { proxy: apiProxy },
     preview: { proxy: apiProxy },
   }

@@ -8,6 +8,7 @@ import { InstagramIcon, WhatsAppIcon } from '../brand/BrandIcons'
 import { Logo } from '../brand/Logo'
 import { Container } from '../ui/Container'
 import { Ornament } from '../ui/Ornament'
+import { infoPages } from '../../content/infoPages'
 import { mainNavigation } from './navigation'
 import { useShopShortcuts } from './useShopShortcuts'
 
@@ -62,6 +63,13 @@ export function Footer() {
                   Favoritos
                 </Link>
               </li>
+              {infoPages.map((page) => (
+                <li key={page.slug}>
+                  <Link to={`/${page.slug}`} className={linkClass}>
+                    {page.navLabel}
+                  </Link>
+                </li>
+              ))}
               <li>
                 <Link to="/politica-de-datos" className={linkClass}>
                   Tratamiento de datos

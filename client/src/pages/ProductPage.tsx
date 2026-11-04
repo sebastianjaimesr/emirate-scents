@@ -8,7 +8,9 @@ import { Price } from '../components/products/Price'
 import { ProductBadges } from '../components/products/ProductBadges'
 import { ProductGrid } from '../components/products/ProductGrid'
 import { Container } from '../components/ui/Container'
-import { PageMeta } from '../components/ui/PageMeta'
+import { PageMeta, StructuredData } from '../components/ui/PageMeta'
+import { absoluteUrl } from '../lib/siteUrl'
+import { mediaUrl } from '../lib/mediaUrl'
 import { Reveal } from '../components/ui/Reveal'
 import { findCategory } from '../data/categories'
 import { AvailabilityLabel } from '../features/product/AvailabilityLabel'
@@ -92,6 +94,39 @@ function ProductSpecs({ product }: { product: Product }) {
   )
 }
 
+/**
+ * Datos del producto para buscadores (schema.org/Product): nombre, marca, referencia,
+ * foto y precio reales. La disponibilidad solo se declara con inventario real: la vista
+ * previa de GitHub Pages no lo tiene.
+ */
+function productStructuredData(product: Product) {
+  const photo = product.images[0]
+  const hasRealStock = import.meta.env.VITE_PREVIEW !== 'true'
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    sku: product.sku,
+    brand: { '@type': 'Brand', name: product.brand.name },
+    description: product.shortDescription,
+    // mediaUrl ya incluye la subcarpeta (/emirate-scents/...): se resuelve contra el dominio
+    ...(photo &&
+      !photo.illustrative && {
+        image: new URL(mediaUrl(photo.url), import.meta.env.VITE_SITE_URL).href,
+      }),
+    offers: {
+      '@type': 'Offer',
+      url: absoluteUrl(`/producto/${product.slug}`),
+      priceCurrency: 'COP',
+      price: product.price,
+      ...(hasRealStock && {
+        availability:
+          product.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+      }),
+    },
+  }
+}
+
 /** Título de las secciones de la ficha. */
 function SectionTitle({ children }: { children: string }) {
   return <h2 className="text-3xl text-ink-950">{children}</h2>
@@ -130,6 +165,9 @@ export function ProductPage() {
         title={`${product.name} · ${product.brand.name}`}
         description={`${product.shortDescription} ${product.sizeMl ? `${product.sizeMl} ml.` : ''} Pide por WhatsApp en Emirate Scents.`}
       />
+      {import.meta.env.VITE_SITE_URL && !product.isDemo && (
+        <StructuredData data={productStructuredData(product)} />
+      )}
 
       <Container className="py-8 lg:py-12">
         <Breadcrumbs product={product} />
