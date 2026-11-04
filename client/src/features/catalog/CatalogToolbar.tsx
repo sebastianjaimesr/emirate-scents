@@ -51,7 +51,7 @@ export function CatalogToolbar({
         />
         <button
           type="submit"
-          className="shrink-0 px-2 text-xs font-semibold tracking-[0.14em] text-gold-700 uppercase"
+          className="min-h-11 shrink-0 px-2 text-xs font-semibold tracking-[0.14em] text-gold-700 uppercase"
         >
           Buscar
         </button>

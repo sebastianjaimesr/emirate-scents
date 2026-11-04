@@ -54,7 +54,7 @@ function Breadcrumbs({ product }: { product: Product }) {
       <ol className="flex flex-wrap items-center gap-1.5">
         {crumbs.map((crumb) => (
           <li key={crumb.to} className="flex items-center gap-1.5">
-            <Link to={crumb.to} className="hover:text-ink-950">
+            <Link to={crumb.to} className="inline-flex min-h-8 items-center hover:text-ink-950">
               {crumb.label}
             </Link>
             <ChevronRight aria-hidden="true" className="size-3" />

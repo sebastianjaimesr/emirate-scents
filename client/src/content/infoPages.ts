@@ -6,7 +6,7 @@
  * identificadas como tales). Nada de plazos, costos, garantías ni certificaciones inventadas.
  *
  * `pendingFromOwner` lista lo que falta decidir. NO se muestra en la tienda: es la lista de
- * tareas para el dueño (también en docs/premium/pendientes-del-negocio.md). Cuando haya una
+ * tareas para el dueño (también en docs/premium/entrega.md, sección 5). Cuando haya una
  * respuesta, se añade como un párrafo más en `sections` y se quita de la lista.
  */
 export interface InfoSection {
