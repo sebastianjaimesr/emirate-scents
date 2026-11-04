@@ -21,7 +21,13 @@ import type { DemoBrand, DemoProduct } from './products.demo.js'
 
 export type CatalogProduct = DemoProduct & {
   /** Ruta dentro de client/public, por ejemplo /images/products/AR-0009/lattafa-khamrah.webp */
-  images?: { url: string; alt: string; srcSet?: string; illustrative?: boolean }[]
+  images?: {
+    url: string
+    alt: string
+    srcSet?: string
+    illustrative?: boolean
+    referenceOfOriginal?: boolean
+  }[]
 }
 
 /**
@@ -99,6 +105,11 @@ function arabic(n: number, name: string, brand: DemoBrand, price: number): Catal
   }
 }
 
+/** Las fotos propias y las ilustraciones son de Emirate; cualquier otra es del perfume original. */
+function isOriginalPhoto(source: string) {
+  return !source.startsWith('Ilustración') && !source.startsWith('Foto propia')
+}
+
 /** reference = el perfume que evoca, con su marca, tal como lo nombra el Canva. */
 function equivalence(n: number, original: string, reference: string, price: number) {
   const sku = `EQ-${String(n).padStart(4, '0')}`
@@ -121,10 +132,14 @@ function equivalence(n: number, original: string, reference: string, price: numb
           url: photo.url,
           srcSet: srcSetOf(photo),
           illustrative: photo.source.startsWith('Ilustración'),
+          // Foto del perfume de la marca (no es nuestro frasco): se avisa en tarjeta y ficha
+          referenceOfOriginal: isOriginalPhoto(photo.source),
           // Las ilustraciones las crea server/scripts/equivalenceArt.ts
           alt: photo.source.startsWith('Ilustración')
             ? `Ilustración del frasco Emirate Scents inspirado en ${original}`
-            : `Frasco de Emirate Scents inspirado en ${original}`,
+            : isOriginalPhoto(photo.source)
+              ? `Perfume original ${reference}, como referencia de la equivalencia`
+              : `Frasco de Emirate Scents inspirado en ${original}`,
         },
       ],
     }),

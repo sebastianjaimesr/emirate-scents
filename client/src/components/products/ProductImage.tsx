@@ -118,6 +118,11 @@ export function ProductImage({
           Imagen ilustrativa
         </span>
       )}
+      {image.referenceOfOriginal && !compact && (
+        <span className="absolute bottom-1.5 left-1/2 -translate-x-1/2 bg-noir/80 px-2 py-0.5 text-[0.55rem] font-semibold tracking-[0.2em] whitespace-nowrap text-gold-300/80 uppercase">
+          Referencia del original
+        </span>
+      )}
     </span>
   )
 }

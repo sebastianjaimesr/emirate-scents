@@ -29,6 +29,12 @@ export interface ProductImage {
   srcSet?: string
   /** true = ilustración de la tienda, no una foto del frasco real (se avisa en la tarjeta). */
   illustrative?: boolean
+  /**
+   * true = foto del perfume ORIGINAL de la marca, usada solo como referencia en una
+   * equivalencia: la tarjeta avisa "Referencia del original" y la ficha explica que el
+   * cliente recibe el frasco de Emirate Scents.
+   */
+  referenceOfOriginal?: boolean
 }
 
 /** Notas olfativas: de salida, de corazón y de fondo. */
