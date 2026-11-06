@@ -205,8 +205,8 @@ export function ProductPage() {
                 {product.images[0]?.referenceOfOriginal && (
                   <>
                     {' '}
-                    La foto muestra el perfume original solo como referencia del aroma: recibes
-                    la loción en el frasco de Emirate Scents.
+                    La foto muestra el perfume original solo como referencia del aroma: recibes la
+                    loción en el frasco de Emirate Scents.
                   </>
                 )}
               </p>
