@@ -22,23 +22,25 @@ describe('catálogo de la vista previa (sin servidor)', () => {
     expect(new Set(catalogProducts.map((product) => product.slug)).size).toBe(57)
   })
 
-  it('las equivalencias nunca llevan la marca que evocan', () => {
+  it('las equivalencias muestran el nombre completo, pero siempre bajo la Línea Equivalencias', () => {
     const equivalences = catalogProducts.filter((p) => p.categorySlug === 'equivalencias')
     expect(equivalences.length).toBeGreaterThan(0)
     for (const product of equivalences) {
       expect(product.sku).toMatch(/^EQ-/)
-      expect(product.name).toMatch(/^Inspirado en /)
-      expect(product.inspirationReference).toBeTruthy()
+      expect(product.name).not.toMatch(/inspirad/i)
+      expect(product.inspirationReference).toBe(product.name)
+      expect(product.description).toContain('no es el perfume original')
       expect(product.brand.slug).toBe('linea-equivalencias')
     }
   })
 
-  it('cada loción lleva una foto, y la de las equivalencias es propia de Emirate Scents', () => {
+  it('cada loción lleva una foto; si una equivalencia usa la del original, queda marcada', () => {
     for (const product of catalogProducts) {
       expect(product.images ?? []).toHaveLength(1)
-      // Nunca la foto del perfume original: haría creer que es esa marca
-      if (product.categorySlug === 'equivalencias')
-        expect(product.images?.[0]?.alt).toContain('Emirate Scents')
+      const image = product.images?.[0]
+      // La foto del perfume de la marca solo como referencia: la ficha lo explica
+      if (product.categorySlug === 'equivalencias' && !image?.alt.includes('Emirate Scents'))
+        expect(image?.referenceOfOriginal).toBe(true)
     }
   })
 

@@ -5,12 +5,15 @@
  *
  * Decisiones provisionales (pendientes de confirmar con el dueño):
  * - Las lociones que evocan marcas de diseñador o nicho (Dior, Chanel, Creed…) se publican
- *   como EQUIVALENCIAS: "Inspirado en …", nunca con la marca como si fuera la original.
+ *   como EQUIVALENCIAS con el nombre comercial completo del perfume que evocan
+ *   ("Dior Sauvage Elixir"), siempre bajo la marca "Línea Equivalencias", en su categoría y con
+ *   el aviso de la ficha: nunca como si fueran el original.
  * - La marca de las lociones árabes es la que aparece en el nombre o en la etiqueta del frasco.
  * - Fotos: las lociones árabes usan la foto oficial de la marca o de un distribuidor autorizado
  *   (nov-2026), con el fondo recortado para el escenario negro de la tienda; fuentes en
- *   product-photos.sources.json (`npm run fotos:descargar`). Las equivalencias solo llevan foto
- *   propia de Emirate Scents: la del frasco original haría creer que es el perfume de esa marca.
+ *   product-photos.sources.json (`npm run fotos:descargar`). Las equivalencias usan, a pedido
+ *   del dueño (nov-2026), la foto oficial del perfume original como referencia del aroma; la
+ *   ficha aclara que el cliente recibe la loción en el frasco de Emirate Scents.
  * - Sin mililitros, concentración, notas ni público: el Canva no los trae.
  *
  * Lo usa la vista previa de GitHub Pages (client/src/services/preview/previewCatalog.ts).
@@ -110,36 +113,40 @@ function isOriginalPhoto(source: string) {
   return !source.startsWith('Ilustración') && !source.startsWith('Foto propia')
 }
 
-/** reference = el perfume que evoca, con su marca, tal como lo nombra el Canva. */
-function equivalence(n: number, original: string, reference: string, price: number) {
+/**
+ * fullName = nombre comercial completo del perfume que evoca, con su marca
+ * ("Dior Sauvage Elixir"). La tarjeta muestra ese nombre tal cual (sin "Inspirado en"),
+ * pero la equivalencia sigue identificada como tal: la marca de la tarjeta es
+ * "Línea Equivalencias", está en su propia categoría y la ficha explica que no es el original.
+ */
+function equivalence(n: number, fullName: string, price: number) {
   const sku = `EQ-${String(n).padStart(4, '0')}`
-  const name = `Inspirado en ${original}`
   const photo = photos[sku]
   return {
     id: sku.toLowerCase(),
     sku,
-    slug: slugify(name),
-    name,
+    slug: slugify(fullName),
+    name: fullName,
     brand: brands.equivalencias,
     categorySlug: 'equivalencias',
-    shortDescription: `Equivalencia inspirada en ${reference}.`,
-    description: `Loción inspirada en ${reference}. No es el perfume original ni está asociada a esa marca. ${askMore}`,
+    shortDescription: `Equivalencia de Emirate Scents con el perfil olfativo de ${fullName}.`,
+    description: `Loción con el perfil olfativo de ${fullName}. Es una equivalencia: no es el perfume original ni está asociada a esa marca. ${askMore}`,
     price,
-    inspirationReference: reference,
+    inspirationReference: fullName,
     ...(photo && {
       images: [
         {
           url: photo.url,
           srcSet: srcSetOf(photo),
           illustrative: photo.source.startsWith('Ilustración'),
-          // Foto del perfume de la marca (no es nuestro frasco): se avisa en tarjeta y ficha
+          // Foto del perfume de la marca (no es nuestro frasco): la ficha lo explica
           referenceOfOriginal: isOriginalPhoto(photo.source),
           // Las ilustraciones las crea server/scripts/equivalenceArt.ts
           alt: photo.source.startsWith('Ilustración')
-            ? `Ilustración del frasco Emirate Scents inspirado en ${original}`
+            ? `Ilustración del frasco Emirate Scents, equivalencia de ${fullName}`
             : isOriginalPhoto(photo.source)
-              ? `Perfume original ${reference}, como referencia de la equivalencia`
-              : `Frasco de Emirate Scents inspirado en ${original}`,
+              ? `Frasco de ${fullName}, como referencia de la equivalencia`
+              : `Frasco de Emirate Scents, equivalencia de ${fullName}`,
         },
       ],
     }),
@@ -171,11 +178,11 @@ export const catalogProducts: CatalogProduct[] = [
   arabic(14, '9AM', afnan, 90000),
   arabic(15, '9PM', afnan, 90000),
   // Página 4
-  equivalence(1, 'Erba Pura', 'Erba Pura de Xerjoff', 110000),
+  equivalence(1, 'Xerjoff Erba Pura', 110000),
   arabic(16, 'Nitro Red', brands.dumont, 90000),
-  equivalence(2, 'Le Male Le Parfum', 'Le Male Le Parfum de Jean Paul Gaultier', 105000),
-  equivalence(3, 'Le Beau Le Parfum', 'Le Beau Le Parfum de Jean Paul Gaultier', 105000),
-  equivalence(4, 'Le Male Elixir', 'Le Male Elixir de Jean Paul Gaultier', 105000),
+  equivalence(2, 'Jean Paul Gaultier Le Male Le Parfum', 105000),
+  equivalence(3, 'Jean Paul Gaultier Le Beau Le Parfum', 105000),
+  equivalence(4, 'Jean Paul Gaultier Le Male Elixir', 105000),
   // Página 5
   arabic(17, 'Amber Oud Dubai Night', alHaramain, 105000),
   arabic(18, 'Amber Oud', alHaramain, 105000),
@@ -183,36 +190,36 @@ export const catalogProducts: CatalogProduct[] = [
   arabic(20, 'Club de Nuit', armaf, 90000),
   arabic(21, 'Club de Nuit Sillage', armaf, 90000),
   // Página 6
-  equivalence(5, 'Creed Silver', 'Creed Silver de Creed', 80000),
-  equivalence(6, 'Bleu de Chanel', 'Bleu de Chanel', 80000),
-  equivalence(7, 'Lacoste Red', 'Red de Lacoste', 80000),
-  equivalence(8, '212 VIP Black', '212 VIP Black de Carolina Herrera', 80000),
+  equivalence(5, 'Creed Silver Mountain Water', 80000),
+  equivalence(6, 'Chanel Bleu de Chanel', 80000),
+  equivalence(7, 'Lacoste Red', 80000),
+  equivalence(8, 'Carolina Herrera 212 VIP Black', 80000),
   // Página 7
   arabic(22, 'Odyssey Aqua', armaf, 90000),
-  equivalence(9, 'Santal 33', 'Santal 33 de Le Labo', 90000),
+  equivalence(9, 'Le Labo Santal 33', 90000),
   arabic(23, 'Shaheen Gold', lattafa, 95000),
   arabic(24, 'Hawas for Him', brands.rasasi, 95000),
   // Página 8
   arabic(25, 'Honor & Glory', lattafa, 100000),
   arabic(26, 'Amethyst', lattafa, 100000),
-  equivalence(10, 'Sauvage', 'Sauvage de Dior', 80000),
-  equivalence(11, 'Sauvage Elixir', 'Sauvage Elixir de Dior', 90000),
+  equivalence(10, 'Dior Sauvage', 80000),
+  equivalence(11, 'Dior Sauvage Elixir', 90000),
   // Página 9
   arabic(27, 'Yum Yum', armaf, 110000),
   arabic(28, 'Yara Candy', lattafa, 90000),
-  equivalence(12, 'La Vie Est Belle', 'La Vie Est Belle de Lancôme', 80000),
+  equivalence(12, 'Lancôme La Vie Est Belle', 80000),
   arabic(29, 'Yara', lattafa, 90000),
   arabic(30, 'Yara Elixir', lattafa, 90000),
   // Página 10
-  equivalence(13, 'Moschino Bubble Gum', 'Bubble Gum de Moschino', 80000),
-  equivalence(14, 'La Bomba', 'La Bomba de Carolina Herrera', 95000),
+  equivalence(13, 'Moschino Toy 2 Bubble Gum', 80000),
+  equivalence(14, 'Carolina Herrera La Bomba', 95000),
   arabic(31, 'Mayar', lattafa, 110000),
   arabic(32, 'Rose', brands.bharara, 105000),
   // Página 11
-  equivalence(15, 'Cloud', 'Cloud de Ariana Grande', 100000),
-  equivalence(16, 'Thank U, Next', 'Thank U, Next de Ariana Grande', 95000),
-  equivalence(17, 'Good Girl', 'Good Girl de Carolina Herrera', 85000),
-  equivalence(18, 'Good Girl Blush', 'Good Girl Blush de Carolina Herrera', 85000),
+  equivalence(15, 'Ariana Grande Cloud', 100000),
+  equivalence(16, 'Ariana Grande Thank U, Next', 95000),
+  equivalence(17, 'Carolina Herrera Good Girl', 85000),
+  equivalence(18, 'Carolina Herrera Good Girl Blush', 85000),
   // Página 12
   arabic(33, 'Cookie Crave', lattafa, 115000),
   arabic(34, 'Berry On Top', lattafa, 115000),

@@ -31,8 +31,7 @@ export interface ProductImage {
   illustrative?: boolean
   /**
    * true = foto del perfume ORIGINAL de la marca, usada solo como referencia en una
-   * equivalencia: la tarjeta avisa "Referencia del original" y la ficha explica que el
-   * cliente recibe el frasco de Emirate Scents.
+   * equivalencia: la ficha explica que el cliente recibe el frasco de Emirate Scents.
    */
   referenceOfOriginal?: boolean
 }
