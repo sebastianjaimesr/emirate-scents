@@ -109,7 +109,7 @@ export const infoPages: InfoPage[] = [
         title: 'Equivalencias',
         paragraphs: [
           'Una equivalencia es una fragancia inspirada en el perfil olfativo de un perfume conocido. No es el perfume original ni está asociada a esa marca.',
-          'Por eso las mostramos siempre con el nombre "Inspirado en…", en su propia categoría y con imágenes de Emirate Scents, nunca con la foto del frasco original.',
+          'Las publicamos con el nombre del perfume al que se parecen para que sepas qué aroma esperar, pero siempre bajo la Línea Equivalencias y en su propia categoría. Si la foto es la del perfume original, es solo una referencia: recibes la loción en el frasco de Emirate Scents.',
         ],
       },
     ],

@@ -71,7 +71,7 @@ nombre y el precio. Antes de importarlo a la base de datos real hay que completa
 
 - `inventario`: vacío cuenta como 0, es decir **agotado**.
 - `tamano_ml`, `concentracion`, notas y `publico`, si se conocen.
-- Las lociones de marcas de diseñador o nicho quedaron como **equivalencias** ("Inspirado en …").
+- Las lociones de marcas de diseñador o nicho quedaron como **equivalencias** (desde nov-2026 con el nombre comercial completo, p. ej. "Dior Sauvage Elixir", bajo la marca "Línea Equivalencias").
   Si alguna es original, pásala a `disenador` o `nicho` con su marca real y un código `DS-`/`NI-`.
 - Fotos: las lociones árabes ya llevan la foto recortada del Canva
   (`client/public/images/products/AR-XXXX/AR-XXXX-1.webp`, autorizado por el dueño). El recorte

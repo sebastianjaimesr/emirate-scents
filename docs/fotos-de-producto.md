@@ -80,15 +80,17 @@ Las fotos originales sin recortar están en el computador del dueño
 
 - Solo fotos del perfume exacto (misma marca, nombre y presentación). Nada de perfumes
   parecidos.
-- Equivalencias ("Inspirado en …"): solo fotos propias de tus frascos. La foto del perfume
-  original de la marca haría creer que vendes ese perfume.
+- Equivalencias (nombre completo del perfume que evocan, bajo la marca "Línea Equivalencias"):
+  desde nov-2026, a pedido del dueño, llevan la foto oficial del perfume original como
+  referencia del aroma. La ficha avisa que el cliente recibe la loción en el frasco de Emirate
+  Scents. Lo ideal sigue siendo una foto propia de tus frascos (`"source": "Foto propia"`).
 - Prefiere fotos oficiales de la marca o de distribuidores que permitan usarlas. Las fotos de
   otras tiendas suelen tener derechos de autor.
 
 ## Equivalencias: frasco ilustrado
 
 Mientras no haya fotos propias de los frascos de equivalencia, cada una usa un frasco
-ilustrado de Emirate Scents con el logo, el nombre de la equivalencia ("Inspirado en …") y
+ilustrado de Emirate Scents con el logo, el nombre de la equivalencia y
 la etiqueta "Línea Equivalencias N.º …". La tienda muestra encima "Imagen ilustrativa" para
 que nadie crea que es una foto del frasco real:
 

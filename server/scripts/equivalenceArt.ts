@@ -1,5 +1,5 @@
 /**
- * Dibuja el frasco ilustrado de Emirate Scents para cada equivalencia ("Inspirado en …")
+ * Dibuja el frasco ilustrado de Emirate Scents para cada equivalencia (con el nombre del perfume que evoca)
  * y lo anota como fuente en product-photos.sources.json.
  *
  *   npm run fotos:equivalencias     → crea las ilustraciones que falten
@@ -104,7 +104,7 @@ for (const product of catalogProducts.filter((entry) => entry.categorySlug === '
   const origin = `${outputDir}/${product.sku}.png`
   if (!existsSync(path.join(root, origin))) {
     const number = product.sku.slice(-2)
-    const inspiredBy = product.name.replace(/^Inspirado en /, '')
+    const inspiredBy = product.name
     await sharp(Buffer.from(bottle(number, inspiredBy)))
       .composite([{ input: logo, left: Math.round(345 * SCALE), top: Math.round(522 * SCALE) }])
       .png()
