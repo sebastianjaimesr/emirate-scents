@@ -1,0 +1,192 @@
+[
+  {
+    "sku": "EQ-0001",
+    "file": "EQ-0001.png",
+    "productName": "Erba Pura (Eau de Parfum, 100 ml)",
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0632/0327/8938/files/gallery-xerjoff-erbapura-eau-de-parfum-100ml.png",
+    "sourcePage": "https://www.xerjoff.com/products/erba-pura-eau-de-parfum",
+    "source": "Xerjoff (sitio oficial)",
+    "downloadedSize": "1604×1604",
+    "note": "PNG con fondo transparente."
+  },
+  {
+    "sku": "EQ-0002",
+    "file": "EQ-0002.png",
+    "productName": "Le Male Le Parfum Eau de Parfum Intense",
+    "imageUrl": "https://medias.jeanpaulgaultier.com/medias/sys_master/images/ha7/h6e/9534724276254/9534724210718/9534724210718.png",
+    "sourcePage": "https://www.jeanpaulgaultier.com/us/en_US/p/range-le-male/le-male-le-parfum-eau-de-parfum-intense-000000000065156533",
+    "source": "Jean Paul Gaultier (sitio oficial)",
+    "downloadedSize": "1120×1400",
+    "note": "PNG con fondo transparente."
+  },
+  {
+    "sku": "EQ-0003",
+    "file": "EQ-0003.png",
+    "productName": "Le Beau Le Parfum Eau de Parfum Intense",
+    "imageUrl": "https://medias.jeanpaulgaultier.com/medias/sys_master/images/hf0/hf1/9530546389022/9530546323486/9530546323486.png",
+    "sourcePage": "https://www.jeanpaulgaultier.com/us/en_US/p/range-le-beau/le-beau-le-parfum-eau-de-parfum-intense-000000000065180320",
+    "source": "Jean Paul Gaultier (sitio oficial)",
+    "downloadedSize": "1120×1400",
+    "note": "PNG con fondo transparente."
+  },
+  {
+    "sku": "EQ-0004",
+    "file": "EQ-0004.png",
+    "productName": "Le Male Elixir Parfum",
+    "imageUrl": "https://medias.jeanpaulgaultier.com/medias/sys_master/images/h88/h29/9614892105758/9614892040222/9614892040222.png",
+    "sourcePage": "https://www.jeanpaulgaultier.com/us/en_US/p/range-le-male/le-male-elixir-parfum-000000000065189084",
+    "source": "Jean Paul Gaultier (sitio oficial)",
+    "downloadedSize": "1120×1400",
+    "note": "PNG con fondo transparente."
+  },
+  {
+    "sku": "EQ-0005",
+    "file": "EQ-0005.jpg",
+    "productName": "Silver Mountain Water (Eau de Parfum)",
+    "imageUrl": "https://static.thcdn.com/productimg/original/12870049-4565381422982937.jpg",
+    "sourcePage": "https://www.creedfragrance.com/p/silver-mountain-water/12870049/",
+    "source": "Creed (sitio oficial)",
+    "downloadedSize": "2000×2000",
+    "note": "Fondo gris claro/beige liso (estilo de la marca), no blanco puro."
+  },
+  {
+    "sku": "EQ-0006",
+    "file": "EQ-0006.jpg",
+    "productName": "BLEU DE CHANEL Eau de Parfum Spray, 5 oz",
+    "imageUrl": "https://slimages.macysassets.com/is/image/MCY/products/7/optimized/22883087_fpx.tif?wid=1024&hei=1250&fmt=jpeg&qlt=95",
+    "sourcePage": "https://www.macys.com/shop/product/chanel-bleu-de-chanel-eau-de-parfum-fragrance-collection?ID=483442",
+    "source": "Macy's (distribuidor autorizado)",
+    "downloadedSize": "1024×1250",
+    "note": "chanel.com bloquea las descargas automáticas; es el tamaño original que tiene Macy's."
+  },
+  {
+    "sku": "EQ-0007",
+    "file": "EQ-0007.jpg",
+    "productName": "Lacoste Red (Style in Play) Eau de Toilette for Men, 125 ml",
+    "imageUrl": "https://cdn.notinoimg.com/detail_main_hq/lacoste/737052074740_01-o__130121.jpg",
+    "sourcePage": "https://www.notino.co.uk/lacoste/red-eau-de-toilette-for-men/",
+    "source": "Notino (distribuidor autorizado)",
+    "downloadedSize": "441×1000",
+    "note": "Producto encontrado: Lacoste Red (Style in Play) EDT para hombre, botella roja/blanca. No aparece en lacoste.com (parece descontinuado; en Notino está agotado). Es la imagen más grande disponible: 1000 px de alto, pero solo 441 de ancho y recortada justo al borde de la botella."
+  },
+  {
+    "sku": "EQ-0008",
+    "file": "EQ-0008.jpg",
+    "productName": "212 VIP Black Eau de Parfum 3.4 fl oz",
+    "imageUrl": "https://medias.carolinaherrera.com/medias/sys_master/images/h12/ha9/11048983887902/11048983822366/11048983822366.jpg",
+    "sourcePage": "https://www.carolinaherrera.com/us/en/p-fragrance/212-vip-black",
+    "source": "Carolina Herrera (sitio oficial)",
+    "downloadedSize": "2047×2560",
+    "note": "Fondo gris muy claro (#F9F9F9)."
+  },
+  {
+    "sku": "EQ-0009",
+    "file": "EQ-0009.jpg",
+    "productName": "SANTAL 33 Eau de Parfum 100 ml",
+    "imageUrl": "https://lelabocan.ips.photos/lelabocanada/images/skus/100PS33100__PRODUCT_01--IMG_1200--SANTAL33-1500675990.jpg",
+    "sourcePage": "https://www.lelabofragrances.ca/santal-33-649.html",
+    "source": "Le Labo (sitio oficial, Canadá)",
+    "downloadedSize": "1200×1200",
+    "note": "Fondo gris de estudio (el estilo oficial de Le Labo), no blanco. La etiqueta es la genérica de la marca ('your name here')."
+  },
+  {
+    "sku": "EQ-0010",
+    "file": "EQ-0010.jpg",
+    "productName": "DIOR Men's Sauvage Eau de Toilette Spray, 6.8 oz.",
+    "imageUrl": "https://slimages.macysassets.com/is/image/MCY/products/5/optimized/38424795_fpx.tif?wid=1768&hei=2160&fmt=jpeg&qlt=95",
+    "sourcePage": "https://www.macys.com/shop/product/dior-mens-sauvage-eau-de-toilette-fragrance-collection?ID=2322240",
+    "source": "Macy's (distribuidor autorizado)",
+    "downloadedSize": "1768×2160",
+    "note": "dior.com bloquea las descargas automáticas (403); la foto de Macy's es la misma toma oficial de Dior."
+  },
+  {
+    "sku": "EQ-0011",
+    "file": "EQ-0011.jpg",
+    "productName": "DIOR Men's Sauvage Elixir Spray, 5 oz.",
+    "imageUrl": "https://slimages.macysassets.com/is/image/MCY/products/7/optimized/38424827_fpx.tif?wid=1768&hei=2160&fmt=jpeg&qlt=95",
+    "sourcePage": "https://www.macys.com/shop/product/dior-mens-sauvage-elixir-fragrance-collection?ID=14649977",
+    "source": "Macy's (distribuidor autorizado)",
+    "downloadedSize": "1768×2160",
+    "note": "Botella con el diseño actual (logo 'DIOR' en mayúsculas). dior.com bloquea las descargas automáticas."
+  },
+  {
+    "sku": "EQ-0012",
+    "file": "EQ-0012.jpg",
+    "productName": "La Vie Est Belle Eau De Parfum",
+    "imageUrl": "https://www.lancome-usa.com/on/demandware.static/-/Sites-lancome-us-master-catalog/default/dwf8960ed7/pdp/100606/ALT0-3605533286555-PACKSHOT.jpg",
+    "sourcePage": "https://www.lancome-usa.com/fragrance/fragrance-by-collection/la-vie-est-belle/la-vie-est-belle-eau-de-parfum/100606.html",
+    "source": "Lancôme (sitio oficial, EE. UU.)",
+    "downloadedSize": "2000×2000",
+    "note": ""
+  },
+  {
+    "sku": "EQ-0013",
+    "file": "EQ-0013.png",
+    "productName": "Moschino Toy 2 Bubble Gum Eau de Toilette",
+    "imageUrl": "https://media.ulta.com/i/ulta/2581366?w=2000&h=2000&fmt=png",
+    "sourcePage": "https://www.ulta.com/p/toy-2-bubble-gum-eau-de-toilette-pimprod2026935?sku=2581366",
+    "source": "Ulta Beauty (distribuidor autorizado)",
+    "downloadedSize": "2000×2000",
+    "note": "PNG con fondo transparente (tamaño original 2000×2000)."
+  },
+  {
+    "sku": "EQ-0014",
+    "file": "EQ-0014.jpg",
+    "productName": "La Bomba Eau de Parfum",
+    "imageUrl": "https://medias.carolinaherrera.com/medias/sys_master/images/ha1/h88/10975760351262/10975760285726/10975760285726.jpg",
+    "sourcePage": "https://www.carolinaherrera.com/us/en/p-fragrance/labomba",
+    "source": "Carolina Herrera (sitio oficial)",
+    "downloadedSize": "2048×2560",
+    "note": "Botella en vista de 3/4 (la toma principal oficial); fondo gris muy claro (#F9F9F9)."
+  },
+  {
+    "sku": "EQ-0015",
+    "file": "EQ-0015.png",
+    "productName": "Ariana Grande Cloud Eau de Parfum Spray 3.4 oz",
+    "imageUrl": "https://media.ulta.com/i/ulta/2536254?w=2000&h=2000&fmt=png",
+    "sourcePage": "https://www.ulta.com/p/cloud-eau-de-parfum-spray-pimprod2000100?sku=2536254",
+    "source": "Ulta Beauty (distribuidor autorizado)",
+    "downloadedSize": "2000×2000",
+    "note": "PNG con fondo transparente. No encontré una ficha de producto en un sitio oficial de la marca."
+  },
+  {
+    "sku": "EQ-0016",
+    "file": "EQ-0016.png",
+    "productName": "Ariana Grande Thank U Next Eau de Parfum 3.4 oz",
+    "imageUrl": "https://media.ulta.com/i/ulta/2551012?w=2000&h=2000&fmt=png",
+    "sourcePage": "https://www.ulta.com/p/thank-u-next-eau-de-parfum-pimprod2008597?sku=2551012",
+    "source": "Ulta Beauty (distribuidor autorizado)",
+    "downloadedSize": "2000×2000",
+    "note": "PNG con fondo transparente."
+  },
+  {
+    "sku": "EQ-0017",
+    "file": "EQ-0017.jpg",
+    "productName": "Good Girl Eau de Parfum",
+    "imageUrl": "https://medias.carolinaherrera.com/medias/sys_master/images/h94/ha1/11055810379806/11055810314270/11055810314270.jpg",
+    "sourcePage": "https://www.carolinaherrera.com/us/en/p-fragrance/good-girl-eau-de-parfum",
+    "source": "Carolina Herrera (sitio oficial)",
+    "downloadedSize": "2048×2560",
+    "note": "Vista de perfil (la forma de zapato de tacón es la toma oficial); fondo gris muy claro (#F9F9F9)."
+  },
+  {
+    "sku": "EQ-0018",
+    "file": "EQ-0018.jpg",
+    "productName": "Good Girl Blush Eau de Parfum",
+    "imageUrl": "https://medias.carolinaherrera.com/medias/sys_master/images/h8b/h3d/11053532119070/11053532053534/11053532053534.jpg",
+    "sourcePage": "https://www.carolinaherrera.com/us/en/p-fragrance/good-girl-blush",
+    "source": "Carolina Herrera (sitio oficial)",
+    "downloadedSize": "2048×2560",
+    "note": "Vista de perfil; fondo gris muy claro (#F9F9F9)."
+  },
+  {
+    "sku": "AZZARO-CHROME",
+    "file": "AZZARO-CHROME.png",
+    "productName": "Azzaro Chrome Eau de Toilette 3.4 oz",
+    "imageUrl": "https://media.ulta.com/i/ulta/2049502?w=2000&h=2000&fmt=png",
+    "sourcePage": "https://www.ulta.com/p/chrome-eau-de-toilette-34454?sku=2049502",
+    "source": "Ulta Beauty (distribuidor autorizado)",
+    "downloadedSize": "2000×2000",
+    "note": "PNG con fondo transparente; botella ligeramente en ángulo. azzaro.com no mostró una ficha de producto utilizable."
+  }
+]
