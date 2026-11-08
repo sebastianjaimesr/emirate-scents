@@ -11,15 +11,29 @@ const query = (search: string, category?: string) =>
   parseCatalogQuery(new URLSearchParams(search), category)
 
 describe('catálogo de la vista previa (sin servidor)', () => {
-  it('muestra el catálogo del Canva completo, sin productos DEMO', async () => {
+  it('muestra el catálogo completo (Canva + nuevos), sin productos DEMO', async () => {
     const page = await preview.getProducts(query('pagina=1'))
-    expect(page.total).toBe(57)
+    expect(page.total).toBe(60)
     expect(page.items.some((product) => product.isDemo)).toBe(false)
   })
 
+  it('la sección Hombre trae lo masculino y lo unisex, sin lo femenino', async () => {
+    const all = await preview.getProducts({ ...query('genero=masculino,unisex'), page: 1 })
+    const names: string[] = []
+    for (let page = 1; page <= all.totalPages; page++) {
+      const result = await preview.getProducts({ ...query('genero=masculino,unisex'), page })
+      names.push(...result.items.map((product) => product.name))
+    }
+    expect(names).toEqual(expect.arrayContaining(['Hawas Fire', 'Hawas Ice', 'Art of Universe']))
+    expect(names).not.toContain('Yara')
+    const arabic = await preview.getProducts(query('genero=femenino,unisex', 'perfumes-arabes'))
+    expect(arabic.items.every((product) => product.audience !== 'MASCULINO')).toBe(true)
+    expect(arabic.items.every((product) => product.categorySlug === 'perfumes-arabes')).toBe(true)
+  })
+
   it('no repite códigos ni direcciones', () => {
-    expect(new Set(catalogProducts.map((product) => product.sku)).size).toBe(57)
-    expect(new Set(catalogProducts.map((product) => product.slug)).size).toBe(57)
+    expect(new Set(catalogProducts.map((product) => product.sku)).size).toBe(60)
+    expect(new Set(catalogProducts.map((product) => product.slug)).size).toBe(60)
   })
 
   it('las equivalencias muestran el nombre completo, pero siempre bajo la Línea Equivalencias', () => {

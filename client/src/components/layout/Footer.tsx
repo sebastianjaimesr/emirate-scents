@@ -11,6 +11,7 @@ import { Ornament } from '../ui/Ornament'
 import { infoPages } from '../../content/infoPages'
 import { mainNavigation } from './navigation'
 import { useShopShortcuts } from './useShopShortcuts'
+import { genderLink, genderSections } from '../../features/catalog/genderSections'
 
 /** Año actual para el aviso de derechos. */
 const currentYear = new Date().getFullYear()
@@ -35,7 +36,14 @@ export function Footer() {
           <nav aria-label="Tienda">
             <h2 className="eyebrow font-sans text-gold-500">Tienda</h2>
             <ul className="mt-5 space-y-1 text-sm">
-              {[...mainNavigation, ...shortcuts].map((item) => (
+              {[
+                ...genderSections.map((section) => ({
+                  label: section.label,
+                  to: genderLink(section),
+                })),
+                ...mainNavigation,
+                ...shortcuts,
+              ].map((item) => (
                 <li key={item.to}>
                   <Link to={item.to} className={linkClass}>
                     {item.label}

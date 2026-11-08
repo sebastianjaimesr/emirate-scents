@@ -18,6 +18,7 @@ import { PageMeta } from '../components/ui/PageMeta'
 import { findCategory } from '../data/categories'
 import { ActiveFilters } from '../features/catalog/ActiveFilters'
 import { CatalogToolbar } from '../features/catalog/CatalogToolbar'
+import { findGenderSection } from '../features/catalog/genderSections'
 import {
   audienceOptions,
   collectionOptions,
@@ -52,8 +53,10 @@ export function CatalogPage() {
   const page = results.data ?? results.previousData
   const activeFilterCount = countActiveFilters(query)
   // Si se entra desde un acceso como "Ofertas" o "Hombres", el título lo dice
+  const genderSection = findGenderSection(query.audiences)
   const shortcutTitle =
     collectionOptions.find((option) => option.value === query.collection)?.label ??
+    genderSection?.title ??
     (query.audiences.length === 1
       ? audienceOptions.find((option) => option.value === query.audiences[0])?.label
       : undefined)
@@ -74,7 +77,11 @@ export function CatalogPage() {
           'Catálogo de perfumes árabes, de diseñador, de nicho y equivalencias de Emirate Scents.'
         }
       />
-      <PageHeader eyebrow="Colecciones" title={title} lead={category?.description} />
+      <PageHeader
+        eyebrow={category && genderSection ? genderSection.label : 'Colecciones'}
+        title={title}
+        lead={category?.description}
+      />
 
       <Container className="py-10 sm:py-14">
         {hasDemoProducts && <DemoNotice className="mb-10" />}
