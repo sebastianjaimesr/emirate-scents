@@ -7,10 +7,12 @@ import { Wordmark } from '../brand/Wordmark'
 import { Drawer } from '../ui/Drawer'
 import { mainNavigation } from './navigation'
 import { useShopShortcuts } from './useShopShortcuts'
+import { genderLink, useGenderMenus } from '../../features/catalog/genderSections'
 
 /** Menú lateral para móviles y tablets. */
 export function MobileMenu({ onClose }: { onClose: () => void }) {
   const shortcuts = useShopShortcuts()
+  const genderMenus = useGenderMenus()
   return (
     <Drawer
       side="left"
@@ -41,6 +43,33 @@ export function MobileMenu({ onClose }: { onClose: () => void }) {
       }
     >
       <nav aria-label="Principal" className="px-5 py-6">
+        {/* Hombre / Mujer, cada una con sus categorías */}
+        <div className="mb-8 grid grid-cols-2 gap-3">
+          {genderMenus.map(({ section, categories }) => (
+            <div key={section.slug} className="border border-gold-500/25 p-4">
+              <NavLink
+                to={genderLink(section)}
+                onClick={onClose}
+                className="flex min-h-11 items-center font-display text-3xl text-gold-300"
+              >
+                {section.label}
+              </NavLink>
+              <ul aria-label={`Categorías de ${section.label}`} className="mt-1 space-y-0.5">
+                {categories.map((category) => (
+                  <li key={category.slug}>
+                    <NavLink
+                      to={category.to}
+                      onClick={onClose}
+                      className="flex min-h-11 items-center text-sm text-ivory-50/80 hover:text-gold-300"
+                    >
+                      {category.name}
+                    </NavLink>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
         <ul className="space-y-1">
           {mainNavigation.map((item, index) => (
             <m.li

@@ -605,5 +605,29 @@
     "downloadedSize": "1100×1100",
     "verification": "verificada",
     "note": "Foto oficial con frasco y caja."
+  },
+  {
+    "sku": "AR-0040",
+    "file": "rasasi-hawas-fire",
+    "origin": "docs/catalogo/fotos-oficiales/AR-0040.webp",
+    "source": "Foto enviada por el dueño de Emirate Scents (8-nov-2026) · fondo recortado por Emirate Scents",
+    "downloadedSize": "960×1200",
+    "verification": "verificada"
+  },
+  {
+    "sku": "AR-0041",
+    "file": "rasasi-hawas-ice",
+    "origin": "docs/catalogo/fotos-oficiales/AR-0041.webp",
+    "source": "Foto enviada por el dueño de Emirate Scents (8-nov-2026) · fondo recortado por Emirate Scents",
+    "downloadedSize": "1500×1500",
+    "verification": "verificada"
+  },
+  {
+    "sku": "AR-0042",
+    "file": "lattafa-pride-art-of-universe",
+    "origin": "docs/catalogo/fotos-oficiales/AR-0042.webp",
+    "source": "Foto enviada por el dueño de Emirate Scents (8-nov-2026) · fondo recortado por Emirate Scents",
+    "downloadedSize": "1200×1200",
+    "verification": "verificada"
   }
 ]

@@ -3,6 +3,7 @@ import { absoluteUrl } from '../lib/siteUrl'
 import { brand } from '../config/brand'
 import { CategoriesSection } from '../features/home/CategoriesSection'
 import { FaqSection } from '../features/home/FaqSection'
+import { GenderSection } from '../features/home/GenderSection'
 import { HeroSection } from '../features/home/HeroSection'
 import { ManifestoSection } from '../features/home/ManifestoSection'
 import { OlfactoryFamiliesSection } from '../features/home/OlfactoryFamiliesSection'
@@ -42,6 +43,7 @@ export function HomePage() {
         />
       )}
       <HeroSection />
+      <GenderSection />
       {/* Ancla de la colección: las secciones 3D, o las colecciones si no hay productos */}
       <div id="coleccion">
         <PedestalGallery />
